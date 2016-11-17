@@ -1,0 +1,13 @@
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/install/strip.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/DrawWithDebug.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/list_install_components.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/rebuild_cache.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/ShaderEffects.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/tmx-loader.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/edit_cache.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/QuadTree.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/install/local.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/pugi.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/install.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/Isometric.dir
+/Users/mataba/Documents/Codes/Cpp/project/sfml-tmxloader-master/build/CMakeFiles/BenchMark.dir
