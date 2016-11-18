@@ -39,22 +39,16 @@ int main()
     gui::Bar lifeBar(LIFE_BAR_SIZE, LIFE_BAR_POSITION, LIFE_BAR_COLOR);
 
     // Create clock and start loop
-    sf::Clock clock;
-    
-    sf::Clock testClock;
-    sf::Time testTime = sf::seconds(1);
+    sf::Clock GameClock;
+    sf::Clock refreshClock;
+    sf::Time refreshTime = sf::seconds(0.05);
+
     // Two loops
     // 1. build phase //DO THIS
     // 2. play phase
 
     while (window.isOpen())
     {
-        if (testClock.getElapsedTime() > testTime)
-        {
-            lifeBar.setHealth(lifeBar.getHealth() - 1.0);
-            testClock.restart();
-        }
-
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
