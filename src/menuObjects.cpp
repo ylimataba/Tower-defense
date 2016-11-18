@@ -55,6 +55,11 @@ bool NormalButton::contains(sf::Vector2f mousePosition)
 	return false;
 }
 
+void NormalButton::buttonPress()
+{
+	color(GREEN);
+}
+
 // TowerButton //
 
 TowerButton::TowerButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color)
@@ -100,6 +105,11 @@ bool TowerButton::contains(sf::Vector2f mousePosition)
 	}
 
 	return false;
+}
+
+void TowerButton::buttonPress()
+{
+	color(YELLOW);
 }
 
 // Bar //

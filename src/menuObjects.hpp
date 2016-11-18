@@ -24,7 +24,7 @@ static const sf::Vector2f BOTTOM_MENU_POSITION(0, WINDOW_HEIGHT - BOTTOM_MENU_HE
 
 // Buttons
 static const int BASE_BUTTON_HEIGHT = SIDE_MENU_HEIGHT * 0.04;
-static const int BASE_BUTTON_WIDTH = SIDE_MENU_WIDTH - (SIDE_MENU_WIDTH * 0.25);
+static const int BASE_BUTTON_WIDTH = SIDE_MENU_WIDTH * 0.7;
 static const int BASE_BUTTON_SPACE = BASE_BUTTON_HEIGHT / 2;
 static const int BASE_BUTTON_X_POSITION = BOTTOM_MENU_WIDTH + ((SIDE_MENU_WIDTH - BASE_BUTTON_WIDTH) / 2);
 static const int BASE_BUTTON_Y_POSITION = SIDE_MENU_HEIGHT - BOTTOM_MENU_HEIGHT - BASE_BUTTON_HEIGHT - BASE_BUTTON_SPACE;
@@ -38,7 +38,7 @@ static const sf::Vector2f SPEED_BUTTON_POSITION(BASE_BUTTON_X_POSITION,
 static const sf::Vector2f MAP_BUTTON_POSITION(BASE_BUTTON_X_POSITION, 
                                               BASE_BUTTON_Y_POSITION - 3 * (BASE_BUTTON_HEIGHT + BASE_BUTTON_SPACE));
 
-static const int TOWER_BUTTON_HEIGHT = BASE_BUTTON_HEIGHT * 2;
+static const int TOWER_BUTTON_HEIGHT = BASE_BUTTON_WIDTH;
 static const int TOWER_BUTTON_WIDTH = TOWER_BUTTON_HEIGHT;
 static const int TOWER_BUTTON_SPACE = TOWER_BUTTON_HEIGHT / 2;
 static const int TOWER_BUTTON_X_POSITION = BOTTOM_MENU_WIDTH + ((SIDE_MENU_WIDTH - TOWER_BUTTON_WIDTH) / 2);
@@ -62,8 +62,8 @@ static const sf::Vector2f LIFE_BAR_SIZE(BASE_BAR_WIDTH, BOTTOM_MENU_HEIGHT * 0.1
 static const sf::Vector2f LIFE_BAR_POSITION(BASE_BAR_X_POSITION, WINDOW_HEIGHT - (BOTTOM_MENU_HEIGHT * 0.2));
 
 // Colors
-static const sf::Color MENU_COLOR(0, 0, 255);
-static const sf::Color BASE_BUTTON_COLOR(255, 0, 0);
+static const sf::Color MENU_COLOR(39, 174, 96);
+static const sf::Color BASE_BUTTON_COLOR(41, 128, 185);
 static const sf::Color TOWER_BUTTON_COLOR(0, 255, 255);
 static const sf::Color TEXT_BAR_COLOR(0, 255, 0);
 static const sf::Color LIFE_BAR_COLOR(255, 0, 0);
@@ -106,6 +106,7 @@ public:
 	sf::Vector2f getPosition();
 
 	bool contains(sf::Vector2f mousePosition);
+	void buttonPress();
 
 private:
 	sf::Vector2f m_size;
@@ -131,6 +132,7 @@ public:
 	sf::Vector2f getPosition();
 
 	bool contains(sf::Vector2f mousePosition);
+	void buttonPress();
 
 private:
 	sf::Vector2f m_size;

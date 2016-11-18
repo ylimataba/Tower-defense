@@ -39,7 +39,7 @@ int main()
     sf::Clock clock;
 
     // Two loops
-    // 1. build phase
+    // 1. build phase //DO THIS
     // 2. play phase
 
     while (window.isOpen())
@@ -75,32 +75,32 @@ int main()
 
                 if (menuButton.contains(mousePosition))
                 {
-                    menuButton.color(YELLOW);
+                    menuButton.buttonPress();
                 }
                 else if (playButton.contains(mousePosition))
                 {
-                    playButton.color(YELLOW);
+                    playButton.buttonPress();
                 }
                 else if (speedButton.contains(mousePosition))
                 {
-                    speedButton.color(YELLOW);
+                    speedButton.buttonPress();
                 }
                 else if (mapButton.contains(mousePosition))
                 {
-                    mapButton.color(YELLOW);
+                    mapButton.buttonPress();
                 }
 
                 if (tower1Button.contains(mousePosition))
                 {
-                    tower1Button.color(GREEN);
+                    tower1Button.buttonPress();
                 }
                 else if (tower2Button.contains(mousePosition))
                 {
-                    tower2Button.color(GREEN);
+                    tower2Button.buttonPress();
                 }
                 else if (tower3Button.contains(mousePosition))
                 {
-                    tower3Button.color(GREEN);
+                    tower3Button.buttonPress();
                 }
             }
 
