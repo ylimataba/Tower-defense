@@ -60,6 +60,11 @@ void NormalButton::buttonPress()
 	color(GREEN);
 }
 
+void NormalButton::buttonUnPress()
+{
+	color(BASE_BUTTON_COLOR);
+}
+
 // TowerButton //
 
 TowerButton::TowerButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color)
@@ -112,12 +117,18 @@ void TowerButton::buttonPress()
 	color(YELLOW);
 }
 
+void TowerButton::buttonUnPress()
+{
+	color(TOWER_BUTTON_COLOR);
+}
+
 // Bar //
 
 Bar::Bar(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color)
 	: m_size(size),
 	  m_position(position),
-	  m_color(color)
+	  m_color(color),
+	  m_lengthInPercent(100)
 {
 	setSize(size);
 	setPosition(position);
@@ -138,6 +149,25 @@ void Bar::position(sf::Vector2f position)
 Bar::~Bar()
 {
 
+}
+
+void Bar::setHealth(const float newHealth)
+{
+	if (newHealth <= 0)
+	{
+		// TODO Game over
+		return;
+	}
+
+	m_lengthInPercent = newHealth;
+
+	m_size.x = BASE_BAR_WIDTH / 100 * m_lengthInPercent;
+	setSize(m_size);
+}
+
+float Bar::getHealth()
+{
+	return m_lengthInPercent;
 }
 
 // Menus //

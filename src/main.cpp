@@ -12,7 +12,7 @@
 int main()
 {
     tmx::MapLoader ml("../maps/");
-    ml.Load("example_map.tmx");
+    ml.Load("map_1.tmx");
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tower Defence",
@@ -22,6 +22,9 @@ int main()
 
     gui::Menu sideMenu(SIDE_MENU_SIZE, SIDE_MENU_POSITION, MENU_COLOR);
     gui::Menu bottomMenu(BOTTOM_MENU_SIZE, BOTTOM_MENU_POSITION, MENU_COLOR);
+
+    // TODO Menus should own all its content
+    // Overload the draw to draw its content
 
     gui::NormalButton menuButton(BASE_BUTTON_SIZE, MENU_BUTTON_POSITION, BASE_BUTTON_COLOR);
     gui::NormalButton playButton(BASE_BUTTON_SIZE, PLAY_BUTTON_POSITION, BASE_BUTTON_COLOR);
@@ -37,13 +40,21 @@ int main()
 
     // Create clock and start loop
     sf::Clock clock;
-
+    
+    sf::Clock testClock;
+    sf::Time testTime = sf::seconds(1);
     // Two loops
     // 1. build phase //DO THIS
     // 2. play phase
 
     while (window.isOpen())
     {
+        if (testClock.getElapsedTime() > testTime)
+        {
+            lifeBar.setHealth(lifeBar.getHealth() - 1.0);
+            testClock.restart();
+        }
+
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
@@ -106,14 +117,14 @@ int main()
 
             if (event.type == sf::Event::MouseButtonReleased)
             {
-                menuButton.color(BASE_BUTTON_COLOR);
-                playButton.color(BASE_BUTTON_COLOR);
-                speedButton.color(BASE_BUTTON_COLOR);
-                mapButton.color(BASE_BUTTON_COLOR);
+                menuButton.buttonUnPress();
+                playButton.buttonUnPress();
+                speedButton.buttonUnPress();
+                mapButton.buttonUnPress();
 
-                tower1Button.color(TOWER_BUTTON_COLOR);
-                tower2Button.color(TOWER_BUTTON_COLOR);
-                tower3Button.color(TOWER_BUTTON_COLOR);
+                tower1Button.buttonUnPress();
+                tower2Button.buttonUnPress();
+                tower3Button.buttonUnPress();
             }
             
         }

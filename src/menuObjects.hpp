@@ -8,10 +8,11 @@
 // Window and Menus
 static const int SIDE_MENU_SCALER_IN_PROCENTS = 15;
 static const int BOTTOM_MENU_SCALER_IN_PROCENTS = 10;
-static const int MAP_SIDE_LENGTH = 960;
+static const int MAP_HEIGHT = 640;
+static const int MAP_WIDTH = 960;
 
-static const int WINDOW_WIDTH = MAP_SIDE_LENGTH / (1 - (SIDE_MENU_SCALER_IN_PROCENTS / 100));
-static const int WINDOW_HEIGHT = MAP_SIDE_LENGTH / (1 - (BOTTOM_MENU_SCALER_IN_PROCENTS / 100));
+static const int WINDOW_WIDTH = MAP_WIDTH / (1 - (SIDE_MENU_SCALER_IN_PROCENTS / 100));
+static const int WINDOW_HEIGHT = MAP_HEIGHT / (1 - (BOTTOM_MENU_SCALER_IN_PROCENTS / 100));
 
 static const int SIDE_MENU_WIDTH = WINDOW_WIDTH * BOTTOM_MENU_SCALER_IN_PROCENTS / 100;
 static const int SIDE_MENU_HEIGHT = WINDOW_HEIGHT;
@@ -106,7 +107,9 @@ public:
 	sf::Vector2f getPosition();
 
 	bool contains(sf::Vector2f mousePosition);
+
 	void buttonPress();
+	void buttonUnPress();
 
 private:
 	sf::Vector2f m_size;
@@ -132,8 +135,10 @@ public:
 	sf::Vector2f getPosition();
 
 	bool contains(sf::Vector2f mousePosition);
-	void buttonPress();
 
+	void buttonPress();
+	void buttonUnPress();
+	
 private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
@@ -155,10 +160,15 @@ public:
 	void color(const sf::Color color);
 	void position(const sf::Vector2f);
 
+	void setHealth(const float newHealth);
+	float getHealth();
+
 private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
+
+	float m_lengthInPercent;
 };
 
 class Menu : public sf::RectangleShape
