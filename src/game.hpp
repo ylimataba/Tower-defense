@@ -8,9 +8,10 @@
 
 class Game
 {
+
 public:
     Game();
-    void create_enemies(int current_round, int current_wave);
+    void create_enemies();
     void addEnemy(Enemy newEnemy);
     void addTower(Tower newTower);
     void removeEnemy(iterator it);
@@ -18,11 +19,17 @@ public:
     void move_enemies();
     void shoot_enemies();
     bool round_completed();
+    bool health_ok();
+    int getHealth();
+    int getMoney();
+
 private:
     int rounds; //number of game rounds
     int waves;  //number of waves in a round
     int current_round;
     int current_wave;
+    int health;
+    int money;
     std::vector<Enemy> enemyList;
     std::vector<Tower> towerList;
 
