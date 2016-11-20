@@ -11,6 +11,12 @@ Game::Game()
     current_wave = 0;
 }
 
+void Game::build()
+{
+    this->current_round++;
+    this->current_wave = 0;
+}
+
 void Game::create_enemies()
 {
 
@@ -97,4 +103,12 @@ int Game::getMoney()
     return this->money;
 }
 
+int Game::getRound()
+{
+    return this->current_round;
+}
 
+int Game::getWave()
+{
+    return this->current_wave;
+}

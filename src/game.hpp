@@ -11,6 +11,7 @@ class Game
 
 public:
     Game();
+    void build();
     void create_enemies();
     void addEnemy(Enemy newEnemy);
     void addTower(Tower newTower);
@@ -22,6 +23,8 @@ public:
     bool health_ok();
     int getHealth();
     int getMoney();
+    int getRound();
+    int getWave();
 
 private:
     int rounds; //number of game rounds
