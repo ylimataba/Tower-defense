@@ -1,9 +1,9 @@
 //#include "tower.hpp"
 //#include "enemy.hpp"
 #include "menuObjects.hpp"
+#include "map.hpp"
 
 #include <SFML/Graphics.hpp>
-#include <tmx/MapLoader.h>
 #include <vector>
 #include <cmath>
 #include <string>
@@ -11,8 +11,7 @@
 
 int main()
 {
-    tmx::MapLoader ml("../maps/");
-    ml.Load("map_1.tmx");
+    map::Map map("map_1.tmx");
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tower Defence",
@@ -125,7 +124,7 @@ int main()
 
         window.clear(sf::Color(255, 255, 255));
 
-        window.draw(ml);
+        window.draw(map);
         
         window.draw(sideMenu);
         window.draw(bottomMenu);
