@@ -1,42 +1,44 @@
-//
-//  Enemy.hpp
-//  TowerDefence
-//
-//  Created by Pyry Viita-aho on 18.11.2016.
-//  Copyright © 2016 Pyry Viita-aho. All rights reserved.
-//
-
 #ifndef Enemy_hpp
 #define Enemy_hpp
 
-#include <stdio.h>
-#include <Vector2.hpp>
+#include <tmx/MapLoader.h>
+#include <SFML/Graphics.hpp>
+#include "map.hpp"
 
 
-Class Enemy
+class Enemy
 {
-public:
-    Enemy(int speed, int hp, int value, float x, float y);
-    void move();
-    sf::Vector2f get_position();
-    draw();
-    damage();
-    slow();
-    basehit();
+    public:
+        Enemy(int s, int h, int v, sf::Vector2f pos, std::vector<sf::Vector2f> r);
+        ~Enemy();
+        void move();
+        sf::Vector2f get_position();
+        void draw();
+        void damage(int amount);
+        void slow();
+        void basehit();
     
-private:
-    int speed;
-    int hp;
-    int value;
-    sf::Vector2f position;
-    v1.x = 18.2f;
-    float y = v1.y;
-    float x = v1.x;
-    std::vector<sf::Vector2f> path;
-    
-    //sprite
+    private:
+        int speed;
+        int hp;
+        int value;
+        sf::Vector2f position;
+        std::vector<sf::Vector2f> route;
+        slow_duration = 0;
+        //sprite
+};
+
+
+class easyEnemy : public Enemy
+{
+
 }
+class normalEnemy : public Enemy
+{
 
-
-
-#endif /* Enemy_hpp */
+}
+class hardEnemy : public Enemy
+{
+    
+}
+#endif
