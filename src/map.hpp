@@ -12,13 +12,11 @@ class Map : public sf::Drawable {
     public:
         Map(const std::string& filename);
         ~Map();
-        std::vector<sf::Vector2f> getEnemyRoute();
-        //bool checkCollision(sf::Vector2f coordinates);
+        std::vector<sf::Vector2f> getEnemyRoute() const;
+        bool isCollision(std::vector<sf::Vector2f> collisionPoints);
     private: 
         tmx::MapLoader* map;
         std::vector<sf::Vector2f> enemyRoute;
-        std::vector<sf::Vector2f> points;
-        sf::Vector2f position;
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
 
 };

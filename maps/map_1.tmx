@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" nextobjectid="2">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" nextobjectid="32">
  <tileset firstgid="1" name="image.axd" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="image.axd.png" width="512" height="512"/>
  </tileset>
@@ -31,5 +31,28 @@
   <object id="1" name="Route" x="113" y="6">
    <polyline points="0,0 1,136 96,139 94,554 449,552 448,461 288,460 288,298 449,298 450,173 322,172 321,74 736,76 736,169 608,171 607,296 732,300 735,456 608,460 609,461 608,556 735,558 734,633"/>
   </object>
+ </objectgroup>
+ <objectgroup name="Collision">
+  <object id="10" x="96" y="0" width="32" height="160"/>
+  <object id="11" x="128" y="128" width="96" height="32"/>
+  <object id="12" x="192" y="160" width="32" height="416"/>
+  <object id="13" x="224" y="544" width="352" height="32"/>
+  <object id="14" x="544" y="448" width="32" height="96"/>
+  <object id="15" x="384" y="448" width="160" height="32"/>
+  <object id="16" x="384" y="288" width="32" height="160"/>
+  <object id="17" x="416" y="288" width="160" height="32"/>
+  <object id="18" x="544" y="160" width="32" height="128"/>
+  <object id="19" x="416" y="160" width="128" height="32"/>
+  <object id="20" x="416" y="64" width="32" height="96"/>
+  <object id="21" x="448" y="64" width="416" height="32"/>
+  <object id="22" x="832" y="96" width="32" height="96"/>
+  <object id="23" x="704" y="160" width="128" height="32"/>
+  <object id="24" x="704" y="192" width="32" height="128"/>
+  <object id="25" x="736" y="288" width="128" height="32"/>
+  <object id="26" x="832" y="320" width="32" height="160"/>
+  <object id="27" x="704" y="448" width="128" height="32"/>
+  <object id="28" x="704" y="480" width="32" height="96"/>
+  <object id="29" x="736" y="544" width="128" height="32"/>
+  <object id="30" x="832" y="576" width="32" height="64"/>
  </objectgroup>
 </map>
