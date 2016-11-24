@@ -6,39 +6,41 @@
 #include "map.hpp"
 
 
-class Enemy
+class Enemy : public sf::Drawable 
 {
     public:
-        Enemy(int s, int h, int v, sf::Vector2f pos, std::vector<sf::Vector2f> r);
+        Enemy(float s, int h, int v, std::vector<sf::Vector2f> r);
         ~Enemy();
-        void move();
+        void move(float deltaTime); // deltaTime = GameClock.restart().asSeconds();
         sf::Vector2f get_position();
-        void draw();
         void damage(int amount);
         void slow();
         void basehit();
     
     private:
-        int speed;
+        float speed; // .1f is good value for example
         int hp;
         int value;
         sf::Vector2f position;
         std::vector<sf::Vector2f> route;
-        slow_duration = 0;
-        //sprite
+        float slow_duration = 0;
+        void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+
+        // object could be sprite but at this point circle will do fine
+        sf::CircleShape object; 
 };
 
 
 class easyEnemy : public Enemy
 {
 
-}
+};
 class normalEnemy : public Enemy
 {
 
-}
+};
 class hardEnemy : public Enemy
 {
     
-}
+};
 #endif

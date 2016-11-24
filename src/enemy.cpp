@@ -3,14 +3,21 @@
 #include "enemy.hpp"
 
 
-Enemy::Enemy(int s, int h, int val, sf::Vector2f pos, std::vector<sf::Vector2f> r, float slow)
+Enemy::Enemy(float s, int h, int val, std::vector<sf::Vector2f> r)
 {
-    int speed = s;
-    int hp= h;
-    int value = val;
-    sf::Vector2f position = map.getEnemyRoute()[0];
-    std::vector<sf::Vector2f> route = map.getEnemyRoute();
-    float slow_duration = slow;
+    speed = s;
+    hp= h;
+    value = val;
+    position = r[0];
+    route = r;
+    
+    // set up circle
+    object.setPosition(position);
+    object.setRadius(10.f - 3);
+    object.setOutlineThickness(3);
+    object.setOutlineColor(sf::Color::Black);
+    object.setFillColor(sf::Color::White);
+    object.setOrigin(10.f / 2, 10.f / 2);
 }
 
 Enemy::~Enemy(){
@@ -21,43 +28,40 @@ sf::Vector2f Enemy::get_position()
     return this -> position;
 }
 
-void Enemy::move()
+void Enemy::move(float deltaTime)
 {
-
-    
-    current_position = position;
-    sf::Vector2f new_position;
-    
-    for(int i; i < route.size(); i++)
+    float factor = deltaTime + speed;
+    if(route.size() > 0)
     {
-        if(current_position.x == route[i].x && current_position.y == route[i].y)
-        {
-            new_position.x = route[i+1].x;
-            new_position.y = route[i+1].y;
+        sf::Vector2f new_position = route[0];
+        sf::Vector2f delta = new_position - position;
+
+        if(std::abs(delta.x) >= std::abs(delta.y)){
+            if( delta.x > 0.f )
+                object.move(10.f * factor, 0.f);
+            else
+                object.move(-10.f * factor, 0.f);
         }
+        else if(std::abs(delta.x) < std::abs(delta.y)){
+            if( delta.y > 0.f )
+                object.move(0.f, 10.f * factor);
+            else
+                object.move(0.f, -10.f * factor);
+        }
+        if( std::abs(delta.x) <= 3.f && std::abs(delta.y) <= 3.f ){
+            object.setPosition(new_position);
+            route.erase(route.begin());
+        }
+        position = object.getPosition();
     }
-    
-    if ((new_position.x - current_position.x) < 0) // negatiivinen vaakasuunta
+    /*
+    else
     {
-        
+        Loppupiste saavutettu.
+        Tekee vahinkoa
+        Katoaa kartalta
     }
-    
-    if ((new_position.x - current_position.x) > 0) // positiivinen vaakasuunta
-    {
-
-    }
-    
-    if ((new_position.y - current_position.y) < 0) // positiivinen pystysuunta
-    {
-
-    }
-    
-    if ((new_position.y - current_position.y) > 0) // negatiivinen pystysuunta
-    {
-
-    }
-        
-    //jos saavuttaa loppupisteen, tekee vahinkoa
+    */
 }
 
 void Enemy::slow()
@@ -70,17 +74,19 @@ void Enemy::damage(int amount)
     this -> hp -= amount;
 }
 
+/*
 basehit()
 {
-    if (this -> position == this -> route[route.size()]
+    if (this -> position == this -> route[route.size()])
         {
             game.getBaseHp() -= 1;
         }
 }
+*/
         
-void Enemy::draw(map, sprite)
+void Enemy::draw(sf::RenderTarget& rt, sf::RenderStates states) const
 {
-    
+   rt.draw(object);
 }
 
 
