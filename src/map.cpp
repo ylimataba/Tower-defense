@@ -41,4 +41,27 @@ bool Map::isCollision(std::vector<sf::Vector2f> collisionPoints){
     return false;
 }
     
+void Map::addTower(sf::Vector2f position){
+    tmx::MapObject object;
+    object.SetPosition(position);
+    object.AddPoint(sf::Vector2f(0.f,0.f));
+    object.AddPoint(sf::Vector2f(32.f,0.f));
+    object.AddPoint(sf::Vector2f(32.f,32.f));
+    object.AddPoint(sf::Vector2f(0.f,32.f));
+    for(auto &layer : map->GetLayers())
+        if(layer.name == "Collision"){
+            layer.objects.push_back(object);
+        }
+}
+
+void Map::removeTower(sf::Vector2f position){
+    for(auto &layer : map->GetLayers())
+        if(layer.name == "Collision")
+            for(auto it = layer.objects.begin(); it != layer.objects.end(); it++)
+                if(it->GetPosition() == position){
+                    layer.objects.erase(it);
+                    break;
+                }
+}
+
 } // namespace map

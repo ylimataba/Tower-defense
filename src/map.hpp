@@ -14,6 +14,8 @@ class Map : public sf::Drawable {
         ~Map();
         std::vector<sf::Vector2f> getEnemyRoute() const;
         bool isCollision(std::vector<sf::Vector2f> collisionPoints);
+        void addTower(sf::Vector2f position);
+        void removeTower(sf::Vector2f position);
     private: 
         tmx::MapLoader* map;
         std::vector<sf::Vector2f> enemyRoute;
