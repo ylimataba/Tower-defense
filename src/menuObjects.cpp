@@ -68,10 +68,10 @@ sf::Vector2f NormalButton::getPosition()
 	return m_position;
 }
 
-bool NormalButton::contains(sf::Vector2f mousePosition)
+bool NormalButton::contains(sf::Vector2f position)
 {
-	if ((mousePosition.x > m_position.x) && (mousePosition.x < (m_position.x + m_size.x) &&
-	     mousePosition.y > m_position.y) && (mousePosition.y < (m_position.y + m_size.y)))
+	if ((position.x > m_position.x) && (position.x < (m_position.x + m_size.x) &&
+	     position.y > m_position.y) && (position.y < (m_position.y + m_size.y)))
 	{
 		return true;
 	}

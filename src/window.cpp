@@ -61,7 +61,7 @@ void Window::drawAll()
 	draw(m_bottomMenu);
 
 	draw(m_menuButton);
-	draw(m_menuButton.getMemberText());
+	//draw(m_menuButton.getMemberText());
 	draw(m_playButton);
 	draw(m_speedButton);
 	draw(m_mapButton);
