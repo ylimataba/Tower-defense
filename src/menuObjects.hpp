@@ -108,15 +108,17 @@ class NormalButton : public sf::RectangleShape
 {
 public:
 	NormalButton() : m_button(button::Buttons::MENU) {}
-	NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color);
+	NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color, std::string text);
 
 	~NormalButton();
 
 	void color(const sf::Color color);
-	void text(const std::string text);
-	void position(const sf::Vector2f);
 
+	void position(const sf::Vector2f);
 	sf::Vector2f getPosition();
+
+	void createText(std::string &buttonText);
+	sf::Text& getMemberText();
 
 	bool contains(sf::Vector2f mousePosition);
 
@@ -127,9 +129,7 @@ private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
-	
 	sf::Text m_text;
-
 	button::State m_state;
 	button::Buttons m_button;
 };

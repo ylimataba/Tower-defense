@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "enemy.hpp"
 #include "map.hpp"
 #include "window.hpp"
 #include <SFML/Graphics.hpp>
@@ -25,7 +24,7 @@ int main()
         }
         else
         {
-            game.create_enemies(5, .5f);
+            game.create_enemies(15, .5f);
 
             game.move_enemies(); 
         }

@@ -9,7 +9,7 @@ namespace gui {
 
 // NormalButton //
 
-NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color)
+NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color, std::string text)
 	: m_button(button::MENU),
 	  m_state(button::UNPRESSED),
 	  m_size(size),
@@ -20,8 +20,7 @@ NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position,
 	setPosition(position);
 	setFillColor(color);
 
-	m_text = sf::Text();
-	m_text.setPosition(position);
+	createText(text);
 }
 
 NormalButton::~NormalButton()
@@ -32,25 +31,36 @@ NormalButton::~NormalButton()
 void NormalButton::color(sf::Color color)
 {
 	m_color = color;
-	setFillColor(color);
+	setFillColor(m_color);
 }
 
-void NormalButton::text(const std::string text)
+void NormalButton::createText(std::string &buttonText)
 {
-	// THESE COULD ALL BE FIGURES ON THE BUTTONS
-	/*sf::Font buttonFont;
-	buttonFont.loadFromFile("../Calibri.ttf");
+	sf::Font buttonFont;
+	if (!buttonFont.loadFromFile("../Calibri.ttf"))
+	{
+		std::cout << "Couldn't load font from file\n";
+		return;
+	}
+
+	unsigned int buttonSize = 20;
 
 	m_text.setFont(buttonFont);
-	m_text.setCharacterSize(30);
-	m_text.setString(text);
-	*/
+	m_text.setCharacterSize(buttonSize);
+	m_text.setColor(sf::Color::White);
+	m_text.setString(buttonText);
+	m_text.setOrigin(m_position.x + (m_size.x / 2), m_position.y + (m_size.y / 2));
+}
+
+sf::Text& NormalButton::getMemberText()
+{
+	return m_text;
 }
 
 void NormalButton::position(sf::Vector2f position)
 {
 	m_position = position;
-	setPosition(position);
+	setPosition(m_position);
 }
 
 sf::Vector2f NormalButton::getPosition()
