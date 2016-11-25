@@ -8,5 +8,6 @@ include_directories(${CMAKE_SOURCE_DIR}/sfml-tmxloader/include)
 set(CMAKE_MACOSX_RPATH 1)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 add_subdirectory(sfml-tmxloader)
-add_executable(Towerdefence src/main.cpp src/menuObjects.cpp src/map.cpp src/window.cpp)
+add_executable(Towerdefence src/main.cpp src/menuObjects.cpp src/map.cpp
+    src/window.cpp src/enemy.cpp)
 target_link_libraries(Towerdefence tmx-loader)
