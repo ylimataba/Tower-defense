@@ -38,8 +38,8 @@ public:
     //int getHp() {return hp}
     //float getRange() {return range}
     //void draw();
-    virtual bool seekTarget() = 0;
-    virtual void shoot() = 0;
+    virtual bool seekTarget(&enemies) = 0;
+    virtual void shoot(&enemies) = 0;
 private:
     sf::Vector2f position;
     int hp;
