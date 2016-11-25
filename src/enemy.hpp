@@ -16,6 +16,8 @@ class Enemy : public sf::Drawable
         void damage(int amount);
         void slow();
         void basehit();
+        bool is_alive();
+        bool is_finished()
     
     private:
         float speed; // .1f is good value for example
@@ -23,7 +25,8 @@ class Enemy : public sf::Drawable
         int value;
         sf::Vector2f position;
         std::vector<sf::Vector2f> route;
-        float slow_duration = 0;
+        float slow_factor = 1;
+        float slow_duration = 0.f;
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
 
         // object could be sprite but at this point circle will do fine
