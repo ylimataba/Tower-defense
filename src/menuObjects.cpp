@@ -37,6 +37,7 @@ void NormalButton::color(sf::Color color)
 
 void NormalButton::text(const std::string text)
 {
+	// THESE COULD ALL BE FIGURES ON THE BUTTONS
 	/*sf::Font buttonFont;
 	buttonFont.loadFromFile("../Calibri.ttf");
 
@@ -127,7 +128,7 @@ bool TowerButton::contains(sf::Vector2f mousePosition)
 
 void TowerButton::buttonPress()
 {
-	color(YELLOW);	
+	color(YELLOW);
 }
 
 void TowerButton::buttonUnPress()

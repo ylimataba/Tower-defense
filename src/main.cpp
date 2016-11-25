@@ -12,22 +12,23 @@ int main()
     //Game game;
     // These should be in the game class
     sf::Clock GameClock;
-    sf::Time delayTime = sf::milliseconds(50);
+    sf::Time delayTime = sf::milliseconds(50); // This should be done with the fps
+
     bool isBuildPhase = true;
     bool isGamePhase = false;
 
-    // Perhaps a rendering thread?!
-
-    //startGameClock();
+    //startGameClock
 
     while (isBuildPhase && window.isOpen())
     {
         window.checkEvents();
+
+        window.updateTowerPlacer();
         
+
+
         window.clear();
-
         window.drawAll();
-
         window.display();
 
         sf::sleep(delayTime);
@@ -40,7 +41,7 @@ int main()
 
             //window.display();
 
-            //sleep
+            //sf::sleep(delayTime);
         }
     }
 

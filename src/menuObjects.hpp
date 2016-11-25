@@ -10,6 +10,7 @@ static const int SIDE_MENU_SCALER_IN_PROCENTS = 15;
 static const int BOTTOM_MENU_SCALER_IN_PROCENTS = 10;
 static const int MAP_HEIGHT = 640;
 static const int MAP_WIDTH = 960;
+static const int MAP_TILE_SIZE = 32;
 
 static const int WINDOW_WIDTH = MAP_WIDTH * (100 + SIDE_MENU_SCALER_IN_PROCENTS) / 100;
 static const int WINDOW_HEIGHT = MAP_HEIGHT * (100 + BOTTOM_MENU_SCALER_IN_PROCENTS) / 100;
@@ -75,6 +76,15 @@ static const sf::Color BLUE(0, 0, 255);
 static const sf::Color YELLOW(255, 255, 0);
 
 namespace gui {
+
+enum Towers
+{
+	NONE = 0,
+	TOWER1 = 1,
+	TOWER2 = 2,
+	TOWER3 = 3
+};
+
 namespace button {
 
 enum Buttons

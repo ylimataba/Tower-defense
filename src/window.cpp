@@ -3,18 +3,23 @@
 #include <SFML/Window.hpp>
 #include <cstddef>
 #include <string>
+#include <cstdint>
+#include <vector>
 #include <iostream>
 
-Window::Window(std::string title, map::Map const *map)
+Window::Window(std::string title, map::Map *map)
 	: sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
 	  m_mousePosition(0, 0),
-	  m_map(map)
+	  m_map(map),
+	  m_isTowerBeingBuilt(false),
+	  m_towerBeingBuilt(gui::NONE)
 {
 	setVerticalSyncEnabled(true);
 
 	createMenus();
 	createButtons();
 	createBars();
+	createTowerPlacer();
 }
 
 Window::~Window()
@@ -35,6 +40,16 @@ sf::Vector2f Window::getMousePosition()
     return m_mousePosition;
 }
 
+sf::Vector2f Window::getCurrentMapTile()
+{
+	getMousePosition();
+
+	float tileX = int(m_mousePosition.x / MAP_TILE_SIZE) * MAP_TILE_SIZE;
+	float tileY = int(m_mousePosition.y / MAP_TILE_SIZE) * MAP_TILE_SIZE;
+
+	return sf::Vector2f(tileX, tileY);
+}
+
 void Window::drawAll()
 {
 	draw(*m_map);
@@ -53,6 +68,8 @@ void Window::drawAll()
 
 	draw(m_textBar);
 	draw(m_lifeBar);
+
+	draw(m_towerPlacer);
 }
 
 void Window::createMenus()
@@ -79,6 +96,56 @@ void Window::createBars()
     m_lifeBar = gui::Bar(LIFE_BAR_SIZE, LIFE_BAR_POSITION, LIFE_BAR_COLOR);	
 }
 
+void Window::createTowerPlacer()
+{
+	const sf::Vector2f sizeOfNewTower(MAP_TILE_SIZE, MAP_TILE_SIZE);
+
+	m_towerPlacer = sf::RectangleShape(sizeOfNewTower);
+
+	m_towerPlacer.setFillColor(sf::Color(200, 0, 0, 0));
+}
+
+void Window::updateTowerPlacer()
+{
+	std::uint8_t alpha = 0;
+
+	if (m_isTowerBeingBuilt && isInGameArea() && !isCollision())
+	{
+		alpha = 100;
+	
+		m_towerPlacer.setPosition(getCurrentMapTile());
+	}
+	
+	m_towerPlacer.setFillColor(sf::Color(200, 0, 0, alpha));
+}
+
+bool Window::isCollision()
+{
+	sf::Vector2f currentTilePosition = getCurrentMapTile();
+
+	std::vector<sf::Vector2f> collisionPoints;
+
+	collisionPoints.push_back(currentTilePosition);
+	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE, currentTilePosition.y + MAP_TILE_SIZE));
+	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE, currentTilePosition.y));
+	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x, currentTilePosition.y + MAP_TILE_SIZE));
+
+	return m_map->isCollision(collisionPoints);
+}
+
+bool Window::isInGameArea()
+{
+	getMousePosition();
+
+	if ((m_mousePosition.x > 0) && (m_mousePosition.x < MAP_WIDTH) &&
+		(m_mousePosition.y > 0) && (m_mousePosition.y < MAP_HEIGHT))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 void Window::checkEvents()
 {
 	// Process events
@@ -95,9 +162,9 @@ void Window::checkEvents()
 	        switch (event.key.code)
 	        {
 	            // Escape key: exit
-	            case sf::Keyboard::Escape:
-	                close();
-	                break;
+	            //case sf::Keyboard::Escape:
+	            //    close();
+	            //    break;
 
 	            default:
 	                break;
@@ -107,6 +174,31 @@ void Window::checkEvents()
 	    // Mouse
 	    if (event.type == sf::Event::MouseButtonPressed)
 	    {
+	 		if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
+	 		{
+	 			switch (m_towerBeingBuilt)
+	 			{
+	 				case gui::TOWER1:
+	 					std::cout << "Tower 1 placed on map\n";
+	 					m_towerBeingBuilt = gui::NONE;
+	 					m_isTowerBeingBuilt = false;
+	 					break;
+	 				case gui::TOWER2:
+	 					std::cout << "Tower 2 placed on map\n";
+	 					m_towerBeingBuilt = gui::NONE;
+	 					m_isTowerBeingBuilt = false;
+	 					break;
+	 				case gui::TOWER3:
+	 					std::cout << "Tower 3 placed on map\n";
+	 					m_towerBeingBuilt = gui::NONE;
+	 					m_isTowerBeingBuilt = false;
+	 					break;
+	 				case gui::NONE:
+	 				default:
+	 					m_isTowerBeingBuilt = false;
+	 					break;
+	 			}
+	 		}
 	        buttonPress();
 	    }
 	    else if (event.type == sf::Event::MouseButtonReleased)
@@ -140,14 +232,20 @@ void Window::buttonPress()
 	}
 	else if (m_tower1Button.contains(m_mousePosition))
 	{
+		m_isTowerBeingBuilt = true;
+		m_towerBeingBuilt = gui::TOWER1;
 		m_tower1Button.buttonPress();
 	}
 	else if (m_tower2Button.contains(m_mousePosition))
 	{
+		m_isTowerBeingBuilt = true;
+		m_towerBeingBuilt = gui::TOWER2;
 		m_tower2Button.buttonPress();
 	}
 	else if (m_tower3Button.contains(m_mousePosition))
 	{
+		m_isTowerBeingBuilt = true;
+		m_towerBeingBuilt = gui::TOWER3;
 		m_tower3Button.buttonPress();
 	}
 }
