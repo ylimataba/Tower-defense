@@ -6,7 +6,6 @@
 //ruutu = 32x32
 //lisää "virhetoleranssi" koordinaatteja  varten
 
-//function call overload
 
 float calc_distance(sf::Vector2f tower, sf::Vector2f target) {
     return sqrt(((tower.x - target.x)*(tower.x - target.x)) 
