@@ -1,7 +1,10 @@
 #include "Towers.hpp"
+#include <cmath>
 //include shit here ^
 
 //theory finished 22.11.2016
+//ruutu = 32x32
+//lisää "virhetoleranssi" koordinaatteja  varten
 
 float calc_distance(sf::Vector2f tower, sf::Vector2f target) {
     return sqrt(((tower.x - target.x)*(tower.x - target.x)) 
@@ -12,22 +15,18 @@ float calc_distance(sf::Vector2f tower, sf::Vector2f target) {
 bool BasicTower::seekTarget(std::vector<class Enemy*> enemies)
 {
     float dist = range;
+    sf::Vector2f pos;
     float d_cmp;
-    //float travel = 0; for comparing distance that enemy has traveled,
-    //implementation not ready
+    float travel = 0; //for comparing distance that enemy has traveled,
     for(auto it = enemies.begin(); it != enemies.end(); it++) {
         if(*it != nullptr) {
-            if( ((*it)->/**/ <= (position.x + range)) 
-            && ((*it)->/**/ >= (position.x - range)) 
-            && ((*it)->/**/ <= (position.y + range)) 
-            && ((*it)->/**/ >= (position.y - range)) ) {//acceptable coordinates
-                d_cmp = calc_distance(position, /**/);
-                if(d_cmp < dist) {
-                    target = std::addressof(it);//assign from iterator like this
-                }
-                //else if((d_cmp == dist) && (/**/ > travel)) {
-                //    target = std::addressof(it);//assignment here once 'travel' is implemented
-                //}
+            pos = (*it)->get_position();
+            d_cmp = calc_distance(position, pos);
+            if(d_cmp < dist) {
+                target = std::addressof(it);//assign from iterator like this
+            }
+            else if((d_cmp == dist) && ((*it)->getTravel() > travel)) {
+                target = std::addressof(it);
             }
         }
     }
@@ -52,7 +51,7 @@ void BasicTower::shoot()
             }
         }
         else {                                                          //has some target
-            if(clac_distance(position, /*enemy position*/) > range) {   //out of range
+            if(clac_distance(position, (*target)->get_position()) > range) {   //out of range
                 if(seekTarget()) {                                      //new target found
                     (*target)->damage(dmg, 0);
                     cooldown = 10;
@@ -77,21 +76,18 @@ void BasicTower::shoot()
 bool FreezeTower::seekTarget(std::vector<class Enemy*> enemies)
 {//prioritize non-frozen
     float dist = range;
+    sf::Vector2f pos;
     float d_cmp;
-    //float travel = 0;
+    float travel = 0;
     for(auto it = enemies.begin(); it != enemies.end(); it++) {
         if(*it != nullptr) {
-            if( ((*it)->/**/ <= (position.x + range)) 
-            && ((*it)->/**/ >= (position.x - range)) 
-            && ((*it)->/**/ <= (position.y + range)) 
-            && ((*it)->/**/ >= (position.y - range)) ) {//acceptable coordinates
-                d_cmp = calc_distance(position, /**/);
-                if(d_cmp < dist) {
-                    target = std::addressof(it);//assign from iterator like this
-                }
-                //else if((d_cmp == dist) && (/**/ > travel)) {
-                //    target = std::addressof(it);//assignment here once 'travel' is implemented
-                //}
+            pos = (*it)->get_position;
+            d_cmp = calc_distance(position, pos);
+            if(d_cmp < dist) {
+                target = std::addressof(it);//assign from iterator like this
+            }
+            else if((d_cmp == dist) && ((*it)->getTravel() > travel)) {
+                target = std::addressof(it);
             }
         }
     }
@@ -116,7 +112,7 @@ void FreezeTower::shoot()
             }
         }
         else {                                                          //has some target
-            if(clac_distance(position, /*enemy position*/) > range) {   //out of range
+            if(clac_distance(position, (*target)->get_position()) > range) {   //out of range
                 if(seekTarget()) {                                      //new target found
                     (*target)->damage(dmg, -1);
                     cooldown = 10;
@@ -142,16 +138,18 @@ void FreezeTower::shoot()
 bool PrecisionTower::seekTarget(std::vector<class Enemy*> enemies)
 {//aim for highest 'value' stat
     int val = 0;
-    //float travel = 0;
+    sf::Vector2f pos;
+    float travel = 0;
     for(auto it = enemies.begin(); it != enemies.end(); it++) {
         if(*it != nullptr) {
-            if(calc_distance(position, /**/) <= range) {//acceptable coordinates
+            pos = (*it)->get_position();
+            if(calc_distance(position, pos) <= range) {
                 if((*it)->value > val) {
                     target = std::addressof(it);//assign from iterator like this
                 }
-                //else if(((*it)->value == val) && (/**/ > travel)) {
-                //    target = std::addressof(it);//assignment here once 'travel' is implemented
-                //}
+                else if(((*it)->value == val) && ((*it)->getTravel() > travel)) {
+                    target = std::addressof(it);
+                }
             }
         }
     }
@@ -176,7 +174,7 @@ void PrecisionTower::shoot()
             }
         }
         else {                                                          //has some target
-            if(clac_distance(position, /*enemy position*/) > range) {   //out of range
+            if(clac_distance(position, (*target)->get_position()) > range) {   //out of range
                 if(seekTarget()) {                                      //new target found
                     (*target)->damage(dmg, 0);
                     cooldown = 5;
@@ -198,26 +196,22 @@ void PrecisionTower::shoot()
     }
 }
 
-
+/*
 bool BlastTower::seekTarget(std::vector<class Enemy*> enemies)
 {
     float dist = range;
+    sf::Vector2f pos;
     float d_cmp;
-    //float travel = 0; for comparing distance that enemy has traveled,
-    //implementation not ready
+    float travel = 0; for comparing distance that enemy has traveled,
     for(auto it = enemies.begin(); it != enemies.end(); it++) {
         if(*it != nullptr) {
-            if( ((*it)->/**/ <= (position.x + range)) 
-            && ((*it)->/**/ >= (position.x - range)) 
-            && ((*it)->/**/ <= (position.y + range)) 
-            && ((*it)->/**/ >= (position.y - range)) ) {//acceptable coordinates
-                d_cmp = calc_distance(position, /**/);
-                if(d_cmp < dist) {
-                    target = std::addressof(it);//assign from iterator like this
-                }
-                //else if((d_cmp == dist) && (/**/ > travel)) {
-                //    target = std::addressof(it);//assignment here once 'travel' is implemented
-                //}
+            pos = (*it)->get_position();
+            d_cmp = calc_distance(position, pos);
+            if(d_cmp < dist) {
+                target = std::addressof(it);//assign from iterator like this
+            }
+            else if((d_cmp == dist) && ((*it)->getTravel() > travel)) {
+                target = std::addressof(it);
             }
         }
     }
@@ -246,7 +240,7 @@ void BlastTower::shoot()
             }
         }
         else {                                                          //has some target
-            if(clac_distance(position, /*enemy position*/) > range) {   //out of range
+            if(clac_distance(position, (*target)->get_position()) > range) {   //out of range
                 if(seekTarget()) {                                      //new target found
                     (*target)->damage(dmg, 0);
                     cooldown = 10;
@@ -266,4 +260,4 @@ void BlastTower::shoot()
     else {                                                              //not ready
         cooldown--;
     }
-}
+}*/

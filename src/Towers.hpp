@@ -26,7 +26,7 @@ float calc_distance(sf::Vector2f tower, sf::Vector2f target);
 
 class Tower {
 public:
-    Tower(int h, float r, int d, sf::Vector2f pos, const std::vector<sf::Vector2f>& map)
+    Tower(int h, float r, int d, sf::Vector2f pos)
     {
         hp = h;
         range = r;
@@ -46,15 +46,12 @@ private:
     float range;
     int dmg;
     int cooldown = 0;
-    class Enemy **target = nullptr;
+    std::unique_ptr<class Enemy> *target = nullptr;//use .get()??
 }
 
 class BasicTower : public Tower {
 public:
-    BasicTower(int h, float r, int d, sf::Vector2f pos, 
-            const  std::vector<sf::Vector2f>& map) : 
-        Tower(h, r, d, pos, 
-            const std::vector<sf::Vector2f>& path) { }
+    BasicTower(sf::Vector2f pos) : Tower(100, 50, 1, pos) { }
     bool seekTarget();
     void shoot();
 }
@@ -63,10 +60,7 @@ public:
 class FreezeTower : public Tower
 {
 public:
-    FreezeTower(int h, float r, int d, sf::Vector2f pos, 
-            const  std::vector<sf::Vector2f>& map) : 
-        Tower(h, r, d, pos, 
-            const std::vector<sf::Vector2f>& path) { }
+    FreezeTower(sf::Vector2f pos) : Tower(100, 50, 1, pos) { }
     bool seekTarget();
     void shoot();
 }
@@ -74,10 +68,7 @@ public:
 class PrecisionTower : public Tower
 {
 public:
-    PrecisionTower(int h, float r, int d, sf::Vector2f pos, 
-            const  std::vector<sf::Vector2f>& map) : 
-        Tower(h, r, d, pos, 
-            const std::vector<sf::Vector2f>& path) { }
+    PrecisionTower(sf::Vector2f pos) : Tower(100, 120, 2, pos) { }
     bool seekTarget();
     void shoot();
 }
