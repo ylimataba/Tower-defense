@@ -26,6 +26,8 @@ void Game::build()
 */
 void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
+    if(enemies == 0)
+        timeBetweenSpawn = 0.f;
     if(spawnTime.getElapsedTime().asSeconds() > timeBetweenSpawn)
         if(enemies < numberOfEnemies){
             Enemy* newEnemy = new Enemy(.5f, 1, 1, map->getEnemyRoute());
