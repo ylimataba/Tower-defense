@@ -126,9 +126,9 @@ bool Window::isCollision()
 	std::vector<sf::Vector2f> collisionPoints;
 
 	collisionPoints.push_back(currentTilePosition);
-	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE, currentTilePosition.y + MAP_TILE_SIZE));
-	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE, currentTilePosition.y));
-	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x, currentTilePosition.y + MAP_TILE_SIZE));
+	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y + MAP_TILE_SIZE - 1));
+	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y));
+	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x, currentTilePosition.y + MAP_TILE_SIZE - 1));
 
 	return m_map->isCollision(collisionPoints);
 }
