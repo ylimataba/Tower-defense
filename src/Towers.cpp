@@ -6,13 +6,14 @@
 //ruutu = 32x32
 //lisää "virhetoleranssi" koordinaatteja  varten
 
+
 float calc_distance(sf::Vector2f tower, sf::Vector2f target) {
     return sqrt(((tower.x - target.x)*(tower.x - target.x)) 
             + (((tower.y - target.y))*((tower.y - target.y))));
 }
 
 
-bool BasicTower::seekTarget(std::vector<class Enemy*> enemies)
+bool BasicTower::seekTarget(std::vector<std::unique_ptr<class Enemy>> &enemies)
 {
     float dist = range;
     sf::Vector2f pos;
@@ -38,7 +39,7 @@ bool BasicTower::seekTarget(std::vector<class Enemy*> enemies)
     }
 }
 
-void BasicTower::shoot()
+void BasicTower::shoot(&enemies)
 {
     if(cooldown <= 0) {                                                 //ready
         if((target == nullptr) || (*target == nullptr)) {               //no target at all
@@ -73,7 +74,7 @@ void BasicTower::shoot()
     }
 }
 
-bool FreezeTower::seekTarget(std::vector<class Enemy*> enemies)
+bool FreezeTower::seekTarget(std::vector<std::unique_ptr<class Enemy>> &enemies)
 {//prioritize non-frozen
     float dist = range;
     sf::Vector2f pos;
@@ -99,7 +100,7 @@ bool FreezeTower::seekTarget(std::vector<class Enemy*> enemies)
     }
 }
 
-void FreezeTower::shoot()
+void FreezeTower::shoot(&enemies)
 {
     if(cooldown <= 0) {                                                 //ready
         if((target == nullptr) || (*target == nullptr)) {               //no target at all
@@ -135,7 +136,7 @@ void FreezeTower::shoot()
 }
 
 
-bool PrecisionTower::seekTarget(std::vector<class Enemy*> enemies)
+bool PrecisionTower::seekTarget(std::vector<std::unique_ptr<class Enemy>> &enemies)
 {//aim for highest 'value' stat
     int val = 0;
     sf::Vector2f pos;
@@ -161,7 +162,7 @@ bool PrecisionTower::seekTarget(std::vector<class Enemy*> enemies)
     }
 }
 
-void PrecisionTower::shoot()
+void PrecisionTower::shoot(&enemies)
 {
     if(cooldown <= 0) {                                                 //ready
         if((target == nullptr) || (*target == nullptr)) {               //no target at all
@@ -196,8 +197,8 @@ void PrecisionTower::shoot()
     }
 }
 
-/*
-bool BlastTower::seekTarget(std::vector<class Enemy*> enemies)
+
+bool BlastTower::seekTarget(std::vector<std::unique_ptr<class Enemy>> &enemies)
 {
     float dist = range;
     sf::Vector2f pos;
@@ -223,14 +224,14 @@ bool BlastTower::seekTarget(std::vector<class Enemy*> enemies)
     }
 }
 
-void BlastTower::shoot()
+void BlastTower::shoot(&enemies)
 {
     if(cooldown <= 0) {                                                 //ready
         if((target == nullptr) || (*target == nullptr)) {               //no target at all
             if(seekTarget()) {
                 (*target)->damage(dmg, 0);
                 (*target)->damage(s_dmg, 1);
-                for() {
+                for() {///////////////////////////////////////
                     
                 }
                 cooldown = 10;
@@ -260,4 +261,4 @@ void BlastTower::shoot()
     else {                                                              //not ready
         cooldown--;
     }
-}*/
+}
