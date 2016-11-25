@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <cstddef>
-
 #include <iostream>
 
 namespace gui {
@@ -20,6 +19,9 @@ NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position,
 	setSize(size);
 	setPosition(position);
 	setFillColor(color);
+
+	m_text = sf::Text();
+	m_text.setPosition(position);
 }
 
 NormalButton::~NormalButton()
@@ -31,6 +33,17 @@ void NormalButton::color(sf::Color color)
 {
 	m_color = color;
 	setFillColor(color);
+}
+
+void NormalButton::text(const std::string text)
+{
+	/*sf::Font buttonFont;
+	buttonFont.loadFromFile("../Calibri.ttf");
+
+	m_text.setFont(buttonFont);
+	m_text.setCharacterSize(30);
+	m_text.setString(text);
+	*/
 }
 
 void NormalButton::position(sf::Vector2f position)
@@ -114,7 +127,7 @@ bool TowerButton::contains(sf::Vector2f mousePosition)
 
 void TowerButton::buttonPress()
 {
-	color(YELLOW);
+	color(YELLOW);	
 }
 
 void TowerButton::buttonUnPress()

@@ -41,7 +41,7 @@ static const sf::Vector2f MAP_BUTTON_POSITION(BASE_BUTTON_X_POSITION,
 
 static const int TOWER_BUTTON_HEIGHT = BASE_BUTTON_WIDTH * 0.75;
 static const int TOWER_BUTTON_WIDTH = TOWER_BUTTON_HEIGHT;
-static const int TOWER_BUTTON_SPACE = TOWER_BUTTON_HEIGHT / 2;
+static const int TOWER_BUTTON_SPACE = TOWER_BUTTON_HEIGHT / 4;
 static const int TOWER_BUTTON_X_POSITION = BOTTOM_MENU_WIDTH + ((SIDE_MENU_WIDTH - TOWER_BUTTON_WIDTH) / 2);
 static const int TOWER_BUTTON_Y_POSITION = TOWER_BUTTON_SPACE;
 static const sf::Vector2f TOWER_BUTTON_SIZE(TOWER_BUTTON_WIDTH, TOWER_BUTTON_HEIGHT);
@@ -97,11 +97,13 @@ enum State
 class NormalButton : public sf::RectangleShape
 {
 public:
+	NormalButton() : m_button(button::Buttons::MENU) {}
 	NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color);
 
 	~NormalButton();
 
 	void color(const sf::Color color);
+	void text(const std::string text);
 	void position(const sf::Vector2f);
 
 	sf::Vector2f getPosition();
@@ -115,16 +117,17 @@ private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
+	
+	sf::Text m_text;
 
-	const button::Buttons m_button;
-	std::string m_text;
-	sf::Font m_font;
 	button::State m_state;
+	button::Buttons m_button;
 };
 
 class TowerButton : public sf::RectangleShape
 {
 public:
+	TowerButton() : m_button(button::Buttons::TOWER) {}
 	TowerButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color);
 
 	~TowerButton();
@@ -144,7 +147,7 @@ private:
 	sf::Vector2f m_position;
 	sf::Color m_color;
 
-	const button::Buttons m_button;
+	button::Buttons m_button;
 	std::string m_text;
 	sf::Font m_font;
 	button::State m_state;
@@ -153,6 +156,7 @@ private:
 class Bar : public sf::RectangleShape
 {
 public:
+	Bar() {}
 	Bar(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color);
 
 	~Bar();
@@ -174,6 +178,7 @@ private:
 class Menu : public sf::RectangleShape
 {
 public:
+	Menu() {}
 	Menu(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color);
 
 	~Menu();
