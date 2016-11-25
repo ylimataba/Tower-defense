@@ -34,7 +34,7 @@ void NormalButton::color(sf::Color color)
 	setFillColor(m_color);
 }
 
-void NormalButton::setText(std::string &buttonText)
+void NormalButton::setText(std::string buttonText)
 {
 	sf::Font buttonFont;
 	if (!buttonFont.loadFromFile("../Calibri.ttf"))

@@ -255,16 +255,19 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
 		{
 			std::cout << "Game start\n";
+			m_playButton.setText("Pause");
 			m_game->setIsBuildPhase(false);
 		}
 		else if (!(m_game->getIsGamePaused()))
 		{
 			std::cout << "Game paused\n";
+			m_playButton.setText("Resume");
 			m_game->setIsGamePaused(true);
 		}
 		else
 		{
 			std::cout << "Game continue\n";
+			m_playButton.setText("Pause");
 			m_game->setIsGamePaused(false);
 		}
 

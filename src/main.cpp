@@ -20,6 +20,11 @@ int main()
         {
             window.updateTowerPlacer();
         }
+        else if (game.getIsGamePaused())
+        {
+            // Game is paused
+            // TODO Even enemy spawn rate
+        }
         else
         {
             game.create_enemies(15, .5f);
