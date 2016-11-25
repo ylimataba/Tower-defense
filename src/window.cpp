@@ -7,10 +7,11 @@
 #include <vector>
 #include <iostream>
 
-Window::Window(std::string title, map::Map *map)
+Window::Window(std::string title, map::Map *map, Game *game)
 	: sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
 	  m_mousePosition(0, 0),
 	  m_map(map),
+	  m_game(game),
 	  m_isTowerBeingBuilt(false),
 	  m_towerBeingBuilt(gui::NONE)
 {
@@ -52,6 +53,8 @@ sf::Vector2f Window::getCurrentMapTile()
 
 void Window::drawAll()
 {
+	clear();
+
 	draw(*m_map);
 
 	draw(m_sideMenu);
@@ -70,6 +73,11 @@ void Window::drawAll()
 	draw(m_lifeBar);
 
 	draw(m_towerPlacer);
+	
+	if (!(m_game->getBuildPhase()))
+	{
+		draw(*m_game);
+	}
 }
 
 void Window::createMenus()
@@ -220,6 +228,9 @@ void Window::buttonPress()
 	}
 	else if (m_playButton.contains(m_mousePosition))
 	{
+		std::cout << "Game start\n";
+		
+		m_game->setBuildPhase(false);
 		m_playButton.buttonPress();
 	}
 	else if (m_speedButton.contains(m_mousePosition))

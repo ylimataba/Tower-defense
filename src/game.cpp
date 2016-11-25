@@ -2,6 +2,7 @@
 
 
 Game::Game(map::Map* map)
+    : delayTime(sf::milliseconds(1000 / 60))
 {
     this->map = map;
     //health = 100;
@@ -125,4 +126,19 @@ int Game::getWave()
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     for(auto enemy : enemyList)
         rt.draw(*enemy);
+}
+
+void Game::setBuildPhase(bool setPhase)
+{
+    isBuildPhase = setPhase;
+}
+
+bool Game::getBuildPhase()
+{
+    return isBuildPhase;
+}
+
+sf::Time Game::getDelayTime()
+{
+    return delayTime;
 }

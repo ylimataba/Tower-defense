@@ -8,50 +8,33 @@
 int main()
 {
     map::Map map("map_1.tmx");
-    Game::Game game(&map);
 
-    Window window("Tower Defence", &map);
-    
-    //Game game;
-    // These should be in the game class
-    sf::Clock GameClock;
+    Game game(&map);
 
-    sf::Time delayTime = sf::milliseconds(1000 / 60); // This should be done with the fps
+    Window window("Tower Defence", &map, &game);
 
-    bool isBuildPhase = true;
-    bool isGamePhase = true;
+    game.setBuildPhase(true);
 
-    //startGameClock
-
-    while (isBuildPhase && window.isOpen())
+    while (window.isOpen())
     {
         window.checkEvents();
 
-        window.updateTowerPlacer();
-        
-        window.clear();
-        
-        window.drawAll();
-
-        if (isGamePhase && window.isOpen())
+        if (game.getBuildPhase())
         {
-            //window.checkEvents();
-
-            game.create_enemies(5, .5f);
-            game.move_enemies(); 
-
-            //window.drawAll();
-
-            window.draw(game); 
-        
-            //window.display();
-
-            //sf::sleep(delayTime);
+            window.updateTowerPlacer();
         }
+        else
+        {
+            game.create_enemies(5, .5f);
+
+            game.move_enemies(); 
+        }
+
+        window.drawAll();
 
         window.display();
 
-        sf::sleep(delayTime);
+        sf::sleep(game.getDelayTime());
     }
 
     return EXIT_SUCCESS;

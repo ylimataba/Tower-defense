@@ -3,13 +3,14 @@
 
 #include "menuObjects.hpp"
 #include "map.hpp"
+#include "game.hpp"
 #include <SFML/Window.hpp>
 #include <cstddef>
 
 class Window : public sf::RenderWindow
 {
 public:
-	Window(std::string title, map::Map *map);
+	Window(std::string title, map::Map *map, Game *game);
 
 	~Window();
 
@@ -35,6 +36,7 @@ private:
 	Window& operator=(const Window&);
 
 	map::Map *m_map;
+	Game *m_game;
 
 	gui::Menu m_sideMenu;
 	gui::Menu m_bottomMenu;

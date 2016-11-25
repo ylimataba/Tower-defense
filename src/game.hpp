@@ -26,6 +26,11 @@ public:
     //int getRound();
     //int getWave();
 
+    void setBuildPhase(bool setPhase);
+    bool getBuildPhase();
+
+    sf::Time getDelayTime();
+
 private:
     /*
     int rounds; //number of game rounds
@@ -35,6 +40,8 @@ private:
     int health;
     int money;
     */
+    sf::Clock gameTime;
+    const sf::Time delayTime;
     sf::Clock spawnTime;
     sf::Clock moveTime;
     int enemies = 0;
@@ -43,7 +50,7 @@ private:
     map::Map* map;
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
 
-
+    bool isBuildPhase;
 
 };
 
