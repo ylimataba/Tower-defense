@@ -61,8 +61,8 @@ void Window::drawAll()
 	draw(m_sideMenu);
 	draw(m_bottomMenu);
 
-	draw(m_menuButton);
-	//draw(m_menuButton.getMemberText());
+	draw(m_saveButton);
+	//draw(m_saveButton.getMemberText());
 	draw(m_playButton);
 	draw(m_speedButton);
 	draw(m_mapButton);
@@ -91,7 +91,7 @@ void Window::createMenus()
 
 void Window::createButtons()
 {
-    m_menuButton = gui::NormalButton(BASE_BUTTON_SIZE, MENU_BUTTON_POSITION, BASE_BUTTON_COLOR, "Menu");
+    m_saveButton = gui::NormalButton(BASE_BUTTON_SIZE, SAVE_BUTTON_POSITION, BASE_BUTTON_COLOR, "Save");
     m_playButton = gui::NormalButton(BASE_BUTTON_SIZE, PLAY_BUTTON_POSITION, BASE_BUTTON_COLOR, "Play");
     m_speedButton = gui::NormalButton(BASE_BUTTON_SIZE, SPEED_BUTTON_POSITION, BASE_BUTTON_COLOR, "Speed");
     m_mapButton = gui::NormalButton(BASE_BUTTON_SIZE, MAP_BUTTON_POSITION, BASE_BUTTON_COLOR, "Maps");
@@ -246,9 +246,9 @@ void Window::buttonPress()
 {
 	getMousePosition();
 
-	if (m_menuButton.contains(m_mousePosition))
+	if (m_saveButton.contains(m_mousePosition))
 	{
-		m_menuButton.buttonPress();
+		m_saveButton.buttonPress();
 	}
 	else if (m_playButton.contains(m_mousePosition))
 	{
@@ -315,7 +315,7 @@ void Window::buttonPress()
 
 void Window::buttonRelease()
 {
-	m_menuButton.buttonUnPress();
+	m_saveButton.buttonUnPress();
 	m_playButton.buttonUnPress();
 	m_speedButton.buttonUnPress();
 	m_mapButton.buttonUnPress();
