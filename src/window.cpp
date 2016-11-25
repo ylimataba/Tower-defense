@@ -13,7 +13,8 @@ Window::Window(std::string title, map::Map *map, Game *game)
 	  m_map(map),
 	  m_game(game),
 	  m_isTowerBeingBuilt(false),
-	  m_towerBeingBuilt(gui::NONE)
+	  m_towerBeingBuilt(gui::NONE),
+	  m_towerPlacerRange(100)
 {
 	setVerticalSyncEnabled(true);
 
@@ -73,6 +74,7 @@ void Window::drawAll()
 	draw(m_textBar);
 	draw(m_lifeBar);
 
+	draw(m_towerPlacerRangeArea);
 	draw(m_towerPlacer);
 	
 	if (!(m_game->getIsBuildPhase()))
@@ -108,10 +110,11 @@ void Window::createBars()
 void Window::createTowerPlacer()
 {
 	const sf::Vector2f sizeOfNewTower(MAP_TILE_SIZE, MAP_TILE_SIZE);
-
 	m_towerPlacer = sf::RectangleShape(sizeOfNewTower);
-
 	m_towerPlacer.setFillColor(sf::Color(200, 0, 0, 0));
+
+	m_towerPlacerRangeArea = sf::CircleShape(m_towerPlacerRange);
+	m_towerPlacerRangeArea.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
 void Window::updateTowerPlacer()
@@ -122,10 +125,30 @@ void Window::updateTowerPlacer()
 	{
 		alpha = 100;
 	
-		m_towerPlacer.setPosition(getCurrentMapTile());
+		sf::Vector2f currentTile = getCurrentMapTile();
+
+		float offset = getTowerPlacerRange() - (MAP_TILE_SIZE / 2);
+
+		float x = currentTile.x - offset;
+		float y = currentTile.y - offset;
+
+		m_towerPlacer.setPosition(currentTile);
+		m_towerPlacerRangeArea.setPosition(x, y);
 	}
 	
 	m_towerPlacer.setFillColor(sf::Color(200, 0, 0, alpha));
+	m_towerPlacerRangeArea.setFillColor(sf::Color(255, 255, 255, alpha / 2));
+}
+
+void Window::setTowerPlacerRange(float newRange)
+{
+	m_towerPlacerRange = newRange;
+	m_towerPlacerRangeArea.setRadius(newRange);
+}
+
+float Window::getTowerPlacerRange()
+{
+	return m_towerPlacerRange;
 }
 
 bool Window::isCollision()
@@ -208,6 +231,7 @@ void Window::checkEvents()
 	 					break;
 	 			}
 	 		}
+
 	        buttonPress();
 	    }
 	    else if (event.type == sf::Event::MouseButtonReleased)
@@ -221,7 +245,6 @@ void Window::checkEvents()
 void Window::buttonPress()
 {
 	getMousePosition();
-	//std::cout << "Mouse position: " << m_mousePosition.x << ", " << m_mousePosition.y << std::endl;
 
 	if (m_menuButton.contains(m_mousePosition))
 	{

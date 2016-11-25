@@ -22,8 +22,12 @@ public:
 	void createMenus();
 	void createButtons();
 	void createBars();
+	
 	void createTowerPlacer();
 	void updateTowerPlacer();
+	void setTowerPlacerRange(float newRange);
+	float getTowerPlacerRange();
+
 	bool isCollision();
 	bool isInGameArea();
 
@@ -57,7 +61,10 @@ private:
 
 	bool m_isTowerBeingBuilt;
 	gui::Towers m_towerBeingBuilt;
+
 	sf::RectangleShape m_towerPlacer;
+	sf::CircleShape m_towerPlacerRangeArea;
+	float m_towerPlacerRange;
 };
 
 #endif // TOWER_DEFENCE_SRC_WINDOW_HPP
