@@ -2,7 +2,9 @@
 
 
 Game::Game(map::Map* map)
-    : delayTime(sf::milliseconds(1000 / 60))
+    : delayTime(sf::milliseconds(1000 / 60)),
+      isBuildPhase(true),
+      isGamePaused(false)
 {
     this->map = map;
     //health = 100;
@@ -128,14 +130,24 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(*enemy);
 }
 
-void Game::setBuildPhase(bool setPhase)
+void Game::setIsBuildPhase(bool setPhase)
 {
     isBuildPhase = setPhase;
 }
 
-bool Game::getBuildPhase()
+bool Game::getIsBuildPhase()
 {
     return isBuildPhase;
+}
+
+void Game::setIsGamePaused(bool pauseState)
+{
+    isGamePaused = pauseState;
+}
+
+bool Game::getIsGamePaused()
+{
+    return isGamePaused;
 }
 
 sf::Time Game::getDelayTime()

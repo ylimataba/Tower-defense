@@ -117,7 +117,7 @@ public:
 	void position(const sf::Vector2f);
 	sf::Vector2f getPosition();
 
-	void createText(std::string &buttonText);
+	void setText(std::string &buttonText);
 	sf::Text& getMemberText();
 
 	bool contains(sf::Vector2f mousePosition);

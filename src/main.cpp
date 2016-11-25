@@ -12,13 +12,11 @@ int main()
 
     Window window("Tower Defence", &map, &game);
 
-    game.setBuildPhase(true);
-
     while (window.isOpen())
     {
         window.checkEvents();
 
-        if (game.getBuildPhase())
+        if (game.getIsBuildPhase())
         {
             window.updateTowerPlacer();
         }

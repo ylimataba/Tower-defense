@@ -9,7 +9,8 @@ namespace gui {
 
 // NormalButton //
 
-NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color, std::string text)
+NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position,
+						   const sf::Color color, std::string text)
 	: m_button(button::MENU),
 	  m_state(button::UNPRESSED),
 	  m_size(size),
@@ -19,8 +20,7 @@ NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position,
 	setSize(size);
 	setPosition(position);
 	setFillColor(color);
-
-	createText(text);
+	setText(text);
 }
 
 NormalButton::~NormalButton()
@@ -34,7 +34,7 @@ void NormalButton::color(sf::Color color)
 	setFillColor(m_color);
 }
 
-void NormalButton::createText(std::string &buttonText)
+void NormalButton::setText(std::string &buttonText)
 {
 	sf::Font buttonFont;
 	if (!buttonFont.loadFromFile("../Calibri.ttf"))

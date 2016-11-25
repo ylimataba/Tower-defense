@@ -75,7 +75,7 @@ void Window::drawAll()
 
 	draw(m_towerPlacer);
 	
-	if (!(m_game->getBuildPhase()))
+	if (!(m_game->getIsBuildPhase()))
 	{
 		draw(*m_game);
 	}
@@ -229,9 +229,22 @@ void Window::buttonPress()
 	}
 	else if (m_playButton.contains(m_mousePosition))
 	{
-		std::cout << "Game start\n";
+		if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
+		{
+			std::cout << "Game start\n";
+			m_game->setIsBuildPhase(false);
+		}
+		else if (!(m_game->getIsGamePaused()))
+		{
+			std::cout << "Game paused\n";
+			m_game->setIsGamePaused(true);
+		}
+		else
+		{
+			std::cout << "Game continue\n";
+			m_game->setIsGamePaused(false);
+		}
 
-		m_game->setBuildPhase(false);
 		m_playButton.buttonPress();
 	}
 	else if (m_speedButton.contains(m_mousePosition))
@@ -244,7 +257,7 @@ void Window::buttonPress()
 	}
 	else if (m_tower1Button.contains(m_mousePosition))
 	{
-		if (m_game->getBuildPhase())
+		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
 			m_towerBeingBuilt = gui::TOWER1;
@@ -253,7 +266,7 @@ void Window::buttonPress()
 	}
 	else if (m_tower2Button.contains(m_mousePosition))
 	{
-		if (m_game->getBuildPhase())
+		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
 			m_towerBeingBuilt = gui::TOWER2;
@@ -262,7 +275,7 @@ void Window::buttonPress()
 	}
 	else if (m_tower3Button.contains(m_mousePosition))
 	{
-		if (m_game->getBuildPhase())
+		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
 			m_towerBeingBuilt = gui::TOWER3;

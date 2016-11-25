@@ -26,8 +26,11 @@ public:
     //int getRound();
     //int getWave();
 
-    void setBuildPhase(bool setPhase);
-    bool getBuildPhase();
+    void setIsBuildPhase(bool setPhase);
+    bool getIsBuildPhase();
+
+    void setIsGamePaused(bool pauseState);
+    bool getIsGamePaused();
 
     sf::Time getDelayTime();
 
@@ -51,7 +54,7 @@ private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
 
     bool isBuildPhase;
-
+    bool isGamePaused;
 };
 
 #endif // GAME_H
