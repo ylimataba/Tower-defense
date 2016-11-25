@@ -81,7 +81,7 @@ bool NormalButton::contains(sf::Vector2f position)
 
 void NormalButton::buttonPress()
 {
-	color(GREEN);
+	color(PRESSED_BASE_BUTTON_COLOR);
 }
 
 void NormalButton::buttonUnPress()
@@ -111,13 +111,13 @@ TowerButton::~TowerButton()
 void TowerButton::color(sf::Color color)
 {
 	m_color = color;
-	setFillColor(color);
+	setFillColor(m_color);
 }
 
 void TowerButton::position(sf::Vector2f position)
 {
 	m_position = position;
-	setPosition(position);
+	setPosition(m_position);
 }
 
 sf::Vector2f TowerButton::getPosition()
@@ -138,7 +138,7 @@ bool TowerButton::contains(sf::Vector2f mousePosition)
 
 void TowerButton::buttonPress()
 {
-	color(YELLOW);
+	color(PRESSED_TOWER_BUTTON_COLOR);
 }
 
 void TowerButton::buttonUnPress()

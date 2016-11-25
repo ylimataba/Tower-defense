@@ -64,16 +64,13 @@ static const sf::Vector2f LIFE_BAR_SIZE(BASE_BAR_WIDTH, BOTTOM_MENU_HEIGHT * 0.1
 static const sf::Vector2f LIFE_BAR_POSITION(BASE_BAR_X_POSITION, WINDOW_HEIGHT - (BOTTOM_MENU_HEIGHT * 0.2));
 
 // Colors
-static const sf::Color MENU_COLOR(39, 174, 96);
-static const sf::Color BASE_BUTTON_COLOR(41, 128, 185);
-static const sf::Color TOWER_BUTTON_COLOR(0, 255, 255);
-static const sf::Color TEXT_BAR_COLOR(0, 255, 0);
-static const sf::Color LIFE_BAR_COLOR(255, 0, 0);
-
-static const sf::Color RED(255, 0, 0);
-static const sf::Color GREEN(0, 255, 0);
-static const sf::Color BLUE(0, 0, 255);
-static const sf::Color YELLOW(255, 255, 0);
+static const sf::Color MENU_COLOR(110, 110, 110, 200);
+static const sf::Color BASE_BUTTON_COLOR(221, 114, 10);
+static const sf::Color PRESSED_BASE_BUTTON_COLOR(221, 114, 10, 150);
+static const sf::Color TOWER_BUTTON_COLOR(101, 126, 35);
+static const sf::Color PRESSED_TOWER_BUTTON_COLOR(101, 126, 35, 150);
+static const sf::Color TEXT_BAR_COLOR(110, 110, 110);
+static const sf::Color LIFE_BAR_COLOR(255, 0, 0, 200);
 
 namespace gui {
 
