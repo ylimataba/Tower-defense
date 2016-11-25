@@ -1,71 +1,77 @@
 #include "game.hpp"
 
 
-Game::Game()
+Game::Game(map::Map* map)
 {
-    health = 100;
-    money = 200;
-    rounds = 5;
-    waves = 4;
-    current_round = 0;
-    current_wave = 0;
+    this->map = map;
+    //health = 100;
+    //money = 200;
+    //rounds = 5;
+    //waves = 4;
+    //current_round = 0;
+    //current_wave = 0;
 }
 
+Game::~Game(){
+    for(auto enemy : enemyList)
+        delete enemy;
+}
+
+/*
 void Game::build()
 {
     this->current_round++;
     this->current_wave = 0;
 }
-
-void Game::create_enemies()
+*/
+void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
-
-    int enemies = 5;
-    int hitPoints = current_wave;
-    int speed = 1;
-
-    for(int i=0; i<enemies; i++)
-    {
-        Enemy newEnemy = new Enemy(speed, hitPoints, x, y);
-        addEnemy(newEnemy);
-    }
-
-    this->current_wave++;
-
+    if(spawnTime.getElapsedTime().asSeconds() > timeBetweenSpawn)
+        if(enemies < numberOfEnemies){
+            Enemy* newEnemy = new Enemy(.5f, 1, 1, map->getEnemyRoute());
+            enemyList.push_back(newEnemy);
+            enemies++;
+            spawnTime.restart();
+        }
 }
 
-void Game::addEnemy(Enemy newEnemy)
-{
-    this->enemyList.push_back(newEnemy);
-}
-
+/*
 void Game::addTower(Tower newTower)
 {
     this->towerList.push_back(newTower);
 }
+*/
 
-void Game::removeEnemy(iterator it)
+void Game::removeEnemy(std::vector<Enemy*>::iterator it)
 {
     this->enemyList.erase(it);
 }
 
+/*
 void Game::removeTower(iterator it)
 {
     this->towerList.erase(it);
 }
+*/
 
 void Game::move_enemies()
 {
-    for(auto enemy : this->enemyList)
+    float deltaTime = moveTime.restart().asSeconds();
+    for(auto it = enemyList.begin(); it != enemyList.end(); it++)
     {
-        enemy.move();
+        (*it)->move(deltaTime);
         //if enemy achieves the goal
         //this->health--;
         //this->removeEnemy(enemy);
-
+        if(!((*it)->is_alive()) || (*it)->is_finished()){
+            removeEnemy(it);
+            if(enemyList.size() == 0)
+                break;
+        }
     }
 }
 
+/*
 void Game::shoot_enemies()
 {
     for(auto tower : this->towerList)
@@ -111,4 +117,10 @@ int Game::getRound()
 int Game::getWave()
 {
     return this->current_wave;
+}
+*/
+
+void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+    for(auto enemy : enemyList)
+        rt.draw(*enemy);
 }

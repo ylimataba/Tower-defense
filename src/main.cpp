@@ -1,3 +1,4 @@
+#include "game.hpp"
 #include "enemy.hpp"
 #include "map.hpp"
 #include "window.hpp"
@@ -7,7 +8,7 @@
 int main()
 {
     map::Map map("map_1.tmx");
-    Enemy::Enemy enemy(0.1f, 1, 1, map.getEnemyRoute()); // just to demo enemy move
+    Game::Game game(&map);
 
     Window window("Tower Defence", &map);
     
@@ -18,7 +19,7 @@ int main()
     sf::Time delayTime = sf::milliseconds(1000 / 60); // This should be done with the fps
 
     bool isBuildPhase = true;
-    bool isGamePhase = false;
+    bool isGamePhase = true;
 
     //startGameClock
 
@@ -29,28 +30,28 @@ int main()
         window.updateTowerPlacer();
         
         window.clear();
-
-        float deltaTime = GameClock.restart().asSeconds();// just to demo enemy move
-        enemy.move(deltaTime);// just to demo enemy move
-
+        
         window.drawAll();
 
-        window.draw(enemy); // just to demo enemy move
-
-        window.display();
-
-        sf::sleep(delayTime);
-
-        while (isGamePhase && window.isOpen())
+        if (isGamePhase && window.isOpen())
         {
             //window.checkEvents();
 
+            game.create_enemies(5, .5f);
+            game.move_enemies(); 
+
             //window.drawAll();
 
+            window.draw(game); 
+        
             //window.display();
 
             //sf::sleep(delayTime);
         }
+
+        window.display();
+
+        sf::sleep(delayTime);
     }
 
     return EXIT_SUCCESS;

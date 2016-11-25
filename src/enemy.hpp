@@ -17,7 +17,7 @@ class Enemy : public sf::Drawable
         void slow();
         void basehit();
         bool is_alive();
-        bool is_finished()
+        bool is_finished();
     
     private:
         float speed; // .1f is good value for example

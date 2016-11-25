@@ -114,7 +114,7 @@ void Enemy::draw(sf::RenderTarget& rt, sf::RenderStates states) const
    rt.draw(object);
 }
 
-bool is_finished()
+bool Enemy::is_finished()
 {
     if(route.size() == 0)
         return true;
