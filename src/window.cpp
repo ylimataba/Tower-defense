@@ -229,7 +229,7 @@ void Window::buttonPress()
 	else if (m_playButton.contains(m_mousePosition))
 	{
 		std::cout << "Game start\n";
-		
+
 		m_game->setBuildPhase(false);
 		m_playButton.buttonPress();
 	}
@@ -243,21 +243,30 @@ void Window::buttonPress()
 	}
 	else if (m_tower1Button.contains(m_mousePosition))
 	{
-		m_isTowerBeingBuilt = true;
-		m_towerBeingBuilt = gui::TOWER1;
-		m_tower1Button.buttonPress();
+		if (m_game->getBuildPhase())
+		{
+			m_isTowerBeingBuilt = true;
+			m_towerBeingBuilt = gui::TOWER1;
+			m_tower1Button.buttonPress();
+		}
 	}
 	else if (m_tower2Button.contains(m_mousePosition))
 	{
-		m_isTowerBeingBuilt = true;
-		m_towerBeingBuilt = gui::TOWER2;
-		m_tower2Button.buttonPress();
+		if (m_game->getBuildPhase())
+		{
+			m_isTowerBeingBuilt = true;
+			m_towerBeingBuilt = gui::TOWER2;
+			m_tower2Button.buttonPress();
+		}
 	}
 	else if (m_tower3Button.contains(m_mousePosition))
 	{
-		m_isTowerBeingBuilt = true;
-		m_towerBeingBuilt = gui::TOWER3;
-		m_tower3Button.buttonPress();
+		if (m_game->getBuildPhase())
+		{
+			m_isTowerBeingBuilt = true;
+			m_towerBeingBuilt = gui::TOWER3;
+			m_tower3Button.buttonPress();			
+		}
 	}
 }
 
