@@ -208,20 +208,22 @@ void Window::checkEvents()
 	    {
 	 		if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
 	 		{
+ 				sf::Vector2f tile = getCurrentMapTile();
+	 			
 	 			switch (m_towerBeingBuilt)
 	 			{
 	 				case gui::TOWER1:
-	 					std::cout << "Tower 1 placed on map\n";
+	 					std::cout << "Tower 1 placed on map at: x: " << tile.x << ", y: " << tile.y << std::endl;
 	 					m_towerBeingBuilt = gui::NONE;
 	 					m_isTowerBeingBuilt = false;
 	 					break;
 	 				case gui::TOWER2:
-	 					std::cout << "Tower 2 placed on map\n";
+	 					std::cout << "Tower 2 placed on map at: x: " << tile.x << ", y: " << tile.y << std::endl;
 	 					m_towerBeingBuilt = gui::NONE;
 	 					m_isTowerBeingBuilt = false;
 	 					break;
 	 				case gui::TOWER3:
-	 					std::cout << "Tower 3 placed on map\n";
+	 					std::cout << "Tower 3 placed on map at: x: " << tile.x << ", y: " << tile.y << std::endl;
 	 					m_towerBeingBuilt = gui::NONE;
 	 					m_isTowerBeingBuilt = false;
 	 					break;
