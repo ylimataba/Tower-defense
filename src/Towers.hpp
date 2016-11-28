@@ -3,15 +3,15 @@
 
 #include <memory>
 
-/*          theory finished 22.11.2016
+/*
 TYPES:
     -Basic: SKETCHED, NOT YET TESTED
     -Precision (target most "valuable" enemies, fast shots): SKETCHED, NOT YET TESTED
     -Freeze (movement speed reduction): SKETCHED, NOT YET TESTED
-    -Blast (damage target and all nearby enemies): WIP
+    -Blast (damage target and all nearby enemies): SKETCHED, NOT YET TESTED
     -Volley (multiple targets): WIP
 */
-//consider remaking init. list; might require changes to "builder" part of the program
+
 
 /*
 typedef struct bounds {
@@ -19,7 +19,7 @@ typedef struct bounds {
     float x2;
     float y1;
     float y2;
-}optimointia varten, sovitetaan luokkaan myöhemmin
+}ei varmaan tarvita
 */
 
 float calc_distance(sf::Vector2f tower, sf::Vector2f target);
@@ -38,55 +38,52 @@ public:
     //int getHp() {return hp}
     //float getRange() {return range}
     //void draw();
-    virtual bool seekTarget(&enemies) = 0;
-    virtual void shoot(&enemies) = 0;
+    virtual bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
+    virtual void shoot(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
 private:
     sf::Vector2f position;
     int hp;
     float range;
     int dmg;
     int cooldown = 0;
-    std::unique_ptr<class Enemy> *target = nullptr;//use .get()??
+    std::unique_ptr<Enemy> *target = nullptr;
 }
 
 class BasicTower : public Tower {
 public:
-    BasicTower(sf::Vector2f pos) : Tower(100, 50, 1, pos) { }
-    bool seekTarget();
-    void shoot();
+    BasicTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) { }
+    bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
 }
 
 
 class FreezeTower : public Tower
 {
 public:
-    FreezeTower(sf::Vector2f pos) : Tower(100, 50, 1, pos) { }
-    bool seekTarget();
-    void shoot();
+    FreezeTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) { }
+    bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
 }
 
 class PrecisionTower : public Tower
 {
 public:
-    PrecisionTower(sf::Vector2f pos) : Tower(100, 120, 2, pos) { }
-    bool seekTarget();
-    void shoot();
+    PrecisionTower(sf::Vector2f pos) : Tower(100, 120.0, 2, pos) { }
+    bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
 }
-/*
+
 class BlastTower : public Tower
 {
 public:
-    BlastTower(int h, float r, int d, sf::Vector2f pos, 
-            const  std::vector<sf::Vector2f>& map) : 
-        Tower(h, r, d, pos, 
-            const std::vector<sf::Vector2f>& path) { s_dmg = d/2; s_rad = ?? }
-    bool seekTarget(std::vector<class Enemy*> enemies);
-    void shoot();
+    BlastTower(sf::Vector2f pos) : Tower(100, 50.0, 2, pos) { s_dmg = 1; s_rad = 8.0 }
+    bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
 private:
     int s_dmg;
     float s_rad;
 }
-
+/*
 class VolleyTower
 {
     //needs private members target2 and target 3
