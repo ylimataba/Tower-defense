@@ -21,6 +21,7 @@ public:
 
 	void createMenus();
 	void createButtons();
+	void createTexts();
 	void createBars();
 	
 	void createTowerPlacer();
@@ -49,6 +50,11 @@ private:
 	gui::NormalButton m_playButton;
 	gui::NormalButton m_speedButton;
 	gui::NormalButton m_mapButton;
+
+	gui::Text m_saveButtonText;
+	gui::Text m_playButtonText;
+	gui::Text m_speedButtonText;
+	gui::Text m_mapButtonText;
 
 	gui::TowerButton m_tower1Button;
 	gui::TowerButton m_tower2Button;

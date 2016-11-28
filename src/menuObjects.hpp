@@ -6,14 +6,14 @@
 #include <string>
 
 // Window and Menus
-static const int SIDE_MENU_SCALER_IN_PROCENTS = 15;
-static const int BOTTOM_MENU_SCALER_IN_PROCENTS = 10;
+static const int SIDE_MENU_SCALER_IN_PERCENTS = 15;
+static const int BOTTOM_MENU_SCALER_IN_PERCENTS = 10;
 static const int MAP_HEIGHT = 640;
 static const int MAP_WIDTH = 960;
 static const int MAP_TILE_SIZE = 32;
 
-static const int WINDOW_WIDTH = MAP_WIDTH * (100 + SIDE_MENU_SCALER_IN_PROCENTS) / 100;
-static const int WINDOW_HEIGHT = MAP_HEIGHT * (100 + BOTTOM_MENU_SCALER_IN_PROCENTS) / 100;
+static const int WINDOW_WIDTH = MAP_WIDTH * (100 + SIDE_MENU_SCALER_IN_PERCENTS) / 100;
+static const int WINDOW_HEIGHT = MAP_HEIGHT * (100 + BOTTOM_MENU_SCALER_IN_PERCENTS) / 100;
 
 static const int SIDE_MENU_WIDTH = WINDOW_WIDTH - MAP_WIDTH;
 static const int SIDE_MENU_HEIGHT = WINDOW_HEIGHT;
@@ -105,7 +105,8 @@ class NormalButton : public sf::RectangleShape
 {
 public:
 	NormalButton() : m_button(button::Buttons::MENU) {}
-	NormalButton(const sf::Vector2f size, const sf::Vector2f position, const sf::Color color, std::string text);
+	NormalButton(const sf::Vector2f size, const sf::Vector2f position,
+				 const sf::Color color);
 
 	~NormalButton();
 
@@ -113,9 +114,6 @@ public:
 
 	void position(const sf::Vector2f);
 	sf::Vector2f getPosition();
-
-	void setText(std::string buttonText);
-	sf::Text& getMemberText();
 
 	bool contains(sf::Vector2f mousePosition);
 
@@ -126,7 +124,6 @@ private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
-	sf::Text m_text;
 	button::State m_state;
 	button::Buttons m_button;
 };
@@ -197,6 +194,20 @@ private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
+};
+
+class Text : public sf::Text
+{
+public:
+	Text() {}
+	Text(std::string string, sf::Font& font, sf::RectangleShape* master);
+
+	~Text();
+
+	std::string getCurrentText();
+
+private:
+	std::string m_currentText;
 };
 
 }; // namespace gui

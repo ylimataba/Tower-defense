@@ -1,5 +1,4 @@
 #include "menuObjects.hpp"
-
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <cstddef>
@@ -9,8 +8,9 @@ namespace gui {
 
 // NormalButton //
 
-NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position,
-						   const sf::Color color, std::string text)
+NormalButton::NormalButton(const sf::Vector2f size,
+						   const sf::Vector2f position,
+						   const sf::Color color)
 	: m_button(button::MENU),
 	  m_state(button::UNPRESSED),
 	  m_size(size),
@@ -20,7 +20,6 @@ NormalButton::NormalButton(const sf::Vector2f size, const sf::Vector2f position,
 	setSize(size);
 	setPosition(position);
 	setFillColor(color);
-	setText(text);
 }
 
 NormalButton::~NormalButton()
@@ -32,29 +31,6 @@ void NormalButton::color(sf::Color color)
 {
 	m_color = color;
 	setFillColor(m_color);
-}
-
-void NormalButton::setText(std::string buttonText)
-{
-	sf::Font buttonFont;
-	if (!buttonFont.loadFromFile("../Calibri.ttf"))
-	{
-		std::cout << "Couldn't load font from file\n";
-		return;
-	}
-
-	unsigned int buttonSize = 20;
-
-	m_text.setFont(buttonFont);
-	m_text.setCharacterSize(buttonSize);
-	m_text.setColor(sf::Color::White);
-	m_text.setString(buttonText);
-	m_text.setOrigin(m_position.x + (m_size.x / 2), m_position.y + (m_size.y / 2));
-}
-
-sf::Text& NormalButton::getMemberText()
-{
-	return m_text;
 }
 
 void NormalButton::position(sf::Vector2f position)
@@ -221,6 +197,35 @@ void Menu::position(sf::Vector2f position)
 Menu::~Menu()
 {
 
+}
+
+// Text //
+
+Text::Text(std::string string, sf::Font& font, sf::RectangleShape* master)
+	: m_currentText(string)
+{
+    setString(string);
+    setFont(font);
+    setStyle(sf::Text::Bold);
+	setCharacterSize(master->getSize().y * .75);
+
+	float textOriginX = getLocalBounds().width / 2;
+	setOrigin(textOriginX, 0);
+
+	float masterOriginX = master->getPosition().x + (master->getSize().x / 2);
+	float masterOriginY = master->getPosition().y;
+
+	setPosition(masterOriginX, masterOriginY);
+}
+
+Text::~Text()
+{
+
+}
+
+std::string Text::getCurrentText()
+{
+	return m_currentText;
 }
 
 } // namespace gui

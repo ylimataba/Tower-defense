@@ -7,6 +7,15 @@
 #include <vector>
 #include <iostream>
 
+sf::Font getFont()
+{
+	sf::Font font;
+	font.loadFromFile("../Calibri.ttf");
+	return font;
+}
+
+sf::Font gameFont(getFont());
+
 Window::Window(std::string title, map::Map *map, Game *game)
 	: sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
 	  m_mousePosition(0, 0),
@@ -16,10 +25,11 @@ Window::Window(std::string title, map::Map *map, Game *game)
 	  m_towerBeingBuilt(gui::NONE),
 	  m_towerPlacerRange(100)
 {
-	setVerticalSyncEnabled(true);
+	//setVerticalSyncEnabled(true);
 
 	createMenus();
 	createButtons();
+	createTexts();
 	createBars();
 	createTowerPlacer();
 }
@@ -62,10 +72,13 @@ void Window::drawAll()
 	draw(m_bottomMenu);
 
 	draw(m_saveButton);
-	//draw(m_saveButton.getMemberText());
+	draw(m_saveButtonText);
 	draw(m_playButton);
+	draw(m_playButtonText);
 	draw(m_speedButton);
+	draw(m_speedButtonText);
 	draw(m_mapButton);
+	draw(m_mapButtonText);
 
 	draw(m_tower1Button);
 	draw(m_tower2Button);
@@ -91,14 +104,22 @@ void Window::createMenus()
 
 void Window::createButtons()
 {
-    m_saveButton = gui::NormalButton(BASE_BUTTON_SIZE, SAVE_BUTTON_POSITION, BASE_BUTTON_COLOR, "Save");
-    m_playButton = gui::NormalButton(BASE_BUTTON_SIZE, PLAY_BUTTON_POSITION, BASE_BUTTON_COLOR, "Play");
-    m_speedButton = gui::NormalButton(BASE_BUTTON_SIZE, SPEED_BUTTON_POSITION, BASE_BUTTON_COLOR, "Speed");
-    m_mapButton = gui::NormalButton(BASE_BUTTON_SIZE, MAP_BUTTON_POSITION, BASE_BUTTON_COLOR, "Maps");
+    m_saveButton = gui::NormalButton(BASE_BUTTON_SIZE, SAVE_BUTTON_POSITION, BASE_BUTTON_COLOR);
+    m_playButton = gui::NormalButton(BASE_BUTTON_SIZE, PLAY_BUTTON_POSITION, BASE_BUTTON_COLOR);
+    m_speedButton = gui::NormalButton(BASE_BUTTON_SIZE, SPEED_BUTTON_POSITION, BASE_BUTTON_COLOR);
+    m_mapButton = gui::NormalButton(BASE_BUTTON_SIZE, MAP_BUTTON_POSITION, BASE_BUTTON_COLOR);
 
     m_tower1Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_1_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower2Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_2_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower3Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_3_BUTTON_POSITION, TOWER_BUTTON_COLOR);
+}
+
+void Window::createTexts()
+{
+	m_saveButtonText = gui::Text("SAVE", gameFont, &m_saveButton);
+	m_playButtonText = gui::Text("PLAY", gameFont, &m_playButton);
+	m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
+	m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
 }
 
 void Window::createBars()
@@ -257,19 +278,19 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
 		{
 			std::cout << "Game start\n";
-			m_playButton.setText("Pause");
+			//m_playButton.setText("Pause");
 			m_game->setIsBuildPhase(false);
 		}
 		else if (!(m_game->getIsGamePaused()))
 		{
 			std::cout << "Game paused\n";
-			m_playButton.setText("Resume");
+			//m_playButton.setText("Resume");
 			m_game->setIsGamePaused(true);
 		}
 		else
 		{
 			std::cout << "Game continue\n";
-			m_playButton.setText("Pause");
+			//m_playButton.setText("Pause");
 			m_game->setIsGamePaused(false);
 		}
 
