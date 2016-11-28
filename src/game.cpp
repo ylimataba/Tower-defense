@@ -29,14 +29,13 @@ void Game::build()
 */
 void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
-    if(enemies == 0)
-        timeBetweenSpawn = 0.f;
-    if(spawnTime.getElapsedTime().asSeconds() > timeBetweenSpawn)
-        if(enemies < numberOfEnemies){
+    if(!isGamePaused)
+        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() > timeBetweenSpawn + pauseTime) && enemies < numberOfEnemies){
             Enemy* newEnemy = new Enemy(.5f, 1, 1, map->getEnemyRoute());
             enemyList.push_back(newEnemy);
             enemies++;
             spawnTime.restart();
+            pauseTime = 0;
         }
 }
 
@@ -62,16 +61,18 @@ void Game::removeTower(iterator it)
 void Game::move_enemies()
 {
     float deltaTime = moveTime.restart().asSeconds();
-    for(auto it = enemyList.begin(); it != enemyList.end(); it++)
-    {
-        (*it)->move(deltaTime);
-        //if enemy achieves the goal
-        //this->health--;
-        //this->removeEnemy(enemy);
-        if(!((*it)->is_alive()) || (*it)->is_finished()){
-            removeEnemy(it);
-            if(enemyList.size() == 0)
-                break;
+    if(!isGamePaused){
+        for(auto it = enemyList.begin(); it != enemyList.end(); it++)
+        {
+            (*it)->move(deltaTime);
+            //if enemy achieves the goal
+            //this->health--;
+            //this->removeEnemy(enemy);
+            if(!((*it)->is_alive()) || (*it)->is_finished()){
+                removeEnemy(it);
+                if(enemyList.size() == 0)
+                    break;
+            }
         }
     }
 }
@@ -87,15 +88,17 @@ void Game::shoot_enemies()
         //this->removeEnemy(enemy);
     }
 }
+*/
 
 bool Game::round_completed()
 {
-    if(!this->enemyList.empty() || this->current_wave < this->waves)
-        return false;
-    else
+    if(enemyList.empty() && enemies > 0)
         return true;
+    else
+        return false;
 }
 
+/*
 bool Game::health_ok()
 {
     if(this->health > 0)
@@ -142,6 +145,9 @@ bool Game::getIsBuildPhase()
 
 void Game::setIsGamePaused(bool pauseState)
 {
+    if(!pauseState)
+        pauseTime += pauseClock.restart().asSeconds();
+    pauseClock.restart();
     isGamePaused = pauseState;
 }
 

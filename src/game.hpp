@@ -19,7 +19,7 @@ public:
     //void removeTower(iterator it);
     void move_enemies();
     //void shoot_enemies();
-    //bool round_completed();
+    bool round_completed();
     //bool health_ok();
     //int getHealth();
     //int getMoney();
@@ -47,6 +47,8 @@ private:
     const sf::Time delayTime;
     sf::Clock spawnTime;
     sf::Clock moveTime;
+    sf::Clock pauseClock;
+    float pauseTime = 0;
     int enemies = 0;
     std::vector<Enemy*> enemyList;
     //std::vector<Tower*> towerList;
