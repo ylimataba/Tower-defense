@@ -29,8 +29,8 @@ Window::Window(std::string title, map::Map *map, Game *game)
 
 	createMenus();
 	createButtons();
-	createTexts();
 	createBars();
+	createTexts();
 	createTowerPlacer();
 }
 
@@ -66,6 +66,8 @@ void Window::drawAll()
 {
 	clear();
 
+	// TODO Create a container for all drawable objects
+
 	draw(*m_map);
 
 	draw(m_sideMenu);
@@ -85,6 +87,7 @@ void Window::drawAll()
 	draw(m_tower3Button);
 
 	draw(m_textBar);
+	draw(m_textBarText);
 	draw(m_lifeBar);
 
 	draw(m_towerPlacerRangeArea);
@@ -120,6 +123,8 @@ void Window::createTexts()
 	m_playButtonText = gui::Text("PLAY", gameFont, &m_playButton);
 	m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
 	m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
+
+	m_textBarText = gui::Text("This is the information bar for the game", gameFont, &m_textBar);
 }
 
 void Window::createBars()
@@ -207,7 +212,7 @@ void Window::checkEvents()
 	while (pollEvent(event))
 	{
 	    // Close window: exit
-	    if (event.type == sf::Event::Closed)
+	    if (event.type == sf::Event::Closed)	    	
 	        close();
 
 	    if (event.type == sf::Event::KeyPressed)
@@ -230,29 +235,28 @@ void Window::checkEvents()
 	 		if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
 	 		{
  				sf::Vector2f tile = getCurrentMapTile();
-	 			
+	 			std::string text = "@" + std::to_string(int(tile.x)) + "," + std::to_string(int(tile.y));
+
 	 			switch (m_towerBeingBuilt)
 	 			{
 	 				case gui::TOWER1:
-	 					std::cout << "Tower 1 placed on map at: x: " << tile.x << ", y: " << tile.y << std::endl;
-	 					m_towerBeingBuilt = gui::NONE;
-	 					m_isTowerBeingBuilt = false;
+	 					text = "Tower 1 placed on map " + text; 
 	 					break;
 	 				case gui::TOWER2:
-	 					std::cout << "Tower 2 placed on map at: x: " << tile.x << ", y: " << tile.y << std::endl;
-	 					m_towerBeingBuilt = gui::NONE;
-	 					m_isTowerBeingBuilt = false;
+	 					text = "Tower 2 placed on map " + text;
 	 					break;
 	 				case gui::TOWER3:
-	 					std::cout << "Tower 3 placed on map at: x: " << tile.x << ", y: " << tile.y << std::endl;
-	 					m_towerBeingBuilt = gui::NONE;
-	 					m_isTowerBeingBuilt = false;
+	 					text = "Tower 3 placed on map " + text;
 	 					break;
 	 				case gui::NONE:
 	 				default:
-	 					m_isTowerBeingBuilt = false;
+	 					text = "";
 	 					break;
 	 			}
+
+	 			m_textBarText.setText(text);
+	 			m_towerBeingBuilt = gui::NONE;
+	 			m_isTowerBeingBuilt = false;
 	 		}
 
 	        buttonPress();
@@ -277,20 +281,20 @@ void Window::buttonPress()
 	{
 		if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
 		{
-			std::cout << "Game start\n";
-			//m_playButton.setText("Pause");
+			m_textBarText.setText("Game started");
+			m_playButtonText.setText("PAUSE");
 			m_game->setIsBuildPhase(false);
 		}
 		else if (!(m_game->getIsGamePaused()))
 		{
-			std::cout << "Game paused\n";
-			//m_playButton.setText("Resume");
+			m_textBarText.setText("Game paused");
+			m_playButtonText.setText("RESUME");
 			m_game->setIsGamePaused(true);
 		}
 		else
 		{
-			std::cout << "Game continue\n";
-			//m_playButton.setText("Pause");
+			m_textBarText.setText("Game resumed");
+			m_playButtonText.setText("PAUSE");
 			m_game->setIsGamePaused(false);
 		}
 

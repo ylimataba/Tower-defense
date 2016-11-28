@@ -167,6 +167,7 @@ public:
 
 	void color(const sf::Color color);
 	void position(const sf::Vector2f);
+	sf::Vector2f getPosition();
 
 	void setHealth(const float newHealth);
 	float getHealth();
@@ -205,9 +206,12 @@ public:
 	~Text();
 
 	std::string getCurrentText();
+	void setText(std::string newText);
+	void refreshPosition();
 
 private:
 	std::string m_currentText;
+	sf::Vector2f m_position;
 };
 
 }; // namespace gui

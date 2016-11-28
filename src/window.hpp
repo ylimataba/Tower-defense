@@ -63,6 +63,8 @@ private:
 	gui::Bar m_textBar;
 	gui::Bar m_lifeBar;
 
+	gui::Text m_textBarText;
+
 	sf::Vector2f m_mousePosition;
 
 	bool m_isTowerBeingBuilt;

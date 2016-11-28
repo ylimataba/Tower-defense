@@ -146,6 +146,12 @@ void Bar::position(sf::Vector2f position)
 	m_position = position;
 	setPosition(position);
 }
+
+sf::Vector2f Bar::getPosition()
+{
+	return m_position;
+}
+
 Bar::~Bar()
 {
 
@@ -155,7 +161,6 @@ void Bar::setHealth(const float newHealth)
 {
 	if (newHealth <= 0)
 	{
-		// TODO Game over
 		return;
 	}
 
@@ -204,18 +209,18 @@ Menu::~Menu()
 Text::Text(std::string string, sf::Font& font, sf::RectangleShape* master)
 	: m_currentText(string)
 {
-    setString(string);
+    setString(m_currentText);
     setFont(font);
     setStyle(sf::Text::Bold);
 	setCharacterSize(master->getSize().y * .75);
 
-	float textOriginX = getLocalBounds().width / 2;
-	setOrigin(textOriginX, 0);
-
 	float masterOriginX = master->getPosition().x + (master->getSize().x / 2);
 	float masterOriginY = master->getPosition().y;
+	m_position = sf::Vector2f(masterOriginX, masterOriginY);
 
-	setPosition(masterOriginX, masterOriginY);
+	std::cout << m_currentText << " @" << master->getPosition().x << "," << masterOriginY << std::endl;
+	
+	refreshPosition();
 }
 
 Text::~Text()
@@ -226,6 +231,22 @@ Text::~Text()
 std::string Text::getCurrentText()
 {
 	return m_currentText;
+}
+
+void Text::setText(std::string newText)
+{
+	m_currentText = newText;
+	setString(m_currentText);
+
+	refreshPosition();
+}
+
+void Text::refreshPosition()
+{
+	setPosition(m_position);
+
+	float textOriginX = getLocalBounds().width / 2;
+	setOrigin(textOriginX, 0);	
 }
 
 } // namespace gui
