@@ -25,12 +25,14 @@ bool BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
             pos = (*it)->get_position();
             d_cmp = calc_distance(position, pos);
             if(d_cmp < dist) {
-                target = &(*it);//std::addressof(it);//assign from iterator like this
+                target = &(*it);
                 travel = (*target)->get_travel();
+                dist = d_cmp;
             }
             else if((d_cmp == dist) && ((*it)->get_travel() > travel)) {
-                target = &(*it);//std::addressof(it);
+                target = &(*it);
                 travel = (*target)->get_travel();
+                dist = d_cmp;
             }
         }
     }
@@ -95,12 +97,14 @@ bool FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
             if(d_cmp <= range) {
                 if((*it)->get_factor() >= s_factor) {
                     if(d_cmp < dist) {
-                        target = &(*it);//std::addressof(it);//assign from iterator like this
+                        target = &(*it);
                         travel = (*target)->get_travel();
+                        dist = d_cmp;
                     }
                     else if((d_cmp == dist) && ((*it)->get_travel() > travel)) {
-                        target = &(*it);//std::addressof(it);
+                        target = &(*it);
                         travel = (*target)->get_travel();
+                        dist = d_cmp;
                     }
                 }
             }
@@ -164,12 +168,14 @@ bool PrecisionTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
             pos = (*it)->get_position();
             if(calc_distance(position, pos) <= range) {
                 if((*it)->get_value() > val) {
-                    target = &(*it);//std::addressof(it);//assign from iterator like this
+                    target = &(*it);
                     travel = (*target)->get_travel();
+                    val = (*it)->get_value();
                 }
                 else if(((*it)->get_value() == val) && ((*it)->get_travel() > travel)) {
-                    target = &(*it);//std::addressof(it);
+                    target = &(*it);
                     travel = (*target)->get_travel();
+                    val = (*it)->get_value();
                 }
             }
         }
@@ -233,12 +239,14 @@ bool BlastTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
             pos = (*it)->get_position();
             d_cmp = calc_distance(position, pos);
             if(d_cmp < dist) {
-                target = &(*it);//std::addressof(it);//assign from iterator like this
+                target = &(*it);
                 travel = (*target)->get_travel();
+                dist = d_cmp;
             }
             else if((d_cmp == dist) && ((*it)->get_travel() > travel)) {
-                target = &(*it);//std::addressof(it);
+                target = &(*it);
                 travel = (*target)->get_travel();
+                dist = d_cmp;
             }
         }
     }

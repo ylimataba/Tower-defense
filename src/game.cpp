@@ -74,11 +74,13 @@ void Game::move_enemies()
                     health--;
                     removeEnemy(it);
                     if(enemyList.empty())
+                    //if(all_killed(enemyList))
                         break;
                 }
                 else if(!(*it)->is_alive()){
                     removeEnemy(it);
                     if(enemyList.empty())
+                    //if(all_killed(enemyList))
                         break;
                 }
             }
@@ -91,6 +93,7 @@ void Game::shoot_enemies()
     for(auto tower : this->towerList)
     {
         if(!enemyList.empty())
+        //if(!all_killed(enemyList))
             tower->shoot(enemyList);
         //if enemy gets killed
         //this->money += reward;
@@ -101,6 +104,13 @@ void Game::shoot_enemies()
 bool Game::round_completed()
 {
     if(enemyList.empty() && enemies > 0)
+    //if(all_killed(enemyList) && enemies > 0)
+        /*
+        for(auto it = enemyList.begin(); it != enemyList.end(); it++)
+        {
+            enemyList.erase(it);
+        }
+        */
         return true;
     else
         return false;
@@ -170,4 +180,14 @@ bool Game::getIsGamePaused()
 sf::Time Game::getDelayTime()
 {
     return delayTime;
+}
+
+bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-member function
+{
+    for(auto &enemy : enemyList) {
+        if(enemy != nullptr) {
+            return false;//return if a single object is found
+        }
+    }
+    return true;//reached if all are nullptr
 }

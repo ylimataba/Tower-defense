@@ -26,6 +26,7 @@ public:
     //int getMoney();
     //int getRound();
     //int getWave();
+    
 
     void setIsBuildPhase(bool setPhase);
     bool getIsBuildPhase();
@@ -59,5 +60,7 @@ private:
     bool isBuildPhase;
     bool isGamePaused;
 };
+
+bool all_killed(std::vector< std::unique_ptr<Enemy> >);//checks if all unique_ptr are null
 
 #endif // GAME_H
