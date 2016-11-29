@@ -18,6 +18,10 @@ class Enemy : public sf::Drawable
         void basehit();
         bool is_alive();
         bool is_finished();
+        
+        float get_travel();
+        float get_factor();
+        int get_value();
     
     private:
         float speed; // .1f is good value for example
@@ -28,6 +32,7 @@ class Enemy : public sf::Drawable
         float slow_factor = 1;
         float slow_duration = 0.f;
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+        float travel = 0;
 
         // object could be sprite but at this point circle will do fine
         sf::CircleShape object; 

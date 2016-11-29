@@ -16,8 +16,9 @@ Game::Game(map::Map* map)
 }
 
 Game::~Game(){
-    for(auto enemy : enemyList)
-        delete enemy;
+    for(auto &enemy : enemyList)
+        enemy = nullptr;
+        //delete enemy;
 }
 
 /*
@@ -31,8 +32,7 @@ void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
         if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() > timeBetweenSpawn + pauseTime) && enemies < numberOfEnemies){
-            Enemy* newEnemy = new Enemy(.5f, 1, 1, map->getEnemyRoute());
-            enemyList.push_back(newEnemy);
+            enemyList.push_back( std::unique_ptr<Enemy> (new Enemy(.5f, 1, 1, map->getEnemyRoute())) );
             enemies++;
             spawnTime.restart();
             pauseTime = 0;
@@ -46,9 +46,10 @@ void Game::addTower(Tower newTower)
 }
 */
 
-void Game::removeEnemy(std::vector<Enemy*>::iterator it)
+void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
 {
-    this->enemyList.erase(it);
+    *it = nullptr;
+    //this->enemyList.erase(it);
 }
 
 /*
@@ -129,7 +130,7 @@ int Game::getWave()
 */
 
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
-    for(auto enemy : enemyList)
+    for(auto &enemy : enemyList)
         rt.draw(*enemy);
 }
 

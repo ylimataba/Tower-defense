@@ -15,7 +15,7 @@ public:
     void build();
     void create_enemies(int numberOfEnemies, float timeBetweenSpawn);
     //void addTower(Tower newTower);
-    void removeEnemy(std::vector<Enemy*>::iterator it);
+    void removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it);
     //void removeTower(iterator it);
     void move_enemies();
     //void shoot_enemies();
@@ -50,7 +50,7 @@ private:
     sf::Clock pauseClock;
     float pauseTime = 0;
     int enemies = 0;
-    std::vector<Enemy*> enemyList;
+    std::vector< std::unique_ptr<Enemy> > enemyList;
     //std::vector<Tower*> towerList;
     map::Map* map;
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;

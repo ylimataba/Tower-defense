@@ -122,3 +122,17 @@ bool Enemy::is_finished()
         return false;
 }
 
+float Enemy::get_travel()//bonus
+{
+    return travel;
+}
+
+float Enemy::get_factor()//bonus
+{
+    return slow_factor;
+}
+
+int Enemy::get_value()//bonus
+{
+    return value;
+}
