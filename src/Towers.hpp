@@ -41,15 +41,15 @@ public:
     //sf::Vector2f getPos() {return position};
     //int getHp() {return hp};
     //float getRange() {return range};
-    virtual bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
-    virtual void shoot(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
+    //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0;
+    virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies) = 0;
+    bool isInRange(std::unique_ptr<Enemy>&);
 protected:
     sf::Vector2f position;
     int hp;
     float range;
     int dmg;
     float cooldown = 0;
-    std::unique_ptr<Enemy> *target = nullptr;
     virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
     sf::RectangleShape object;
     sf::Clock shootTime;
@@ -63,15 +63,15 @@ public:
         object.setFillColor(sf::Color::Black);
         cooldown = 3.f;
     };
-    bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
+    //Enemy* seekTarget(std::vector<Enemy*> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy> > &enemies);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
     };
 };
 
-
+/*
 class FreezeTower : public Tower
 {
 public:
@@ -98,7 +98,7 @@ private:
     int s_dmg;
     float s_rad;
 };
-/*
+
 class VolleyTower
 {
     //needs private members target2 and target 3
