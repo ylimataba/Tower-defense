@@ -35,6 +35,8 @@ public:
     bool getIsGamePaused();
  
     sf::Time getDelayTime();
+    
+    friend bool all_killed(std::vector< std::unique_ptr<Enemy> >);//checks if all unique_ptr are null
 
 private:
     /*
@@ -60,7 +62,5 @@ private:
     bool isBuildPhase;
     bool isGamePaused;
 };
-
-bool all_killed(std::vector< std::unique_ptr<Enemy> >);//checks if all unique_ptr are null
 
 #endif // GAME_H

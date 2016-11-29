@@ -28,6 +28,17 @@ void Game::build()
     this->current_wave = 0;
 }
 */
+
+bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-member friend function
+{
+    for(auto &enemy : enemyList) {
+        if(enemy != nullptr) {
+            return false;//return if a single object is found
+        }
+    }
+    return true;//reached if all are nullptr
+}
+
 void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
@@ -105,13 +116,13 @@ bool Game::round_completed()
 {
     if(enemyList.empty() && enemies > 0)
     //if(all_killed(enemyList) && enemies > 0)
-        /*
-        for(auto it = enemyList.begin(); it != enemyList.end(); it++)
-        {
-            enemyList.erase(it);
-        }
-        */
+    //{
+        //for(auto it = enemyList.begin(); it != enemyList.end(); it++)
+        //{
+        //    enemyList.erase(it);
+        //}  
         return true;
+    //}
     else
         return false;
 }
@@ -180,14 +191,4 @@ bool Game::getIsGamePaused()
 sf::Time Game::getDelayTime()
 {
     return delayTime;
-}
-
-bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-member function
-{
-    for(auto &enemy : enemyList) {
-        if(enemy != nullptr) {
-            return false;//return if a single object is found
-        }
-    }
-    return true;//reached if all are nullptr
 }
