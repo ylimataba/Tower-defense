@@ -97,12 +97,18 @@ void Window::drawAll()
 	//{
 		draw(*m_game);
 	//}
+
+	draw(m_mapMenu);
 }
 
 void Window::createMenus()
 {
 	m_sideMenu = gui::Menu(SIDE_MENU_SIZE, SIDE_MENU_POSITION, MENU_COLOR);
     m_bottomMenu = gui::Menu(BOTTOM_MENU_SIZE, BOTTOM_MENU_POSITION, MENU_COLOR);
+    m_mapMenu = gui::Menu(MAP_MENU_SIZE, MAP_MENU_POSITION, TRANSPARENT);
+
+    m_mapMenu.setOutlineColor(TRANSPARENT);
+    m_mapMenu.setOutlineThickness(5);
 }
 
 void Window::createButtons()
@@ -219,10 +225,14 @@ void Window::checkEvents()
 	    {
 	        switch (event.key.code)
 	        {
-	            // Escape key: exit
-	            //case sf::Keyboard::Escape:
-	            //    close();
-	            //    break;
+	            case sf::Keyboard::Escape:
+	            	if (m_isTowerBeingBuilt)
+	            	{
+		                m_towerBeingBuilt = gui::NONE;
+		                m_isTowerBeingBuilt = false;	
+	            	}
+
+	                break;
 
 	            default:
 	                break;
@@ -307,6 +317,20 @@ void Window::buttonPress()
 	}
 	else if (m_mapButton.contains(m_mousePosition))
 	{
+		if (m_game->getIsGamePaused())// && !(m_game->getIsMapSelection()))
+		{
+			m_textBarText.setText("Map selection");
+			m_game->setIsGamePaused(false);
+			m_mapMenu.color(TRANSPARENT);
+			m_mapMenu.setOutlineColor(TRANSPARENT);
+		}
+		else
+		{
+			m_game->setIsGamePaused(true);
+			m_mapMenu.color(MAP_MENU_COLOR);
+			m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
+			
+		}
 		m_mapButton.buttonPress();
 	}
 	else if (m_tower1Button.contains(m_mousePosition))

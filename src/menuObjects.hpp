@@ -23,6 +23,10 @@ static const int BOTTOM_MENU_WIDTH = WINDOW_WIDTH - SIDE_MENU_WIDTH;
 static const int BOTTOM_MENU_HEIGHT = WINDOW_HEIGHT - MAP_HEIGHT;
 static const sf::Vector2f BOTTOM_MENU_SIZE(BOTTOM_MENU_WIDTH, BOTTOM_MENU_HEIGHT);
 static const sf::Vector2f BOTTOM_MENU_POSITION(0, WINDOW_HEIGHT - BOTTOM_MENU_HEIGHT);
+static const int MAP_MENU_WIDTH = MAP_WIDTH / 2;
+static const int MAP_MENU_HEIGHT = MAP_HEIGHT / 2;
+static const sf::Vector2f MAP_MENU_SIZE(MAP_MENU_WIDTH, MAP_MENU_HEIGHT);
+static const sf::Vector2f MAP_MENU_POSITION(MAP_WIDTH / 4, MAP_HEIGHT / 4);
 
 // Buttons
 static const int BASE_BUTTON_HEIGHT = SIDE_MENU_HEIGHT * 0.04;
@@ -65,12 +69,14 @@ static const sf::Vector2f LIFE_BAR_POSITION(BASE_BAR_X_POSITION, WINDOW_HEIGHT -
 
 // Colors
 static const sf::Color MENU_COLOR(110, 110, 110, 200);
+static const sf::Color MAP_MENU_COLOR(110, 110, 110);
 static const sf::Color BASE_BUTTON_COLOR(221, 114, 10);
 static const sf::Color PRESSED_BASE_BUTTON_COLOR(221, 114, 10, 150);
 static const sf::Color TOWER_BUTTON_COLOR(101, 126, 35);
 static const sf::Color PRESSED_TOWER_BUTTON_COLOR(101, 126, 35, 150);
 static const sf::Color TEXT_BAR_COLOR(110, 110, 110);
 static const sf::Color LIFE_BAR_COLOR(255, 0, 0, 200);
+static const sf::Color TRANSPARENT(0, 0, 0, 0);
 
 namespace gui {
 
@@ -195,6 +201,7 @@ private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
+	bool m_isVisible;
 };
 
 class Text : public sf::Text

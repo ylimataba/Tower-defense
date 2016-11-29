@@ -187,6 +187,11 @@ Menu::Menu(const sf::Vector2f size, const sf::Vector2f position, const sf::Color
 	setFillColor(color);
 }
 
+Menu::~Menu()
+{
+
+}
+
 void Menu::color(sf::Color color)
 {
 	m_color = color;
@@ -197,11 +202,6 @@ void Menu::position(sf::Vector2f position)
 {
 	m_position = position;
 	setPosition(position);
-}
-
-Menu::~Menu()
-{
-
 }
 
 // Text //
@@ -217,8 +217,6 @@ Text::Text(std::string string, sf::Font& font, sf::RectangleShape* master)
 	float masterOriginX = master->getPosition().x + (master->getSize().x / 2);
 	float masterOriginY = master->getPosition().y;
 	m_position = sf::Vector2f(masterOriginX, masterOriginY);
-
-	std::cout << m_currentText << " @" << master->getPosition().x << "," << masterOriginY << std::endl;
 	
 	refreshPosition();
 }

@@ -45,6 +45,7 @@ private:
 
 	gui::Menu m_sideMenu;
 	gui::Menu m_bottomMenu;
+	gui::Menu m_mapMenu;
 
 	gui::NormalButton m_saveButton;
 	gui::NormalButton m_playButton;
