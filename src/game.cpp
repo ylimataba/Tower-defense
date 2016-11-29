@@ -50,8 +50,8 @@ void Game::addTower(sf::Vector2f position)
 
 void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
 {
-    *it = nullptr;
-    //this->enemyList.erase(it);
+    //*it = nullptr;
+    this->enemyList.erase(it);
 }
 
 
@@ -90,7 +90,8 @@ void Game::shoot_enemies()
 {
     for(auto tower : this->towerList)
     {
-        tower->shoot(enemyList);
+        if(!enemyList.empty())
+            tower->shoot(enemyList);
         //if enemy gets killed
         //this->money += reward;
         //this->removeEnemy(enemy);

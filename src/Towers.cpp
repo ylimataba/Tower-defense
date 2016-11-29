@@ -43,11 +43,20 @@ bool BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 
 void BasicTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
 {
-    if(cooldown <= 0) {                                                 //ready
+    if(!enemies.empty() && cooldown < shootTime.getElapsedTime().asSeconds()){
+        for(auto &enemy : enemies){
+            sf::Vector2f delta = enemy->get_position() - position;
+            if(sqrt(delta.x * delta.x + delta.y * delta.y) < range){
+                enemy->damage(dmg);
+                shootTime.restart();
+            }}}
+
+    /*
+    if(cooldown < shootTime.getElapsedTime().asSeconds()) {             //ready
         if((target == nullptr) || (*target == nullptr)) {               //no target at all
             if(seekTarget(enemies)) {
-                (*target)->damage(dmg/*, 0*/);
-                cooldown = 10;
+                (*target)->damage(dmg);
+                shootTime.restart();
                 return;
             }
             else {
@@ -57,8 +66,8 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
         else {                                                          //has some target
             if(calc_distance(position, (*target)->get_position()) > range) {   //out of range
                 if(seekTarget(enemies)) {                                      //new target found
-                    (*target)->damage(dmg/*, 0*/);
-                    cooldown = 10;
+                    (*target)->damage(dmg);
+                    shootTime.restart();
                     return;
                 }
                 else {                                                  //no targets found
@@ -68,8 +77,8 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
                 }
             }
             else {                                                      //in range
-                (*target)->damage(dmg/*, 0*/);
-                cooldown = 10;
+                (*target)->damage(dmg);
+                shootTime.restart();
                 return;
             }
         }
@@ -78,6 +87,7 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
         cooldown--;
         return;
     }
+    */
 }
 
 bool FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)

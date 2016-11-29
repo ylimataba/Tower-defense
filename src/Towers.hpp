@@ -48,10 +48,11 @@ protected:
     int hp;
     float range;
     int dmg;
-    int cooldown = 0;
+    float cooldown = 0;
     std::unique_ptr<Enemy> *target = nullptr;
     virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
     sf::RectangleShape object;
+    sf::Clock shootTime;
 };
 
 class BasicTower : public Tower {
@@ -60,6 +61,7 @@ public:
         object.setSize(sf::Vector2f(32.f, 32.f));
         object.setPosition(pos);
         object.setFillColor(sf::Color::Black);
+        cooldown = 3;
     };
     bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
