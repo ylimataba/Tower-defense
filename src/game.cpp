@@ -7,7 +7,7 @@ Game::Game(map::Map* map)
       isGamePaused(false)
 {
     this->map = map;
-    //health = 100;
+    health = 100;
     //money = 200;
     //rounds = 5;
     //waves = 4;
@@ -39,12 +39,14 @@ void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
         }
 }
 
-/*
-void Game::addTower(Tower newTower)
+void Game::addTower(sf::Vector2f position)
 {
-    this->towerList.push_back(newTower);
+    if(isBuildPhase){
+        Tower* newTower = new BasicTower(position);
+        this->towerList.push_back(newTower);
+        map->addTower(position);
+    }
 }
-*/
 
 void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
 {
@@ -52,12 +54,13 @@ void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
     //this->enemyList.erase(it);
 }
 
-/*
-void Game::removeTower(iterator it)
+
+void Game::removeTower(std::vector<Tower*>::iterator it)
 {
+    //map->removeTower(/*topLeftCornerOfTower*/);
     this->towerList.erase(it);
 }
-*/
+
 
 void Game::move_enemies()
 {
@@ -65,31 +68,34 @@ void Game::move_enemies()
     if(!isGamePaused){
         for(auto it = enemyList.begin(); it != enemyList.end(); it++)
         {
-            (*it)->move(deltaTime);
-            //if enemy achieves the goal
-            //this->health--;
-            //this->removeEnemy(enemy);
-            if(!((*it)->is_alive()) || (*it)->is_finished()){
-                removeEnemy(it);
-                if(enemyList.size() == 0)
-                    break;
+            if(*it != nullptr){
+                (*it)->move(deltaTime);
+                if((*it)->is_finished()){
+                    health--;
+                    removeEnemy(it);
+                    if(enemyList.empty())
+                        break;
+                }
+                else if(!(*it)->is_alive()){
+                    removeEnemy(it);
+                    if(enemyList.empty())
+                        break;
+                }
             }
         }
     }
 }
 
-/*
 void Game::shoot_enemies()
 {
     for(auto tower : this->towerList)
     {
-        tower.shoot();
+        tower->shoot(enemyList);
         //if enemy gets killed
         //this->money += reward;
         //this->removeEnemy(enemy);
     }
 }
-*/
 
 bool Game::round_completed()
 {
@@ -131,7 +137,10 @@ int Game::getWave()
 
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     for(auto &enemy : enemyList)
-        rt.draw(*enemy);
+        if(enemy != nullptr)
+            rt.draw(*enemy);
+    for(auto tower : towerList)
+        rt.draw(*tower);
 }
 
 void Game::setIsBuildPhase(bool setPhase)

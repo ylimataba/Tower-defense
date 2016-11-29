@@ -63,7 +63,7 @@ void Enemy::move(float deltaTime)
         if( std::abs(delta.x) <= 3.f && std::abs(delta.y) <= 3.f ){
             object.setPosition(new_position);
             route.erase(route.begin());
-        }
+        } 
         position = object.getPosition();
     }
     /*

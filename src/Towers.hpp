@@ -31,14 +31,13 @@ float calc_distance(sf::Vector2f tower, sf::Vector2f target);
 
 class Tower : public sf::Drawable {
 public:
-    Tower(int h, float r, int d, sf::Vector2f pos)
-    {
-        hp = h;
-        range = r;
-        dmg = d;
-        position.x = pos.x;
-        position.y = pos.y;
-    }
+    Tower(int h, float r, int d, sf::Vector2f pos) :
+        hp(h),
+        range(r),
+        dmg(d),
+        position(pos)
+    { };
+    virtual ~Tower() { };
     //sf::Vector2f getPos() {return position};
     //int getHp() {return hp};
     //float getRange() {return range};
@@ -51,14 +50,23 @@ protected:
     int dmg;
     int cooldown = 0;
     std::unique_ptr<Enemy> *target = nullptr;
-    //virtual void draw();
+    virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
+    sf::RectangleShape object;
 };
 
 class BasicTower : public Tower {
 public:
-    BasicTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) { }
-    virtual bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    virtual void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
+    BasicTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) {
+        object.setSize(sf::Vector2f(32.f, 32.f));
+        object.setPosition(pos);
+        object.setFillColor(sf::Color::Black);
+    };
+    bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
+private:
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
 };
 
 

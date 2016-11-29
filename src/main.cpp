@@ -32,6 +32,7 @@ int main()
             game.create_enemies(15, .5f);
 
             game.move_enemies(); 
+            game.shoot_enemies();
         }
 
         window.drawAll();

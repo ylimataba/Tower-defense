@@ -93,10 +93,10 @@ void Window::drawAll()
 	draw(m_towerPlacerRangeArea);
 	draw(m_towerPlacer);
 	
-	if (!(m_game->getIsBuildPhase()))
-	{
+	//if (!(m_game->getIsBuildPhase()))
+	//{
 		draw(*m_game);
-	}
+	//}
 }
 
 void Window::createMenus()
@@ -241,6 +241,7 @@ void Window::checkEvents()
 	 			{
 	 				case gui::TOWER1:
 	 					text = "Tower 1 placed on map " + text; 
+                                                m_game->addTower(tile);
 	 					break;
 	 				case gui::TOWER2:
 	 					text = "Tower 2 placed on map " + text;
