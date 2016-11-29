@@ -50,8 +50,8 @@ void Game::addTower(sf::Vector2f position)
 
 void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
 {
-    //*it = nullptr;
-    this->enemyList.erase(it);
+    *it = nullptr;
+    //this->enemyList.erase(it);
 }
 
 
