@@ -61,7 +61,7 @@ public:
         object.setSize(sf::Vector2f(32.f, 32.f));
         object.setPosition(pos);
         object.setFillColor(sf::Color::Black);
-        cooldown = 3;
+        cooldown = 3.f;
     };
     bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);

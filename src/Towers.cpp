@@ -19,6 +19,7 @@ bool BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
     sf::Vector2f pos;
     float d_cmp;
     float travel = 0; //for comparing distance that enemy has traveled,
+    target = nullptr;
     for(std::vector<std::unique_ptr<Enemy>>::iterator it = enemies.begin(); it != enemies.end(); it++) {
         if(*it != nullptr) {
             pos = (*it)->get_position();
@@ -43,15 +44,6 @@ bool BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 
 void BasicTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
 {
-    if(!enemies.empty() && cooldown < shootTime.getElapsedTime().asSeconds()){
-        for(auto &enemy : enemies){
-            sf::Vector2f delta = enemy->get_position() - position;
-            if(sqrt(delta.x * delta.x + delta.y * delta.y) < range){
-                enemy->damage(dmg);
-                shootTime.restart();
-            }}}
-
-    /*
     if(cooldown < shootTime.getElapsedTime().asSeconds()) {             //ready
         if((target == nullptr) || (*target == nullptr)) {               //no target at all
             if(seekTarget(enemies)) {
@@ -84,10 +76,9 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
         }
     }
     else {                                                              //not ready
-        cooldown--;
+        //cooldown--;
         return;
     }
-    */
 }
 
 bool FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
