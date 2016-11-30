@@ -30,6 +30,9 @@ void Game::build()
 
 bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-member friend function
 {
+    if(enemyList.empty()) {
+        return true;
+    }
     for(auto &enemy : enemyList) {
         if(enemy != nullptr) {
             return false;//return if a single object is found
@@ -96,15 +99,15 @@ void Game::shoot_enemies()
 
 bool Game::round_completed()
 {
-    if(enemyList.empty() && enemies > 0)
-    //if(all_killed(enemyList) && enemies > 0)
-    //{
-        //for(auto it = enemyList.begin(); it != enemyList.end(); it++)
-        //{
-        //    enemyList.erase(it);
-        //}  
+    //if(enemyList.empty() && enemies > 0)
+    if(all_killed(enemyList) && enemies > 0)
+    {
+        for(auto it = enemyList.begin(); it != enemyList.end(); it++)
+        {
+            enemyList.erase(it);
+        }  
         return true;
-    //}
+    }
     else
         return false;
 }

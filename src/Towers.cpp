@@ -7,12 +7,68 @@
 //lisää "virhetoleranssi" koordinaatteja  varten
 
 
+float calc_distance(sf::Vector2f tower, sf::Vector2f target) {
+    return sqrt(((tower.x - target.x)*(tower.x - target.x)) 
+            + (((tower.y - target.y))*((tower.y - target.y))));
+}
+
+
+/*
 bool Tower::isInRange(std::unique_ptr<Enemy> &enemy){
     sf::Vector2f delta = position - enemy->get_position();
     float distance = sqrt(delta.x * delta.x + delta.y * delta.y);
     return distance <= range;
 }
+*/
 
+std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
+{
+    std::unique_ptr<Enemy> *newtarget = nullptr;
+    float dist = range;
+    sf::Vector2f pos;
+    float d_cmp;
+    float travel = 0; //for comparing distance that enemy has traveled,
+    for(auto &enemy : enemies) {
+        if(enemy != nullptr) {
+            pos = enemy->get_position();
+            d_cmp = calc_distance(position, pos);
+            if(d_cmp < dist) {
+                newtarget = &enemy;//should point to unique_ptr
+                travel = enemy->get_travel();
+            }
+            else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
+                newtarget = &enemy;//should point to unique_ptr
+                travel = enemy->get_travel();
+            }
+        }
+    }
+    return newtarget;
+    /*
+    consider assignment by index here
+    */
+}
+
+void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
+{
+    if(cooldown < shootTime.getElapsedTime().asSeconds()) {
+        if((target == nullptr) or (*target == nullptr)) {
+            target = seekTarget(enemies);
+        }
+        if(target == nullptr) {
+            return; 
+        }
+        else {
+            (*target)->damage(dmg);
+            shootTime.restart();
+            return;
+        }
+    }
+    else {
+        return;
+    }
+}
+
+/*
 void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
 {
     if(cooldown < shootTime.getElapsedTime().asSeconds())
@@ -24,6 +80,9 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
                 break;
             }
 }
+*/
+
+
 /*
 bool FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 {//prioritize non-frozen
