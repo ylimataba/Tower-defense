@@ -17,8 +17,7 @@ Game::Game(map::Map* map)
 
 Game::~Game(){
     for(auto &enemy : enemyList)
-        enemy = nullptr;
-        //delete enemy;
+        enemy.reset(nullptr);
 }
 
 /*
@@ -28,6 +27,17 @@ void Game::build()
     this->current_wave = 0;
 }
 */
+
+bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-member friend function
+{
+    for(auto &enemy : enemyList) {
+        if(enemy != nullptr) {
+            return false;//return if a single object is found
+        }
+    }
+    return true;//reached if all are nullptr
+}
+
 void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
@@ -50,8 +60,7 @@ void Game::addTower(sf::Vector2f position)
 
 void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
 {
-    *it = nullptr;
-    //this->enemyList.erase(it);
+    this->enemyList.erase(it);
 }
 
 
@@ -65,43 +74,37 @@ void Game::removeTower(std::vector<Tower*>::iterator it)
 void Game::move_enemies()
 {
     float deltaTime = moveTime.restart().asSeconds();
-    if(!isGamePaused){
-        for(auto it = enemyList.begin(); it != enemyList.end(); it++)
-        {
-            if(*it != nullptr){
-                (*it)->move(deltaTime);
-                if((*it)->is_finished()){
+    if(!isGamePaused)
+        for(auto &enemy : enemyList) 
+            if(enemy != nullptr){
+                enemy->move(deltaTime);
+                if(enemy->is_finished()){
                     health--;
-                    removeEnemy(it);
-                    if(enemyList.empty())
-                        break;
+                    enemy.reset();
                 }
-                else if(!(*it)->is_alive()){
-                    removeEnemy(it);
-                    if(enemyList.empty())
-                        break;
-                }
+                else if(!enemy->is_alive())
+                    enemy.reset();
             }
-        }
-    }
 }
 
 void Game::shoot_enemies()
 {
-    for(auto tower : this->towerList)
-    {
-        if(!enemyList.empty())
+    if(!isGamePaused)
+        for(auto tower : this->towerList)
             tower->shoot(enemyList);
-        //if enemy gets killed
-        //this->money += reward;
-        //this->removeEnemy(enemy);
-    }
 }
 
 bool Game::round_completed()
 {
     if(enemyList.empty() && enemies > 0)
+    //if(all_killed(enemyList) && enemies > 0)
+    //{
+        //for(auto it = enemyList.begin(); it != enemyList.end(); it++)
+        //{
+        //    enemyList.erase(it);
+        //}  
         return true;
+    //}
     else
         return false;
 }

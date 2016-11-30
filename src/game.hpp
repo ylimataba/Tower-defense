@@ -26,6 +26,7 @@ public:
     //int getMoney();
     //int getRound();
     //int getWave();
+    
 
     void setIsBuildPhase(bool setPhase);
     bool getIsBuildPhase();
@@ -34,6 +35,8 @@ public:
     bool getIsGamePaused();
  
     sf::Time getDelayTime();
+    
+    friend bool all_killed(std::vector< std::unique_ptr<Enemy> >);//checks if all unique_ptr are null
 
 private:
     /*
