@@ -18,12 +18,14 @@ sf::Font gameFont(getFont());
 
 Window::Window(std::string title, map::Map *map, Game *game)
 	: sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
-	  m_mousePosition(0, 0),
+      m_mousePosition(0, 0),
 	  m_map(map),
 	  m_game(game),
 	  m_isTowerBeingBuilt(false),
 	  m_towerBeingBuilt(gui::NONE),
-	  m_towerPlacerRange(100)
+	  m_towerPlacerRange(100),
+      m_isMapBeingSelected(false),
+      m_currentMapNumber(1)
 {
 	//setVerticalSyncEnabled(true);
 
@@ -31,14 +33,14 @@ Window::Window(std::string title, map::Map *map, Game *game)
 	createButtons();
 	createBars();
 	createTexts();
-	createTowerPlacer();
+    createTowerPlacer();
 }
 
 Window::~Window()
 {
 	// delete all items: menus, buttons, bars
 
-	this->close();
+    this->close();
 }
 
 sf::Vector2f Window::getMousePosition()
@@ -106,6 +108,8 @@ void Window::createMenus()
 
     m_mapMenu.setOutlineColor(TRANSPARENT);
     m_mapMenu.setOutlineThickness(5);
+
+    m_mapMenu.loadTexture(1);
 }
 
 void Window::createButtons()
@@ -229,7 +233,37 @@ void Window::checkEvents()
 	            	}
 
 	                break;
+                case sf::Keyboard::Right:
+                        if (m_isMapBeingSelected)
+                        {
+                            int nextMapNumber = m_selectedMapNumber + 1;
+                            
+                            if (nextMapNumber > m_map->getNumberOfMaps())
+                            {
+                                nextMapNumber = 1;
+                            }
 
+                            m_selectedMapNumber = nextMapNumber;
+                            m_mapMenu.loadTexture(nextMapNumber);
+                            m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
+                        }
+                        break;
+                case sf::Keyboard::Left:
+                        if (m_isMapBeingSelected)
+                        {
+                            int nextMapNumber = m_selectedMapNumber - 1;
+
+                            if (nextMapNumber < 1)
+                            {
+                                nextMapNumber = m_map->getNumberOfMaps();
+                            }
+
+                            m_selectedMapNumber = nextMapNumber;
+                            m_mapMenu.loadTexture(nextMapNumber);
+                            m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
+                        }
+
+                    break;
 	            default:
 	                break;
 	        }
@@ -332,13 +366,14 @@ void Window::buttonPress()
 			m_game->setIsGamePaused(false);
 			m_mapMenu.color(TRANSPARENT);
 			m_mapMenu.setOutlineColor(TRANSPARENT);
+            m_isMapBeingSelected = false;
 		}
 		else
 		{
 			m_game->setIsGamePaused(true);
 			m_mapMenu.color(MAP_MENU_COLOR);
 			m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
-			
+			m_isMapBeingSelected = true;
 		}
 		m_mapButton.buttonPress();
 	}

@@ -204,6 +204,13 @@ void Menu::position(sf::Vector2f position)
 	setPosition(position);
 }
 
+void Menu::loadTexture(int mapNumber)
+{
+	m_texture.loadFromFile("../maps/map_" + std::to_string(mapNumber) + ".png");
+	sf::Texture* texture = &m_texture;
+	this->setTexture(texture);
+}
+
 // Text //
 
 Text::Text(std::string string, sf::Font& font, sf::RectangleShape* master)

@@ -61,12 +61,15 @@ private:
 	gui::TowerButton m_tower2Button;
 	gui::TowerButton m_tower3Button;
 
-	gui::Bar m_textBar;
 	gui::Bar m_lifeBar;
-
+	gui::Bar m_textBar;
 	gui::Text m_textBarText;
 
 	sf::Vector2f m_mousePosition;
+
+	bool m_isMapBeingSelected;
+	int m_currentMapNumber;
+	int m_selectedMapNumber;
 
 	bool m_isTowerBeingBuilt;
 	gui::Towers m_towerBeingBuilt;
