@@ -35,6 +35,8 @@ public:
     bool getIsGamePaused();
  
     sf::Time getDelayTime();
+    void setSpeed(int speedFactor);
+    int getSpeed() const;
     
     friend bool all_killed(std::vector< std::unique_ptr<Enemy> >);//checks if all unique_ptr are null
 
@@ -58,6 +60,7 @@ private:
     std::vector<Tower*> towerList;
     map::Map* map;
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+    int speed = 1;
 
     bool isBuildPhase;
     bool isGamePaused;
