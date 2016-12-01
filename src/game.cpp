@@ -98,7 +98,7 @@ void Game::shoot_enemies()
 {
     if(!isGamePaused)
         for(auto tower : this->towerList)
-            tower->shoot(enemyList, towerPause);
+            tower->shoot(enemyList, towerPause, speed);
 }
 
 bool Game::round_completed()

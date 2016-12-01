@@ -43,7 +43,7 @@ public:
     //float getRange() {return range};
     //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0; en tiedä mitä varten tää versio on, mut jätetään varmuuden vuoksi
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
-    virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies) = 0;
+    virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
     //bool isInRange(std::unique_ptr<Enemy>&);
 protected:
     sf::Vector2f position;
@@ -68,7 +68,7 @@ public:
     };
     //Enemy* seekTarget(std::vector<Enemy*> &enemies);
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy> > &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
@@ -86,7 +86,7 @@ public:
         cooldown = 3.f;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
