@@ -119,3 +119,8 @@ int Enemy::get_value()//bonus
 {
     return value;
 }
+
+float Enemy::get_slow_duration()
+{
+    return slow_duration;
+}
