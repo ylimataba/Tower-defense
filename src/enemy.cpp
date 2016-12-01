@@ -11,9 +11,8 @@ sf::Vector2f Enemy::get_position()
 
 void Enemy::move(float deltaTime, int speedFactor)
 {
-    float pixels = 10.f * speedFactor;
-    float factor = deltaTime + speed;
-    slow_duration -= deltaTime;
+    float factor = (deltaTime + speed) * 10.f * speedFactor;
+    slow_duration -= deltaTime * speedFactor;
     if(route.size() > 0)
     {
         sf::Vector2f new_position = route[0];
@@ -25,21 +24,21 @@ void Enemy::move(float deltaTime, int speedFactor)
         if(std::abs(delta.x) >= std::abs(delta.y)){
             if( delta.x > 0.f )
             {
-                object.move(pixels * factor, 0.f);
+                object.move(factor, 0.f);
             }
             else
             {
-                object.move(-pixels * factor, 0.f);
+                object.move(-factor, 0.f);
             }
         }
         else if(std::abs(delta.x) < std::abs(delta.y)){
             if( delta.y > 0.f )
             {
-                object.move(0.f, pixels * factor);
+                object.move(0.f, factor);
             }
             else
             {
-                object.move(0.f, -pixels * factor);
+                object.move(0.f, -factor);
             }
         }
         if( std::abs(delta.x) <= 3.f * speedFactor && std::abs(delta.y) <= 3.f * speedFactor ){
@@ -47,7 +46,7 @@ void Enemy::move(float deltaTime, int speedFactor)
             route.erase(route.begin());
         } 
         position = object.getPosition();
-        travel += pixels * factor;
+        travel += factor;
     }
     /*
     else
