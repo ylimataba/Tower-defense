@@ -46,11 +46,11 @@ bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-mem
 void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
-        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + pauseTime) && enemies < numberOfEnemies){
+        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && enemies < numberOfEnemies){
             enemyList.push_back( std::unique_ptr<Enemy> (new EasyEnemy(map->getEnemyRoute())) );
             enemies++;
             spawnTime.restart();
-            pauseTime = 0;
+            enemyPause = 0;
         }
 }
 
@@ -79,7 +79,7 @@ void Game::removeTower(std::vector<Tower*>::iterator it)
 void Game::move_enemies()
 {
     float deltaTime = moveTime.restart().asSeconds();
-    if(!isGamePaused)
+    if(!isGamePaused){
         for(auto &enemy : enemyList) 
             if(enemy != nullptr){
                 enemy->move(deltaTime, speed);
@@ -90,13 +90,15 @@ void Game::move_enemies()
                 else if(!enemy->is_alive())
                     enemy.reset();
             }
+        enemyList.erase(remove(enemyList.begin(), enemyList.end(), nullptr), enemyList.end());
+    }
 }
 
 void Game::shoot_enemies()
 {
     if(!isGamePaused)
         for(auto tower : this->towerList)
-            tower->shoot(enemyList);
+            tower->shoot(enemyList, towerPause);
 }
 
 bool Game::round_completed()
@@ -160,8 +162,10 @@ bool Game::getIsBuildPhase()
 
 void Game::setIsGamePaused(bool pauseState)
 {
-    if(!pauseState)
-        pauseTime += pauseClock.restart().asSeconds();
+    if(!pauseState){
+        enemyPause += pauseClock.restart().asSeconds();
+        towerPause = enemyPause;
+    }
     pauseClock.restart();
     isGamePaused = pauseState;
 }

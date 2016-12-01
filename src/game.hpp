@@ -54,7 +54,8 @@ private:
     sf::Clock spawnTime;
     sf::Clock moveTime;
     sf::Clock pauseClock;
-    float pauseTime = 0;
+    float enemyPause = 0;
+    float towerPause = 0;
     int enemies = 0;
     std::vector< std::unique_ptr<Enemy> > enemyList;
     std::vector<Tower*> towerList;
