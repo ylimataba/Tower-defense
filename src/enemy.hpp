@@ -26,6 +26,7 @@ class Enemy : public sf::Drawable
 
         float get_travel();
         float get_factor();
+        float get_slow_duration();
         int get_value();
         //void basehit();
     

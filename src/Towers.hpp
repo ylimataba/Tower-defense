@@ -43,7 +43,7 @@ public:
     //float getRange() {return range};
     //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0; en tiedä mitä varten tää versio on, mut jätetään varmuuden vuoksi
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
-    virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime) = 0;
+    virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies) = 0;
     //bool isInRange(std::unique_ptr<Enemy>&);
 protected:
     sf::Vector2f position;
@@ -68,7 +68,25 @@ public:
     };
     //Enemy* seekTarget(std::vector<Enemy*> &enemies);
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime);
+    void shoot(std::vector<std::unique_ptr<Enemy> > &enemies);
+private:
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
+};
+
+
+class FreezeTower : public Tower
+{
+public:
+    FreezeTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) {
+        object.setSize(sf::Vector2f(32.f, 32.f));
+        object.setPosition(pos);
+        object.setFillColor(sf::Color::Blue);
+        cooldown = 3.f;
+    };
+    std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
@@ -76,14 +94,6 @@ private:
 };
 
 /*
-class FreezeTower : public Tower
-{
-public:
-    FreezeTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) { }
-    virtual bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    virtual void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
-};
-
 class PrecisionTower : public Tower
 {
 public:

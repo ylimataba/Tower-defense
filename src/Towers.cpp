@@ -50,11 +50,11 @@ std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy
     }
 }
 
-void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime)
+void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
 {
 	std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime mod 1.12.2016 19:27
 
-    if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds()) {
+    if(cooldown < shootTime.getElapsedTime().asSeconds()) {
         if(target == nullptr) {
             target = seekTarget(enemies);
         }
@@ -74,7 +74,6 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pau
         else {
             (*target)->damage(dmg);
             shootTime.restart();
-            pauseTime = 0;
             return;
         }
     }
@@ -98,8 +97,56 @@ void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
 */
 
 
+
+std::unique_ptr<Enemy>* FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
+{
+    std::unique_ptr<Enemy> *newtarget = nullptr;		// definition 1.12.2016, continuation
+    float dist = range;
+    sf::Vector2f pos;
+    float s_duration = 30.0;
+    float d_cmp;
+    float travel = 0; //for comparing distance that enemy has traveled,
+    for(auto &enemy : enemies) {
+        if(enemy != nullptr) {
+            pos = enemy->get_position();
+            d_cmp = calc_distance(position, pos);
+            if(d_cmp <= range) {
+                if(enemy->get_slow_duration() < s_duration) {
+                    newtarget = &enemy;//should point to unique_ptr
+                    travel = enemy->get_travel();
+                    s_duration = enemy->get_slow_duration();
+                }                
+                else if(enemy->get_slow_duration() == s_duration) {//might be near-impossible
+                    if(d_cmp < dist) {
+                        newtarget = &enemy;//should point to unique_ptr
+                        travel = enemy->get_travel();
+                    }
+                    else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
+                        newtarget = &enemy;//should point to unique_ptr
+                        travel = enemy->get_travel();
+                    }
+                }
+            }
+            /*
+            if(d_cmp < dist) {
+                newtarget = &enemy;//should point to unique_ptr
+                travel = enemy->get_travel();
+            }
+            else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
+                newtarget = &enemy;//should point to unique_ptr
+                travel = enemy->get_travel();
+            }
+            */
+        }
+    }
+    if(newtarget != nullptr) {//maybe unnecessary if-else
+        return newtarget;
+    }
+    else {
+        return nullptr;
+    }
+}
 /*
-bool FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 {//prioritize non-frozen
     float dist = range;
     sf::Vector2f pos;
@@ -131,47 +178,41 @@ bool FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
         return true;
     }
 }
+*/
 
 void FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies)
 {
-    if(cooldown <= 0) {                                                 //ready
-        if((target == nullptr) || (*target == nullptr)) {               //no target at all
-            if(seekTarget(enemies)) {
-                (*target)->damage(dmg);
-                cooldown = 10;
-                return;
-            }
-            else {
-                return;
-            }
+	std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime continuity from "mod 1.12.2016 19:27"
+
+    if(cooldown < shootTime.getElapsedTime().asSeconds()) {
+        if(target == nullptr) {
+            target = seekTarget(enemies);
         }
-        else {                                                          //has some target
-            if(calc_distance(position, (*target)->get_position()) > range) {   //out of range
-                if(seekTarget(enemies)) {                                      //new target found
-                    (*target)->damage(dmg);
-                    cooldown = 10;
-                    return;
-                }
-                else {                                                  //no targets found
-                    target = nullptr;
-                    //DO NOT SET "*target" TO NULL!!!
-                    return;
-                }
-            }
-            else {                                                      //in range
-                (*target)->damage(dmg);
-                cooldown = 10;
-                return;
-            }
+        else if(*target == nullptr) {
+            target = seekTarget(enemies);
+        }
+        else if(calc_distance(position, (*target)->get_position()) > range) {
+            target = seekTarget(enemies);
+        }
+        
+        if(target == nullptr) {
+            return; 
+        }
+        else if(*target == nullptr) {
+            return;
+        }
+        else {
+            (*target)->damage(dmg);
+            shootTime.restart();
+            return;
         }
     }
-    else {                                                              //not ready
-        cooldown--;
+    else {
         return;
     }
 }
 
-
+/*
 bool PrecisionTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 {//aim for highest 'value' stat
     int val = 0;
