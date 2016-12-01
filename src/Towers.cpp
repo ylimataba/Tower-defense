@@ -7,7 +7,7 @@
 //lisää "virhetoleranssi" koordinaatteja  varten
 
 
-float calc_distance(sf::Vector2f tower, sf::Vector2f target) {
+float calc_distance(const sf::Vector2f tower, const sf::Vector2f target) {
     return sqrt(((tower.x - target.x)*(tower.x - target.x)) 
             + (((tower.y - target.y))*((tower.y - target.y))));
 }
@@ -42,20 +42,32 @@ std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy
             }
         }
     }
-    return newtarget;
-    /*
-    consider assignment by index here
-    */
+    if(newtarget != nullptr) {//maybe unnecessary if-else
+        return newtarget;
+    }
+    else {
+        return nullptr;
+    }
 }
 
 void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
 {
     if(cooldown < shootTime.getElapsedTime().asSeconds()) {
-        if((target == nullptr) or (*target == nullptr)) {
+        if(target == nullptr) {
             target = seekTarget(enemies);
         }
+        else if(*target == nullptr) {
+            target = seekTarget(enemies);
+        }
+        else if(calc_distance(position, (*target)->get_position()) > range) {
+            target = seekTarget(enemies);
+        }
+        
         if(target == nullptr) {
             return; 
+        }
+        else if(*target == nullptr) {
+            return;
         }
         else {
             (*target)->damage(dmg);
