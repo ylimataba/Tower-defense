@@ -23,7 +23,7 @@ int main()
         else
         {
             // TODO Saisko nämä yhteen funktioon
-            game.create_enemies(15, .5f);
+            game.create_enemies(5, .5f);
             game.move_enemies(); 
             game.shoot_enemies();
         }

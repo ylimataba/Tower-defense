@@ -49,13 +49,13 @@ class Enemy : public sf::Drawable
 
 class EasyEnemy : public Enemy {
 public:
-    EasyEnemy(std::vector<sf::Vector2f> route) : Enemy(0.5f, 1, 1, route) {
+    EasyEnemy(std::vector<sf::Vector2f> route) : Enemy(0.3f, 1, 1, route) {
         // set up circle
         object.setPosition(route[0]);
-        object.setRadius(10.f - 3);
+        object.setRadius(7.f);
         object.setOutlineThickness(3);
         object.setOutlineColor(sf::Color::Black);
-        object.setFillColor(sf::Color::White);
+        object.setFillColor(sf::Color::Red);
         object.setOrigin(10.f / 2, 10.f / 2);
     };
 
@@ -68,10 +68,29 @@ private:
 
 class NormalEnemy : public Enemy {
 public:
-    NormalEnemy(std::vector<sf::Vector2f> route) : Enemy(0.5f, 1, 1, route) {
+    NormalEnemy(std::vector<sf::Vector2f> route) : Enemy(0.5f, 2, 1, route) {
         // set up circle
         object.setPosition(route[0]);
         object.setRadius(10.f);
+        object.setOutlineThickness(3);
+        object.setOutlineColor(sf::Color::Black);
+        object.setFillColor(sf::Color::Blue);
+        object.setOrigin(10.f / 2, 10.f / 2);
+    };
+    
+    
+private:
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
+};
+
+class HardEnemy : public Enemy {
+public:
+    HardEnemy(std::vector<sf::Vector2f> route) : Enemy(0.6f, 3, 1, route) {
+        // set up circle
+        object.setPosition(route[0]);
+        object.setRadius(12.f);
         object.setOutlineThickness(3);
         object.setOutlineColor(sf::Color::Black);
         object.setFillColor(sf::Color::Black);
@@ -83,10 +102,5 @@ private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
     };
-};
-
-class hardEnemy : public Enemy
-{
-    
 };
 #endif
