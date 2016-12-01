@@ -69,7 +69,7 @@ static const sf::Vector2f LIFE_BAR_POSITION(BASE_BAR_X_POSITION, WINDOW_HEIGHT -
 
 // Colors
 static const sf::Color MENU_COLOR(110, 110, 110, 200);
-static const sf::Color MAP_MENU_COLOR(110, 110, 110);
+static const sf::Color MAP_MENU_COLOR(255, 255, 255, 255);
 static const sf::Color BASE_BUTTON_COLOR(221, 114, 10);
 static const sf::Color PRESSED_BASE_BUTTON_COLOR(221, 114, 10, 150);
 static const sf::Color TOWER_BUTTON_COLOR(101, 126, 35);
@@ -196,11 +196,13 @@ public:
 
 	void color(const sf::Color color);
 	void position(const sf::Vector2f);
+	void loadTexture(int mapNumber);
 
 private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
+	sf::Texture m_texture;
 	bool m_isVisible;
 };
 

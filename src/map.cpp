@@ -2,7 +2,7 @@
 
 namespace map {
 
-Map::Map(const std::string& filename) {
+Map::Map(const std::string& filename) : numberOfMaps(2) {
     map = new tmx::MapLoader(PATH_TO_MAPS);
     map->Load(filename);
 
@@ -62,6 +62,10 @@ void Map::removeTower(sf::Vector2f position){
                     layer.objects.erase(it);
                     break;
                 }
+}
+
+int Map::getNumberOfMaps(){
+    return numberOfMaps;
 }
 
 } // namespace map

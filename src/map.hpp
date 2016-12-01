@@ -16,10 +16,12 @@ class Map : public sf::Drawable {
         bool isCollision(std::vector<sf::Vector2f> collisionPoints);
         void addTower(sf::Vector2f position);
         void removeTower(sf::Vector2f position);
+        int getNumberOfMaps();
     private: 
         tmx::MapLoader* map;
         std::vector<sf::Vector2f> enemyRoute;
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+        const int numberOfMaps;
 
 };
 } // namespace map
