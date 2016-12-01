@@ -102,10 +102,6 @@ bool Game::round_completed()
     //if(enemyList.empty() && enemies > 0)
     if(all_killed(enemyList) && enemies > 0)
     {
-        for(auto it = enemyList.begin(); it != enemyList.end(); it++)
-        {
-            enemyList.erase(it);
-        }  
         return true;
     }
     else
