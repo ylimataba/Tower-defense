@@ -7,7 +7,7 @@
 int main()
 {
     map::Map map("map_1.tmx");
-
+    
     Game game(&map);
 
     Window window("Tower Defence", &map, &game);
@@ -20,17 +20,10 @@ int main()
         {
             window.updateTowerPlacer();
         }
-        /*
-        else if (game.getIsGamePaused())
-        {
-            // Game is paused
-            // TODO Even enemy spawn rate
-        }
-        */
         else
         {
+            // TODO Saisko nämä yhteen funktioon
             game.create_enemies(15, .5f);
-
             game.move_enemies(); 
             game.shoot_enemies();
         }

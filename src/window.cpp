@@ -93,10 +93,7 @@ void Window::drawAll()
 	draw(m_towerPlacerRangeArea);
 	draw(m_towerPlacer);
 	
-	//if (!(m_game->getIsBuildPhase()))
-	//{
-		draw(*m_game);
-	//}
+	draw(*m_game);
 
 	draw(m_mapMenu);
 }
@@ -188,7 +185,6 @@ bool Window::isCollision()
 	sf::Vector2f currentTilePosition = getCurrentMapTile();
 
 	std::vector<sf::Vector2f> collisionPoints;
-
 	collisionPoints.push_back(currentTilePosition);
 	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y + MAP_TILE_SIZE - 1));
 	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y));
@@ -251,7 +247,7 @@ void Window::checkEvents()
 	 			{
 	 				case gui::TOWER1:
 	 					text = "Tower 1 placed on map " + text; 
-                                                m_game->addTower(tile);
+                        m_game->addTower(tile);
 	 					break;
 	 				case gui::TOWER2:
 	 					text = "Tower 2 placed on map " + text;
@@ -313,11 +309,24 @@ void Window::buttonPress()
 	}
 	else if (m_speedButton.contains(m_mousePosition))
 	{
+		std::string speedButtonText = "SPEED";
+		int currentGameSpeed = m_game->getSpeed();
+		int newGameSpeed = 1;
+
+		if (currentGameSpeed < 4)
+		{
+			newGameSpeed =  currentGameSpeed * 2;
+			speedButtonText = std::to_string(newGameSpeed) + "x";
+		}
+
+		m_textBarText.setText("Game speed x" + std::to_string(newGameSpeed));
+		m_game->setSpeed(newGameSpeed);
+		m_speedButtonText.setText(speedButtonText);
 		m_speedButton.buttonPress();
 	}
 	else if (m_mapButton.contains(m_mousePosition))
 	{
-		if (m_game->getIsGamePaused())// && !(m_game->getIsMapSelection()))
+		if (m_game->getIsGamePaused())
 		{
 			m_textBarText.setText("Map selection");
 			m_game->setIsGamePaused(false);
