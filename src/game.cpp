@@ -18,6 +18,8 @@ Game::Game(map::Map* map)
 Game::~Game(){
     for(auto &enemy : enemyList)
         enemy.reset(nullptr);
+    for(auto &tower : towerList)
+        delete tower;
 }
 
 /*
@@ -44,8 +46,8 @@ bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-mem
 void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
-        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() > timeBetweenSpawn + pauseTime) && enemies < numberOfEnemies){
-            enemyList.push_back( std::unique_ptr<Enemy> (new Enemy(.5f, 1, 1, map->getEnemyRoute())) );
+        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + pauseTime) && enemies < numberOfEnemies){
+            enemyList.push_back( std::unique_ptr<Enemy> (new Enemy(.1f, 1, 1, map->getEnemyRoute())) );
             enemies++;
             spawnTime.restart();
             pauseTime = 0;
@@ -80,7 +82,7 @@ void Game::move_enemies()
     if(!isGamePaused)
         for(auto &enemy : enemyList) 
             if(enemy != nullptr){
-                enemy->move(deltaTime);
+                enemy->move(deltaTime, speed);
                 if(enemy->is_finished()){
                     health--;
                     enemy.reset();
@@ -172,4 +174,12 @@ bool Game::getIsGamePaused()
 sf::Time Game::getDelayTime()
 {
     return delayTime;
+}
+
+void Game::setSpeed(int speedFactor){
+    speed = speedFactor;
+}
+
+int Game::getSpeed() const{
+    return speed;
 }

@@ -11,7 +11,7 @@ class Enemy : public sf::Drawable
     public:
         Enemy(float s, int h, int v, std::vector<sf::Vector2f> r);
         ~Enemy();
-        void move(float deltaTime); // deltaTime = GameClock.restart().asSeconds();
+        void move(float deltaTime, int speedFactor); // deltaTime = GameClock.restart().asSeconds();
         sf::Vector2f get_position();
         void damage(int amount);
         void slow();
