@@ -3,25 +3,6 @@
 #include "enemy.hpp"
 
 
-Enemy::Enemy(float s, int h, int val, std::vector<sf::Vector2f> r)
-{
-    speed = s;
-    hp= h;
-    value = val;
-    position = r[0];
-    route = r;
-    
-    // set up circle
-    object.setPosition(position);
-    object.setRadius(10.f - 3);
-    object.setOutlineThickness(3);
-    object.setOutlineColor(sf::Color::Black);
-    object.setFillColor(sf::Color::White);
-    object.setOrigin(10.f / 2, 10.f / 2);
-}
-
-Enemy::~Enemy(){
-}
 
 sf::Vector2f Enemy::get_position()
 {
@@ -30,7 +11,6 @@ sf::Vector2f Enemy::get_position()
 
 void Enemy::move(float deltaTime, int speedFactor)
 {
-    float pixels = 10.f * speedFactor;
     float factor = deltaTime + speed;
     slow_duration -= deltaTime;
     if(route.size() > 0)
@@ -44,21 +24,21 @@ void Enemy::move(float deltaTime, int speedFactor)
         if(std::abs(delta.x) >= std::abs(delta.y)){
             if( delta.x > 0.f )
             {
-                object.move(pixels * factor, 0.f);
+                object.move(10.f * factor, 0.f);
             }
             else
             {
-                object.move(-pixels * factor, 0.f);
+                object.move(-10.f * factor, 0.f);
             }
         }
         else if(std::abs(delta.x) < std::abs(delta.y)){
             if( delta.y > 0.f )
             {
-                object.move(0.f, pixels * factor);
+                object.move(0.f, 10.f * factor);
             }
             else
             {
-                object.move(0.f, -pixels * factor);
+                object.move(0.f, -10.f * factor);
             }
         }
         if( std::abs(delta.x) <= 3.f && std::abs(delta.y) <= 3.f ){
@@ -66,7 +46,6 @@ void Enemy::move(float deltaTime, int speedFactor)
             route.erase(route.begin());
         } 
         position = object.getPosition();
-        travel += pixels * factor;
     }
     /*
     else

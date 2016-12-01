@@ -47,7 +47,7 @@ void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
         if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + pauseTime) && enemies < numberOfEnemies){
-            enemyList.push_back( std::unique_ptr<Enemy> (new Enemy(.1f, 1, 1, map->getEnemyRoute())) );
+            enemyList.push_back( std::unique_ptr<Enemy> (new EasyEnemy(map->getEnemyRoute())) );
             enemies++;
             spawnTime.restart();
             pauseTime = 0;
