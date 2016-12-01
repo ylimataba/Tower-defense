@@ -54,7 +54,7 @@ protected:
     virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
     sf::RectangleShape object;
     sf::Clock shootTime;
-    std::unique_ptr<Enemy> *target = nullptr;
+    //std::unique_ptr<Enemy> *target = nullptr;		removed 1.12.2016 19:27
     
 };
 

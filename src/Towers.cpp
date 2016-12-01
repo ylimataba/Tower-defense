@@ -23,7 +23,7 @@ bool Tower::isInRange(std::unique_ptr<Enemy> &enemy){
 
 std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 {
-    std::unique_ptr<Enemy> *newtarget = nullptr;
+    std::unique_ptr<Enemy> *newtarget = nullptr;		// definition 1.12.2016 19:27
     float dist = range;
     sf::Vector2f pos;
     float d_cmp;
@@ -52,6 +52,8 @@ std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy
 
 void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies)
 {
+	std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime mod 1.12.2016 19:27
+
     if(cooldown < shootTime.getElapsedTime().asSeconds()) {
         if(target == nullptr) {
             target = seekTarget(enemies);
