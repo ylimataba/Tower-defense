@@ -55,7 +55,7 @@ protected:
     sf::RectangleShape object;
     sf::Clock shootTime;
     //std::unique_ptr<Enemy> *target = nullptr;		removed 1.12.2016 19:27
-    
+    //int e_id = 0; for later
 };
 
 class BasicTower : public Tower {
@@ -93,27 +93,39 @@ private:
     };
 };
 
-/*
 class PrecisionTower : public Tower
 {
 public:
-    PrecisionTower(sf::Vector2f pos) : Tower(100, 120.0, 2, pos) { }
-    virtual bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    virtual void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
+    PrecisionTower(sf::Vector2f pos) : Tower(100, 120.0, 2, pos) {
+        object.setSize(sf::Vector2f(32.f, 32.f));
+        object.setPosition(pos);
+        object.setFillColor(sf::Color::Blue);
+        cooldown = 1.5;
+    }
+    std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
+private:
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
 };
 
 class BlastTower : public Tower
 {
 public:
     BlastTower(sf::Vector2f pos) : Tower(100, 50.0, 2, pos) { s_dmg = 1; s_rad = 8.0; }
-    virtual bool seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    virtual void shoot(std::vector<std::unique_ptr<Enemy>> &enemies);
+    std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
     int s_dmg;
     float s_rad;
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
 };
 
-class VolleyTower
+/*
+class VolleyTower, might just scrap this
 {
     //needs private members target2 and target 3
     //track least needed pointer ie. null or farthest etc.
