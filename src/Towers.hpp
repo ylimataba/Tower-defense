@@ -113,7 +113,7 @@ private:
 class BlastTower : public Tower
 {
 public:
-    BlastTower(sf::Vector2f pos) : Tower(100, 50.0, 2, pos) { s_dmg = 1; s_rad = 8.0; }
+    BlastTower(sf::Vector2f pos) : Tower(100, 70.0, 2, pos) { s_dmg = 1; s_rad = 25.0; }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:

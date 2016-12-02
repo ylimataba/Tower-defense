@@ -342,7 +342,7 @@ void BlastTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& paus
             (*target)->damage(dmg);
             for(auto &enemy : enemies) {
                 //splash/explosion damage to nearby enemies
-                if(calc_distance(position, (*target)->get_position()) <= s_rad) {
+                if(calc_distance(enemy->get_position(), (*target)->get_position()) <= s_rad) {
                     enemy->damage(s_dmg);
                 }
             }
