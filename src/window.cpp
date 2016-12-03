@@ -277,17 +277,19 @@ void Window::checkEvents()
  				sf::Vector2f tile = getCurrentMapTile();
 	 			std::string text = "@" + std::to_string(int(tile.x)) + "," + std::to_string(int(tile.y));
 
-	 			switch (m_towerBeingBuilt)
+	 			switch (m_towerBeingBuilt)//1=Basic, 2=Freeze, 3=Precision, 4=Blast
 	 			{
 	 				case gui::TOWER1:
 	 					text = "Tower 1 placed on map " + text; 
-                        m_game->addTower(tile);
+                        m_game->addTower(tile, 3);
 	 					break;
 	 				case gui::TOWER2:
 	 					text = "Tower 2 placed on map " + text;
+	 					m_game->addTower(tile, 2);
 	 					break;
 	 				case gui::TOWER3:
 	 					text = "Tower 3 placed on map " + text;
+	 					m_game->addTower(tile, 4);
 	 					break;
 	 				case gui::NONE:
 	 				default:
@@ -382,7 +384,7 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(50);
+			setTowerPlacerRange(120);
 			m_towerBeingBuilt = gui::TOWER1;
 			m_tower1Button.buttonPress();
 		}
@@ -392,7 +394,7 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(100);
+			setTowerPlacerRange(50);
 			m_towerBeingBuilt = gui::TOWER2;
 			m_tower2Button.buttonPress();
 		}
@@ -402,7 +404,7 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(150);
+			setTowerPlacerRange(70);
 			m_towerBeingBuilt = gui::TOWER3;
 			m_tower3Button.buttonPress();			
 		}

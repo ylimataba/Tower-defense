@@ -99,7 +99,7 @@ public:
     PrecisionTower(sf::Vector2f pos) : Tower(100, 120.0, 2, pos) {
         object.setSize(sf::Vector2f(32.f, 32.f));
         object.setPosition(pos);
-        object.setFillColor(sf::Color::Blue);
+        object.setFillColor(sf::Color::White);
         cooldown = 1.5;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -113,7 +113,15 @@ private:
 class BlastTower : public Tower
 {
 public:
-    BlastTower(sf::Vector2f pos) : Tower(100, 70.0, 2, pos) { s_dmg = 1; s_rad = 25.0; }
+    BlastTower(sf::Vector2f pos) : Tower(100, 70.0, 2, pos) {
+        object.setSize(sf::Vector2f(32.f, 32.f));
+        object.setPosition(pos);
+        object.setFillColor(sf::Color::Red);
+        cooldown = 3.f;
+        
+        s_dmg = 1;
+        s_rad = 25.0;
+    }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:

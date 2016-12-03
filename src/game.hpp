@@ -15,7 +15,7 @@ public:
     void build();
     void create_enemies(int numberOfEnemies, float timeBetweenSpawn);
     void removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it);
-    void addTower(sf::Vector2f position);
+    void addTower(sf::Vector2f position, int type);
     void removeEnemy(std::vector<Enemy*>::iterator it);
     void removeTower(std::vector<Tower*>::iterator it);
     void move_enemies();

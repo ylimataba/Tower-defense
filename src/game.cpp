@@ -56,12 +56,40 @@ void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
         }
 }
 
-void Game::addTower(sf::Vector2f position)
+void Game::addTower(sf::Vector2f position, int type)
 {
     if(isBuildPhase){
-        Tower* newTower = new BasicTower(position);
-        this->towerList.push_back(newTower);
-        map->addTower(position);
+        switch(type)
+        {
+            case 1:
+              {
+                Tower* newTower = new BasicTower(position);
+                this->towerList.push_back(newTower);
+                map->addTower(position);
+                break;
+              }
+            case 2:
+              {
+                Tower* newTower = new FreezeTower(position);
+                this->towerList.push_back(newTower);
+                map->addTower(position);
+                break;
+              }
+            case 3:
+              {
+                Tower* newTower = new PrecisionTower(position);
+                this->towerList.push_back(newTower);
+                map->addTower(position);
+                break;
+              }
+            case 4:
+              {
+                Tower* newTower = new BlastTower(position);
+                this->towerList.push_back(newTower);
+                map->addTower(position);
+                break;
+              }
+        }
     }
 }
 

@@ -204,6 +204,7 @@ void FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pau
         }
         else {
             (*target)->damage(dmg);
+            (*target)->slow();
             shootTime.restart();
             pauseTime = 0;
             return;
