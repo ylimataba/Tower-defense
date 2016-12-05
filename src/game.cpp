@@ -4,15 +4,11 @@
 Game::Game(map::Map* map)
     : delayTime(sf::milliseconds(1000 / 60)),
       isBuildPhase(true),
-      isGamePaused(false)
+      isGamePaused(false),
+      map(map)
 {
-    this->map = map;
     health = 100;
     //money = 200;
-    //rounds = 5;
-    //waves = 4;
-    //current_round = 0;
-    //current_wave = 0;
 }
 
 Game::~Game(){
@@ -22,32 +18,11 @@ Game::~Game(){
         delete tower;
 }
 
-/*
-void Game::build()
-{
-    this->current_round++;
-    this->current_wave = 0;
-}
-*/
-
-bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-member friend function
-{
-    if(enemyList.empty()) {
-        return true;
-    }
-    for(auto &enemy : enemyList) {
-        if(enemy != nullptr) {
-            return false;//return if a single object is found
-        }
-    }
-    return true;//reached if all are nullptr
-}
-
-void Game::create_enemies(std::string& enemyTypes, float timeBetweenSpawn)
+void Game::create_enemies(float timeBetweenSpawn)
 {
     if(!isGamePaused)
-        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && enemyTypes.size() > 0){
-            char type = enemyTypes[0];
+        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && !current_round.empty()){
+            char type = current_round[0];
             switch(type){
                 case 'A':
                     enemyList.push_back( std::unique_ptr<Enemy> (new EasyEnemy(map->getEnemyRoute())) );
@@ -59,7 +34,7 @@ void Game::create_enemies(std::string& enemyTypes, float timeBetweenSpawn)
                     enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute())) );
                     break;
             }
-            enemyTypes.erase(enemyTypes.begin());
+            current_round.erase(current_round.begin());
             enemies++;
             spawnTime.restart();
             enemyPause = 0;
@@ -103,11 +78,6 @@ void Game::addTower(sf::Vector2f position, int type)
     }
 }
 
-void Game::removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it)
-{
-    this->enemyList.erase(it);
-}
-
 
 void Game::removeTower(std::vector<Tower*>::iterator it)
 {
@@ -143,13 +113,37 @@ void Game::shoot_enemies()
 
 bool Game::round_completed()
 {
-    //if(enemyList.empty() && enemies > 0)
-    if(all_killed(enemyList) && enemies > 0)
-    {
+    if(enemyList.empty() && current_round.empty())
         return true;
-    }
     else
         return false;
+}
+
+bool Game::next_round()
+{
+    if(rounds.size() > 1){
+        rounds.erase(rounds.begin());
+        current_round = rounds[0];
+        enemies = 0;
+        setIsBuildPhase(true);
+        return true;
+    }
+    return false;
+}
+
+void Game::play()
+{
+    create_enemies(.5f);
+    move_enemies(); 
+    shoot_enemies();
+    if(round_completed())
+        next_round();
+}
+
+void Game::set_rounds(std::vector<std::string> rounds)
+{
+    this->rounds = rounds;
+    current_round = rounds[0];
 }
 
 /*
@@ -170,17 +164,8 @@ int Game::getMoney()
 {
     return this->money;
 }
-
-int Game::getRound()
-{
-    return this->current_round;
-}
-
-int Game::getWave()
-{
-    return this->current_wave;
-}
 */
+
 
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     for(auto &enemy : enemyList)

@@ -13,6 +13,10 @@ int main()
     // DELETE THIS FROM MAIN WHEN WAWES ARE READ FROM A FILE
     //example vector to be passed to create_enemies function
     std::string enemies = "AAAABBBBCCCC";
+    std::vector<std::string> rounds;
+    rounds.push_back(enemies);
+    rounds.push_back(enemies);
+    game.set_rounds(rounds);
 
     Window window("Tower Defence", &map, &game);
 
@@ -26,15 +30,7 @@ int main()
         }
         else
         {
-            // TODO Saisko nämä yhteen funktioon
-            game.create_enemies(enemies, .5f);
-            game.move_enemies(); 
-            game.shoot_enemies();
-        }
-        
-        if(game.round_completed())
-        {
-            game.setIsBuildPhase(true);
+            game.play();
         }
         
         window.drawAll();
