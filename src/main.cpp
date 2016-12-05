@@ -12,7 +12,7 @@ int main()
 
     // DELETE THIS FROM MAIN WHEN WAWES ARE READ FROM A FILE
     //example vector to be passed to create_enemies function
-    std::vector<char> enemies = {'A','A','A','A','B','B','B','B','C','C','C','C'};
+    std::string enemies = "AAAABBBBCCCC";
 
     Window window("Tower Defence", &map, &game);
 

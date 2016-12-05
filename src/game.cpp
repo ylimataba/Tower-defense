@@ -43,11 +43,11 @@ bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-mem
     return true;//reached if all are nullptr
 }
 
-void Game::create_enemies(std::vector<char>& listOfEnemies, float timeBetweenSpawn)
+void Game::create_enemies(std::string& enemyTypes, float timeBetweenSpawn)
 {
     if(!isGamePaused)
-        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && listOfEnemies.size() > 0){
-            char type = listOfEnemies[0];
+        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && enemyTypes.size() > 0){
+            char type = enemyTypes[0];
             switch(type){
                 case 'A':
                     enemyList.push_back( std::unique_ptr<Enemy> (new EasyEnemy(map->getEnemyRoute())) );
@@ -59,7 +59,7 @@ void Game::create_enemies(std::vector<char>& listOfEnemies, float timeBetweenSpa
                     enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute())) );
                     break;
             }
-            listOfEnemies.erase(listOfEnemies.begin());
+            enemyTypes.erase(enemyTypes.begin());
             enemies++;
             spawnTime.restart();
             enemyPause = 0;

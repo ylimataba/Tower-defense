@@ -13,7 +13,7 @@ public:
     Game(map::Map* map);
     ~Game();
     void build();
-    void create_enemies(std::vector<char>& listOfEnemies, float timeBetweenSpawn);
+    void create_enemies(std::string& enemyTypes, float timeBetweenSpawn);
     void removeEnemy(std::vector< std::unique_ptr<Enemy> >::iterator it);
     void addTower(sf::Vector2f position, int type);
     void removeEnemy(std::vector<Enemy*>::iterator it);
