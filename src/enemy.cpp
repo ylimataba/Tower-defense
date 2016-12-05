@@ -19,7 +19,7 @@ void Enemy::move(float deltaTime, int speedFactor)
         sf::Vector2f delta = new_position - get_position();
         if(this->slow_duration > 0)
         {
-            factor = factor/2;
+            factor = factor/5;
         }
         if(std::abs(delta.x) >= std::abs(delta.y)){
             if( delta.x > 0.f )
@@ -59,7 +59,7 @@ void Enemy::move(float deltaTime, int speedFactor)
 
 void Enemy::slow()
 {
-    this->slow_duration = 30.f;
+    this->slow_duration = 5.f;
 }
 
 void Enemy::damage(int amount)

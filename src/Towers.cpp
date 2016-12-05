@@ -110,7 +110,6 @@ void FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pau
 
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
-            (*target)->damage(dmg);
             (*target)->slow();
             shootTime.restart();
             pauseTime = 0;

@@ -31,7 +31,12 @@ int main()
             game.move_enemies(); 
             game.shoot_enemies();
         }
-
+        
+        if(game.round_completed())
+        {
+            game.setIsBuildPhase(true);
+        }
+        
         window.drawAll();
 
         window.display();
