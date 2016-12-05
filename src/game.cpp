@@ -43,13 +43,23 @@ bool all_killed(const std::vector< std::unique_ptr<Enemy> > &enemyList)//non-mem
     return true;//reached if all are nullptr
 }
 
-void Game::create_enemies(int numberOfEnemies, float timeBetweenSpawn)
+void Game::create_enemies(std::vector<char>& listOfEnemies, float timeBetweenSpawn)
 {
     if(!isGamePaused)
-        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && enemies < numberOfEnemies){
-            enemyList.push_back( std::unique_ptr<Enemy> (new EasyEnemy(map->getEnemyRoute())) );
-            enemyList.push_back( std::unique_ptr<Enemy> (new NormalEnemy(map->getEnemyRoute())) );
-            enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute())) );
+        if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && listOfEnemies.size() > 0){
+            char type = listOfEnemies[0];
+            switch(type){
+                case 'A':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new EasyEnemy(map->getEnemyRoute())) );
+                    break;
+                case 'B':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new NormalEnemy(map->getEnemyRoute())) );
+                    break;
+                case 'C':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute())) );
+                    break;
+            }
+            listOfEnemies.erase(listOfEnemies.begin());
             enemies++;
             spawnTime.restart();
             enemyPause = 0;
