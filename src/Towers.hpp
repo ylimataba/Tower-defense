@@ -44,7 +44,6 @@ public:
     //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0; en tiedä mitä varten tää versio on, mut jätetään varmuuden vuoksi
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
     virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
-    //bool isInRange(std::unique_ptr<Enemy>&);
 protected:
     sf::Vector2f position;
     int hp;
@@ -54,6 +53,9 @@ protected:
     virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
     sf::RectangleShape object;
     sf::Clock shootTime;
+    sf::Vector2f getCenter() const{
+        return position + sf::Vector2f(32.f, 32.f);
+    };
     //std::unique_ptr<Enemy> *target = nullptr;		removed 1.12.2016 19:27
     //int e_id = 0; for later
 };
@@ -66,7 +68,6 @@ public:
         object.setFillColor(sf::Color::Black);
         cooldown = 3.f;
     };
-    //Enemy* seekTarget(std::vector<Enemy*> &enemies);
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
 private:
