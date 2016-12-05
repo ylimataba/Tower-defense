@@ -35,7 +35,6 @@ class Enemy : public sf::Drawable
         float speed;        // .1f is good value for example
         int hp;
         int value;
-        sf::Vector2f position;
         std::vector<sf::Vector2f> route;
         float slow_factor = 1;
         float slow_duration = 0.f;
@@ -75,7 +74,7 @@ public:
         object.setOutlineThickness(3);
         object.setOutlineColor(sf::Color::Black);
         object.setFillColor(sf::Color::Blue);
-        object.setOrigin(10.f / 2, 10.f / 2);
+        object.setOrigin(13.f / 2, 13.f / 2);
     };
     
     
@@ -94,7 +93,7 @@ public:
         object.setOutlineThickness(3);
         object.setOutlineColor(sf::Color::Black);
         object.setFillColor(sf::Color::Black);
-        object.setOrigin(10.f / 2, 10.f / 2);
+        object.setOrigin(15.f / 2, 15.f / 2);
     };
     
     
