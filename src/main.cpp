@@ -12,7 +12,7 @@ int main()
 
     // DELETE THIS FROM MAIN WHEN WAWES ARE READ FROM A FILE
     //example vector to be passed to create_enemies function
-    std::string enemies = "AAAABBBBCCCC";
+    std::string enemies = "AAAAtBBBBtttCCCC";
     std::vector<std::string> rounds;
     rounds.push_back(enemies);
     rounds.push_back(enemies);

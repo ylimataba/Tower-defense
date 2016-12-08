@@ -22,6 +22,7 @@ void Game::create_enemies(float timeBetweenSpawn)
 {
     if(!isGamePaused)
         if((enemies == 0 || spawnTime.getElapsedTime().asSeconds() * speed > timeBetweenSpawn + enemyPause) && !current_round.empty()){
+        if(first_wave == true || (waveDelay.getElapsedTime().asSeconds() * speed > waveDelayTime + enemyPause)) {
             char type = current_round[0];
             switch(type){
                 case 'A':
@@ -33,11 +34,16 @@ void Game::create_enemies(float timeBetweenSpawn)
                 case 'C':
                     enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute())) );
                     break;
+                case 't':
+                    waveDelay.restart();
+                    first_wave = false;//inappropriate delay prevention
+                    break;
             }
             current_round.erase(current_round.begin());
             enemies++;
             spawnTime.restart();
             enemyPause = 0;
+        }
         }
 }
 
@@ -126,6 +132,7 @@ bool Game::next_round()
         current_round = rounds[0];
         enemies = 0;
         setIsBuildPhase(true);
+        first_wave = true;
         return true;
     }
     return false;

@@ -52,6 +52,10 @@ private:
     void shoot_enemies();
     bool next_round();
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+    
+    sf::Clock waveDelay;//for delays between waves
+    bool first_wave = true;//prevents delay at the start of the round (unless string starts with 't')
+    float waveDelayTime = 1.0;//seconds, stackable (ex. "AAAtttttB")
 };
 
 #endif // GAME_H
