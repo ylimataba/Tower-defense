@@ -62,9 +62,15 @@ void Enemy::slow()
     this->slow_duration = 5.f;
 }
 
-void Enemy::damage(int amount)
+int Enemy::damage(int amount)
 {
+    int points = 0;
+    if(this->hp >= amount)
+        points = amount;
+    else if (hp > 0)
+        points = this->hp;
     this->hp -= amount;
+    return points;
 }
 
 bool Enemy::is_alive()

@@ -1,5 +1,6 @@
 #include "game.hpp"
 
+sf::Font font(getFont());
 
 Game::Game(map::Map* map)
     : delayTime(sf::milliseconds(1000 / 60)),
@@ -9,6 +10,13 @@ Game::Game(map::Map* map)
 {
     health = 100;
     //money = 200;
+
+    score.setFont(font);
+    score.setPosition(10,600);
+    score.setString(std::to_string(points));
+    score.setCharacterSize(30);
+    score.setStyle(sf::Text::Bold);
+    score.setColor(sf::Color::White);
 }
 
 Game::~Game(){
@@ -114,7 +122,8 @@ void Game::shoot_enemies()
 {
     if(!isGamePaused)
         for(auto tower : this->towerList)
-            tower->shoot(enemyList, towerPause, speed);
+            points += tower->shoot(enemyList, towerPause, speed);
+    score.setString(std::to_string(points));
 }
 
 bool Game::round_completed()
@@ -180,6 +189,7 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
             rt.draw(*enemy);
     for(auto tower : towerList)
         rt.draw(*tower);
+    rt.draw(score);
 }
 
 void Game::setIsBuildPhase(bool setPhase)

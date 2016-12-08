@@ -43,7 +43,7 @@ public:
     //float getRange() {return range};
     //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0; en tiedä mitä varten tää versio on, mut jätetään varmuuden vuoksi
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
-    virtual void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
+    virtual int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
 protected:
     sf::Vector2f position;
     int hp;
@@ -69,7 +69,7 @@ public:
         cooldown = 3.f;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
+    int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
@@ -87,7 +87,7 @@ public:
         cooldown = 1.f;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
+    int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
@@ -104,7 +104,7 @@ public:
         cooldown = 1.5;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
+    int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(object);
@@ -124,7 +124,7 @@ public:
         s_rad = 25.0;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
-    void shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
+    int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
     int s_dmg;
     float s_rad;

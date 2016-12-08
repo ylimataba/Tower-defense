@@ -6,6 +6,8 @@
 #include "Towers.hpp"
 #include "map.hpp"
 
+extern sf::Font getFont();
+
 class Game : public sf::Drawable
 {
 
@@ -44,6 +46,8 @@ private:
     std::vector<Tower*> towerList;
     map::Map* map;
     int speed = 1;
+    int points = 0;
+    sf::Text score;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;

@@ -19,7 +19,7 @@ class Enemy : public sf::Drawable
         virtual sf::Vector2f get_position();
         virtual void move(float deltaTime, int speedFactor); // deltaTime = GameClock.restart().asSeconds();
         virtual void slow();
-        void damage(int amount);
+        int damage(int amount);
 
         bool is_alive();
         bool is_finished();

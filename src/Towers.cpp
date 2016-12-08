@@ -41,18 +41,19 @@ std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy
     }
 }
 
-void BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor)
+int BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor)
 {
+    int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime mod 1.12.2016 19:27
 
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
-            (*target)->damage(dmg);
+            points = (*target)->damage(dmg);
             shootTime.restart();
             pauseTime = 0;
-            return;
         }
     }
+    return points;
 }
 
 std::unique_ptr<Enemy>* FreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
@@ -104,8 +105,9 @@ std::unique_ptr<Enemy>* FreezeTower::seekTarget(std::vector<std::unique_ptr<Enem
     }
 }
 
-void FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
+int FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
 {
+    int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime continuity from "mod 1.12.2016 19:27"
 
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
@@ -113,9 +115,9 @@ void FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pau
             (*target)->slow();
             shootTime.restart();
             pauseTime = 0;
-            return;
         }
     }
+    return points;
 }
 
 
@@ -147,18 +149,19 @@ std::unique_ptr<Enemy>* PrecisionTower::seekTarget(std::vector<std::unique_ptr<E
     }
 }
 
-void PrecisionTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
+int PrecisionTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
 {
+    int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime continuity from "mod 1.12.2016 19:27"
 
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
-            (*target)->damage(dmg);
+            points = (*target)->damage(dmg);
             shootTime.restart();
             pauseTime = 0;
-            return;
         }
     }
+    return points;
 }
 
 /*
@@ -202,22 +205,23 @@ std::unique_ptr<Enemy>* BlastTower::seekTarget(std::vector<std::unique_ptr<Enemy
 }
 
 
-void BlastTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
+int BlastTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
 {
+    int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime continuity from "mod 1.12.2016 19:27"
 
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
-            (*target)->damage(dmg);
+            points = (*target)->damage(dmg);
             for(auto &enemy : enemies) {
                 //splash/explosion damage to nearby enemies
                 if(calc_distance(enemy->get_position(), (*target)->get_position()) <= s_rad) {
-                    enemy->damage(s_dmg);
+                    points += enemy->damage(s_dmg);
                 }
             }
             shootTime.restart();
             pauseTime = 0;
-            return;
         }
     }
+    return points;
 }
