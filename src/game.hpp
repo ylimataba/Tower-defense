@@ -15,6 +15,8 @@ public:
     Game(map::Map* map);
     ~Game();
     void addTower(sf::Vector2f position, int type);
+    bool isTower(sf::Vector2f position);
+    Tower* getTower(sf::Vector2f position);
     void removeTower(std::vector<Tower*>::iterator it);
     bool round_completed();
     void play();

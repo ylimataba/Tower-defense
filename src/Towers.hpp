@@ -38,7 +38,7 @@ public:
         position(pos)
     { };
     virtual ~Tower() { };
-    //sf::Vector2f getPos() {return position};
+    sf::Vector2f getPos() const {return position;};
     //int getHp() {return hp};
     //float getRange() {return range};
     //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0; en tiedä mitä varten tää versio on, mut jätetään varmuuden vuoksi

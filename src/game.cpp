@@ -91,6 +91,20 @@ void Game::addTower(sf::Vector2f position, int type)
         }
     }
 }
+bool Game::isTower(sf::Vector2f position){
+    auto tower = std::find_if(towerList.begin(), towerList.end(),
+            [position](Tower* item)
+            { return item->getPos() == position; });
+    return tower != towerList.end();
+}
+
+Tower* Game::getTower(sf::Vector2f position){
+    auto tower = std::find_if(towerList.begin(), towerList.end(),
+            [position](Tower* item)
+            { return item->getPos() == position; });
+    return *tower;
+}
+
 
 
 void Game::removeTower(std::vector<Tower*>::iterator it)
