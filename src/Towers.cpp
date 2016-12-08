@@ -12,6 +12,11 @@ float calc_distance(const sf::Vector2f tower, const sf::Vector2f target) {
             + (((tower.y - target.y))*((tower.y - target.y))));
 }
 
+void Tower::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+    if(showRange)
+        rt.draw(rangeObject);
+    rt.draw(object);
+}
 std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 {
     std::unique_ptr<Enemy> *newtarget = nullptr;		// definition 1.12.2016 19:27

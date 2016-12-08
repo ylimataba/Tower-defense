@@ -36,12 +36,17 @@ public:
         range(r),
         dmg(d),
         position(pos)
-    { };
+    {
+        rangeObject.setRadius(range);
+        rangeObject.setOrigin(range, range);
+        rangeObject.setPosition(getCenter());
+        rangeObject.setFillColor(sf::Color(255, 255, 255, 50));
+    };
     virtual ~Tower() { };
     sf::Vector2f getPos() const {return position;};
     //int getHp() {return hp};
     //float getRange() {return range};
-    //virtual Enemy* seekTarget(std::vector<Enemy*> &enemies) = 0; en tiedä mitä varten tää versio on, mut jätetään varmuuden vuoksi
+    void toggleRange(){if(showRange) showRange = false; else showRange = true;};
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
     virtual int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
 protected:
@@ -50,12 +55,14 @@ protected:
     float range;
     int dmg;
     float cooldown = 0;
-    virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
     sf::RectangleShape object;
     sf::Clock shootTime;
     sf::Vector2f getCenter() const{
-        return position + sf::Vector2f(32.f, 32.f);
+        return position + sf::Vector2f(16.f, 16.f);
     };
+    bool showRange = false;
+    sf::CircleShape rangeObject;
     //std::unique_ptr<Enemy> *target = nullptr;		removed 1.12.2016 19:27
     //int e_id = 0; for later
 };
@@ -70,10 +77,6 @@ public:
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
-private:
-    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
-        rt.draw(object);
-    };
 };
 
 
@@ -88,10 +91,6 @@ public:
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
-private:
-    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
-        rt.draw(object);
-    };
 };
 
 class PrecisionTower : public Tower
@@ -105,10 +104,6 @@ public:
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
-private:
-    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
-        rt.draw(object);
-    };
 };
 
 class BlastTower : public Tower
@@ -128,9 +123,6 @@ public:
 private:
     int s_dmg;
     float s_rad;
-    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
-        rt.draw(object);
-    };
 };
 
 /*

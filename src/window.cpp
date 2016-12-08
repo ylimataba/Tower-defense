@@ -307,6 +307,10 @@ void Window::checkEvents()
 	 			m_towerBeingBuilt = gui::NONE;
 	 			m_isTowerBeingBuilt = false;
 	 		}
+                        else if(m_game->isTower(getCurrentMapTile())){
+                            auto tower = m_game->getTower(getCurrentMapTile());
+                            tower->toggleRange();
+                        }
 
 	        buttonPress();
 	    }
