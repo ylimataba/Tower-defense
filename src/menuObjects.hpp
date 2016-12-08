@@ -56,6 +56,8 @@ static const sf::Vector2f TOWER_2_BUTTON_POSITION(TOWER_BUTTON_X_POSITION,
                                                   TOWER_BUTTON_Y_POSITION + 1 * (TOWER_BUTTON_HEIGHT + TOWER_BUTTON_SPACE));
 static const sf::Vector2f TOWER_3_BUTTON_POSITION(TOWER_BUTTON_X_POSITION,
                                                   TOWER_BUTTON_Y_POSITION + 2 * (TOWER_BUTTON_HEIGHT + TOWER_BUTTON_SPACE));
+static const sf::Vector2f TOWER_4_BUTTON_POSITION(TOWER_BUTTON_X_POSITION,
+                                                  TOWER_BUTTON_Y_POSITION + 3 * (TOWER_BUTTON_HEIGHT + TOWER_BUTTON_SPACE));
 
 // Bars
 static const int BASE_BAR_WIDTH = BOTTOM_MENU_WIDTH * 0.9;
@@ -85,7 +87,8 @@ enum Towers
 	NONE = 0,
 	TOWER1 = 1,
 	TOWER2 = 2,
-	TOWER3 = 3
+	TOWER3 = 3,
+    TOWER4 = 4
 };
 
 namespace button {

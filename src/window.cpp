@@ -87,6 +87,7 @@ void Window::drawAll()
 	draw(m_tower1Button);
 	draw(m_tower2Button);
 	draw(m_tower3Button);
+    draw(m_tower4Button);
 
 	draw(m_textBar);
 	draw(m_textBarText);
@@ -122,6 +123,7 @@ void Window::createButtons()
     m_tower1Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_1_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower2Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_2_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower3Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_3_BUTTON_POSITION, TOWER_BUTTON_COLOR);
+    m_tower4Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_4_BUTTON_POSITION, TOWER_BUTTON_COLOR);
 }
 
 void Window::createTexts()
@@ -281,7 +283,7 @@ void Window::checkEvents()
 	 			{
 	 				case gui::TOWER1:
 	 					text = "Tower 1 placed on map " + text; 
-                        m_game->addTower(tile, 3);
+                        m_game->addTower(tile, 1);
 	 					break;
 	 				case gui::TOWER2:
 	 					text = "Tower 2 placed on map " + text;
@@ -289,9 +291,13 @@ void Window::checkEvents()
 	 					break;
 	 				case gui::TOWER3:
 	 					text = "Tower 3 placed on map " + text;
-	 					m_game->addTower(tile, 4);
+	 					m_game->addTower(tile, 3);
 	 					break;
-	 				case gui::NONE:
+                    case gui::TOWER4:
+                        text = "Tower 4 placed on map " + text;
+                        m_game->addTower(tile, 4);
+                        break;
+                    case gui::NONE:
 	 				default:
 	 					text = "";
 	 					break;
@@ -409,6 +415,16 @@ void Window::buttonPress()
 			m_tower3Button.buttonPress();			
 		}
 	}
+    else if (m_tower4Button.contains(m_mousePosition))
+    {
+        if (m_game->getIsBuildPhase())
+        {
+            m_isTowerBeingBuilt = true;
+            setTowerPlacerRange(70);
+            m_towerBeingBuilt = gui::TOWER4;
+            m_tower4Button.buttonPress();
+        }
+    }
 }
 
 void Window::buttonRelease()
@@ -421,4 +437,5 @@ void Window::buttonRelease()
 	m_tower1Button.buttonUnPress();
 	m_tower2Button.buttonUnPress();
 	m_tower3Button.buttonUnPress();
+    m_tower4Button.buttonUnPress();
 }
