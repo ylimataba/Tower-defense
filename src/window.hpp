@@ -25,7 +25,6 @@ public:
 	void createTexts();
 	void createBars();
 	
-	void createTowerPlacer();
 	void updateTowerPlacer();
 	void setTowerPlacerRange(float newRange);
 	float getTowerPlacerRange();
@@ -75,10 +74,6 @@ private:
 
 	bool m_isTowerBeingBuilt;
 	gui::Towers m_towerBeingBuilt;
-
-	sf::RectangleShape m_towerPlacer;
-	sf::CircleShape m_towerPlacerRangeArea;
-	float m_towerPlacerRange;
 
         Tower* tower;
 };

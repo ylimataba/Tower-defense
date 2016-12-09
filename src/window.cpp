@@ -23,7 +23,6 @@ Window::Window(std::string title, map::Map *map, Game *game)
           m_game(game),
           m_isTowerBeingBuilt(false),
           m_towerBeingBuilt(gui::NONE),
-          m_towerPlacerRange(100),
           m_isMapBeingSelected(false),
           m_currentMapNumber(1)
 {
@@ -33,7 +32,6 @@ Window::Window(std::string title, map::Map *map, Game *game)
     createButtons();
     createBars();
     createTexts();
-    createTowerPlacer();
 }
 
 Window::~Window()
@@ -67,6 +65,8 @@ sf::Vector2f Window::getCurrentMapTile()
 void Window::drawAll()
 {
     clear();
+    if(m_game->getIsBuildPhase())
+        m_playButtonText.setText("PLAY");
 
     // TODO Create a container for all drawable objects
 
@@ -144,15 +144,6 @@ void Window::createBars()
     m_lifeBar = gui::Bar(LIFE_BAR_SIZE, LIFE_BAR_POSITION, LIFE_BAR_COLOR);	
 }
 
-void Window::createTowerPlacer()
-{
-    const sf::Vector2f sizeOfNewTower(MAP_TILE_SIZE, MAP_TILE_SIZE);
-    m_towerPlacer = sf::RectangleShape(sizeOfNewTower);
-    m_towerPlacer.setFillColor(sf::Color(200, 0, 0, 0));
-
-    m_towerPlacerRangeArea = sf::CircleShape(m_towerPlacerRange);
-    m_towerPlacerRangeArea.setFillColor(sf::Color(255, 255, 255, 0));
-}
 
 void Window::updateTowerPlacer()
 {
