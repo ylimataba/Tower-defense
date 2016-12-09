@@ -27,10 +27,18 @@ Game::Game(map::Map* map)
 
     round.setFont(font);
     round.setPosition(820,10);
-    round.setString("Round " + std::to_string(round_number));		//std::to_string(round));
+    round.setString("Round " + std::to_string(round_number));
     round.setCharacterSize(30);
     round.setStyle(sf::Text::Bold);
     round.setColor(sf::Color::White);
+
+
+    health_indicator.setFont(font);
+    health_indicator.setPosition(10,50);
+    health_indicator.setString(std::to_string(health));
+    health_indicator.setCharacterSize(30);
+    health_indicator.setStyle(sf::Text::Bold);
+    health_indicator.setColor(sf::Color::Red);
 
 }
 
@@ -116,7 +124,8 @@ void Game::move_enemies()
             if(enemy != nullptr){
                 enemy->move(deltaTime, speed);
                 if(enemy->is_finished()){
-                    health--;
+                    health -= enemy->get_hp();
+					health_indicator.setString(std::to_string(health));
                     enemy.reset();
                 }
                 else if(!enemy->is_alive()){
@@ -210,6 +219,7 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     rt.draw(score);
     rt.draw(cash);
 	rt.draw(round);
+	rt.draw(health_indicator);
 }
 
 void Game::setIsBuildPhase(bool setPhase)

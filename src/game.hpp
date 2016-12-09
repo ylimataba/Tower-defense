@@ -55,6 +55,7 @@ private:
     sf::Text score;
     sf::Text cash;
 	sf::Text round;
+	sf::Text health_indicator;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;

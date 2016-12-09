@@ -125,6 +125,11 @@ int Enemy::get_value()//bonus
     return value;
 }
 
+int Enemy::get_hp()
+{
+	return hp;
+}
+
 float Enemy::get_slow_duration()
 {
     return slow_duration;

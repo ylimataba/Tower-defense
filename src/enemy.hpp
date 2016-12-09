@@ -29,7 +29,7 @@ class Enemy : public sf::Drawable
         float get_factor();
         float get_slow_duration();
         int get_value();
-        
+        int get_hp();
         int get_index(); //for tower memory, to be implemented
         void set_index(int i); //alternative to setting with constructor, delete if not needed when indexing is ready
         
