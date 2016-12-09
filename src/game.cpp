@@ -8,6 +8,7 @@ Game::Game(map::Map* map)
       isGamePaused(false),
       map(map)
 {
+	gameOver = false;
     health = 100;
     money = 200;
 	round_number = 1;
@@ -39,6 +40,13 @@ Game::Game(map::Map* map)
     health_indicator.setCharacterSize(30);
     health_indicator.setStyle(sf::Text::Bold);
     health_indicator.setColor(sf::Color::Red);
+
+    game_over.setFont(font);
+    game_over.setPosition(300,200);
+    game_over.setString("GAME OVER!");
+    game_over.setCharacterSize(100);
+    game_over.setStyle(sf::Text::Bold);
+    game_over.setColor(sf::Color::Red);
 
 }
 
@@ -180,6 +188,8 @@ void Game::play()
     shoot_enemies();
     if(round_completed())
         next_round();
+	health_ok();
+	
 }
 
 void Game::set_rounds(std::vector<std::string> rounds)
@@ -189,15 +199,24 @@ void Game::set_rounds(std::vector<std::string> rounds)
 	round_number = 1;
 }
 
-/*
+
 bool Game::health_ok()
 {
-    if(this->health > 0)
+    if(this->health > 0){
+		gameOver = false;
         return true;
-    else
+	}
+
+    else{
+		gameOver = true;
         return false;
+	}
+
 }
 
+
+
+/*
 int Game::getHealth()
 {
     return this->health;
@@ -220,6 +239,8 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     rt.draw(cash);
 	rt.draw(round);
 	rt.draw(health_indicator);
+	if(gameOver)
+		rt.draw(game_over);
 }
 
 void Game::setIsBuildPhase(bool setPhase)

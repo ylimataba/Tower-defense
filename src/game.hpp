@@ -22,7 +22,7 @@ public:
     bool round_completed();
     void play();
     void set_rounds(std::vector<std::string> rounds);
-    //bool health_ok();
+    bool health_ok();
     //int getHealth();
     int getMoney();
     void setIsBuildPhase(bool setPhase);
@@ -33,8 +33,10 @@ public:
     void setSpeed(int speedFactor);
     int getSpeed() const;
 	void loadRoundsFromFile();
+	
 
 private:
+	bool gameOver;
 	int round_number;
     std::string current_round;
     int money;
@@ -56,6 +58,7 @@ private:
     sf::Text cash;
 	sf::Text round;
 	sf::Text health_indicator;
+	sf::Text game_over;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;

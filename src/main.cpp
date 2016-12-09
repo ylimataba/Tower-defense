@@ -46,7 +46,8 @@ int main()
         }
         else
         {
-            game.play();
+			if(game.health_ok())
+	            game.play();
         }
         
         window.drawAll();
