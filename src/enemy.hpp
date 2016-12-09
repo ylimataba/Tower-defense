@@ -9,11 +9,12 @@
 class Enemy : public sf::Drawable 
 {
     public:
-        Enemy(float s, int h, int v, std::vector<sf::Vector2f> r) :
+        Enemy(float s, int h, int v, std::vector<sf::Vector2f> r, int id) :
             speed(s),
             hp(h),
             value(v),
-            route(r)
+            route(r),
+            index(id)
             { };
         virtual ~Enemy() { };
         virtual sf::Vector2f get_position();
@@ -29,8 +30,8 @@ class Enemy : public sf::Drawable
         float get_slow_duration();
         int get_value();
         
-        //int get_index(); //for tower memory, to be implemented
-        //void set_index(int i); //alternative to setting with constructor, delete if not needed when indexing is ready
+        int get_index(); //for tower memory, to be implemented
+        void set_index(int i); //alternative to setting with constructor, delete if not needed when indexing is ready
         
         //void basehit();
     
@@ -44,7 +45,7 @@ class Enemy : public sf::Drawable
         float slow_duration = 0.f;
         virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
         float travel = 0;
-        //int index; //for tower memory, to be implemented
+        int index; //for tower memory, to be implemented
 
         // object could be sprite but at this point circle will do fine
         sf::CircleShape object; 
@@ -53,7 +54,7 @@ class Enemy : public sf::Drawable
 
 class EasyEnemy : public Enemy {
 public:
-    EasyEnemy(std::vector<sf::Vector2f> route) : Enemy(0.3f, 1, 1, route) {
+    EasyEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.3f, 1, 1, route, id) {
         // set up circle
         object.setRadius(7.f);
         object.setOutlineThickness(3);
@@ -72,7 +73,7 @@ private:
 
 class NormalEnemy : public Enemy {
 public:
-    NormalEnemy(std::vector<sf::Vector2f> route) : Enemy(0.5f, 2, 1, route) {
+    NormalEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 2, 1, route, id) {
         // set up circle
         object.setRadius(10.f);
         object.setOutlineThickness(3);
@@ -91,7 +92,7 @@ private:
 
 class HardEnemy : public Enemy {
 public:
-    HardEnemy(std::vector<sf::Vector2f> route) : Enemy(0.6f, 3, 1, route) {
+    HardEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.6f, 3, 1, route, id) {
         // set up circle
         object.setRadius(12.f);
         object.setOutlineThickness(3);

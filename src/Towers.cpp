@@ -26,14 +26,22 @@ std::unique_ptr<Enemy>* BasicTower::seekTarget(std::vector<std::unique_ptr<Enemy
     float travel = 0; //for comparing distance that enemy has traveled,
     for(auto &enemy : enemies) {
         if(enemy != nullptr) {
+            if(enemy->get_index() == e_id) {
+                if(calc_distance(getCenter(), enemy->get_position()) <= range) {    
+                    newtarget = &enemy;
+                    return newtarget;
+                }    
+            }
             pos = enemy->get_position();
             d_cmp = calc_distance(getCenter(), pos);
             if(d_cmp < dist) {
                 newtarget = &enemy;//should point to unique_ptr
+                dist = d_cmp;
                 travel = enemy->get_travel();
             }
             else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
                 newtarget = &enemy;//should point to unique_ptr
+                dist = d_cmp;
                 travel = enemy->get_travel();
             }
         }
@@ -78,15 +86,20 @@ std::unique_ptr<Enemy>* FreezeTower::seekTarget(std::vector<std::unique_ptr<Enem
                     newtarget = &enemy;//should point to unique_ptr
                     travel = enemy->get_travel();
                     s_duration = enemy->get_slow_duration();
+                    dist = d_cmp;
                 }                
                 else if(enemy->get_slow_duration() == s_duration) {//might be near-impossible
                     if(d_cmp < dist) {
                         newtarget = &enemy;//should point to unique_ptr
                         travel = enemy->get_travel();
+                        s_duration = enemy->get_slow_duration();
+                        dist = d_cmp;
                     }
                     else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
                         newtarget = &enemy;//should point to unique_ptr
                         travel = enemy->get_travel();
+                        s_duration = enemy->get_slow_duration();
+                        dist = d_cmp;
                     }
                 }
             }
@@ -125,6 +138,10 @@ std::unique_ptr<Enemy>* PrecisionTower::seekTarget(std::vector<std::unique_ptr<E
     for(auto &enemy : enemies) {
         if(enemy != nullptr) {
             if(calc_distance(getCenter(), enemy->get_position()) <= range) {
+                if(enemy->get_index() == e_id) {
+                    newtarget = &enemy;
+                    return newtarget;
+                }
                 if(enemy->get_value() > value) {
                     newtarget = &enemy;//should point to unique_ptr
                     travel = enemy->get_travel();
@@ -169,14 +186,22 @@ std::unique_ptr<Enemy>* BlastTower::seekTarget(std::vector<std::unique_ptr<Enemy
     float travel = 0; //for comparing distance that enemy has traveled,
     for(auto &enemy : enemies) {
         if(enemy != nullptr) {
+            if(enemy->get_index() == e_id) {
+                if(calc_distance(getCenter(), enemy->get_position()) <= range) {    
+                    newtarget = &enemy;
+                    return newtarget;
+                }    
+            }
             pos = enemy->get_position();
             d_cmp = calc_distance(getCenter(), pos);
             if(d_cmp < dist) {
                 newtarget = &enemy;//should point to unique_ptr
+                dist = d_cmp;
                 travel = enemy->get_travel();
             }
             else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
                 newtarget = &enemy;//should point to unique_ptr
+                dist = d_cmp;
                 travel = enemy->get_travel();
             }
         }
@@ -230,6 +255,7 @@ std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr
                     newtarget = &enemy;//should point to unique_ptr
                     travel = enemy->get_travel();
                     s_duration = enemy->get_slow_duration();
+                    dist = d_cmp;
                 }                
                 else if(enemy->get_slow_duration() == s_duration) {//might be near-impossible
                     if(d_cmp < dist) {
@@ -237,12 +263,16 @@ std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr
                         target2 = newtarget;
                         newtarget = &enemy;//should point to unique_ptr
                         travel = enemy->get_travel();
+                        s_duration = enemy->get_slow_duration();
+                        dist = d_cmp;
                     }
                     else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
                         target3 = target2;
                         target2 = newtarget;
                         newtarget = &enemy;//should point to unique_ptr
                         travel = enemy->get_travel();
+                        s_duration = enemy->get_slow_duration();
+                        dist = d_cmp;
                     }
                 }
             }

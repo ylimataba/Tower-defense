@@ -49,12 +49,14 @@ public:
     void toggleRange(){if(showRange) showRange = false; else showRange = true;};
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
     virtual int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
+    int get_cost() {return cost;}
 protected:
     sf::Vector2f position;
     int hp;
     float range;
     int dmg;
     float cooldown = 0;
+    int cost;
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
     sf::RectangleShape object;
     sf::Clock shootTime;
@@ -64,7 +66,7 @@ protected:
     bool showRange = false;
     sf::CircleShape rangeObject;
     //std::unique_ptr<Enemy> *target = nullptr;		removed 1.12.2016 19:27
-    //int e_id = 0; for later
+    int e_id = -1;
 };
 
 class BasicTower : public Tower {
@@ -74,6 +76,7 @@ public:
         object.setPosition(pos);
         object.setFillColor(sf::Color::Black);
         cooldown = 1.0f;
+        cost = 50;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
@@ -88,6 +91,7 @@ public:
         object.setPosition(pos);
         object.setFillColor(sf::Color::Blue);
         cooldown = 1.0f;
+        cost = 50;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
@@ -101,6 +105,7 @@ public:
         object.setPosition(pos);
         object.setFillColor(sf::Color::White);
         cooldown = 1.5;
+        cost = 200;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
@@ -114,6 +119,7 @@ public:
         object.setPosition(pos);
         object.setFillColor(sf::Color::Red);
         cooldown = 3.f;
+        cost = 200;
         
         s_dmg = 1;
         s_rad = 25.0;
@@ -133,6 +139,7 @@ public:
         object.setPosition(pos);
         object.setFillColor(sf::Color::Cyan);
         cooldown = 1.f;
+        cost = 200;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
