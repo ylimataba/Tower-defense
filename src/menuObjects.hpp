@@ -85,10 +85,7 @@ namespace gui {
 enum Towers
 {
 	NONE = 0,
-	TOWER1 = 1,
-	TOWER2 = 2,
-	TOWER3 = 3,
-    TOWER4 = 4
+	TOWER = 1,
 };
 
 namespace button {

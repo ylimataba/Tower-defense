@@ -254,23 +254,8 @@ void Window::checkEvents()
 
                 switch (m_towerBeingBuilt)//1=Basic, 2=Freeze, 3=Precision, 4=Blast
                 {
-                    case gui::TOWER1:
-                        text = "Tower 1 placed on map " + text; 
-                        m_game->addTower(tower);
-                        tower = nullptr;
-                        break;
-                    case gui::TOWER2:
-                        text = "Tower 2 placed on map " + text;
-                        m_game->addTower(tower);
-                        tower = nullptr;
-                        break;
-                    case gui::TOWER3:
-                        text = "Tower 3 placed on map " + text;
-                        m_game->addTower(tower);
-                        tower = nullptr;
-                        break;
-                    case gui::TOWER4:
-                        text = "Tower 4 placed on map " + text;
+                    case gui::TOWER:
+                        text = "Tower placed on map " + text; 
                         m_game->addTower(tower);
                         tower = nullptr;
                         break;
@@ -285,8 +270,8 @@ void Window::checkEvents()
                 m_isTowerBeingBuilt = false;
             }
             else if(m_game->isTower(getCurrentMapTile())){
-                auto tower = m_game->getTower(getCurrentMapTile());
-                tower->toggleRange();
+                auto t = m_game->getTower(getCurrentMapTile());
+                t->toggleRange();
             }
 
             buttonPress();
@@ -370,40 +355,64 @@ void Window::buttonPress()
     {
         if (m_game->getIsBuildPhase())
         {
-            m_isTowerBeingBuilt = true;
             tower = new BasicTower();
-            m_towerBeingBuilt = gui::TOWER1;
-            m_tower1Button.buttonPress();
+            if(m_game->getMoney() >= tower->get_cost()){
+                m_isTowerBeingBuilt = true;
+                m_towerBeingBuilt = gui::TOWER;
+                m_tower1Button.buttonPress();
+            }
+            else{
+                delete tower;
+                tower = nullptr;
+            }
         }
     }
     else if (m_tower2Button.contains(m_mousePosition))
     {
         if (m_game->getIsBuildPhase())
         {
-            m_isTowerBeingBuilt = true;
             tower = new FreezeTower();
-            m_towerBeingBuilt = gui::TOWER2;
-            m_tower2Button.buttonPress();
+            if(m_game->getMoney() >= tower->get_cost()){
+                m_isTowerBeingBuilt = true;
+                m_towerBeingBuilt = gui::TOWER;
+                m_tower1Button.buttonPress();
+            }
+            else{
+                delete tower;
+                tower = nullptr;
+            }
         }
     }
     else if (m_tower3Button.contains(m_mousePosition))
     {
         if (m_game->getIsBuildPhase())
         {
-            m_isTowerBeingBuilt = true;
             tower = new PrecisionTower();
-            m_towerBeingBuilt = gui::TOWER3;
-            m_tower3Button.buttonPress();			
+            if(m_game->getMoney() >= tower->get_cost()){
+                m_isTowerBeingBuilt = true;
+                m_towerBeingBuilt = gui::TOWER;
+                m_tower1Button.buttonPress();
+            }
+            else{
+                delete tower;
+                tower = nullptr;
+            }
         }
     }
     else if (m_tower4Button.contains(m_mousePosition))
     {
         if (m_game->getIsBuildPhase())
         {
-            m_isTowerBeingBuilt = true;
             tower = new BlastTower();
-            m_towerBeingBuilt = gui::TOWER4;
-            m_tower4Button.buttonPress();
+            if(m_game->getMoney() >= tower->get_cost()){
+                m_isTowerBeingBuilt = true;
+                m_towerBeingBuilt = gui::TOWER;
+                m_tower1Button.buttonPress();
+            }
+            else{
+                delete tower;
+                tower = nullptr;
+            }
         }
     }
 }
