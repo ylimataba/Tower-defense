@@ -9,7 +9,7 @@ Game::Game(map::Map* map)
       map(map)
 {
     health = 100;
-    //money = 200;
+    money = 200;
 
     score.setFont(font);
     score.setPosition(10,600);
@@ -17,6 +17,13 @@ Game::Game(map::Map* map)
     score.setCharacterSize(30);
     score.setStyle(sf::Text::Bold);
     score.setColor(sf::Color::White);
+    
+    cash.setFont(font);
+    cash.setPosition(10,10);
+    cash.setString(std::to_string(money));
+    cash.setCharacterSize(30);
+    cash.setStyle(sf::Text::Bold);
+    cash.setColor(sf::Color::Yellow);
 }
 
 Game::~Game(){
@@ -57,7 +64,7 @@ void Game::create_enemies(float timeBetweenSpawn)
 
 void Game::addTower(sf::Vector2f position, int type)
 {
-    if(isBuildPhase){
+    if(isBuildPhase && money > 0){
         switch(type)
         {
             case 1:
@@ -65,6 +72,8 @@ void Game::addTower(sf::Vector2f position, int type)
                 Tower* newTower = new BasicTower(position);
                 this->towerList.push_back(newTower);
                 map->addTower(position);
+                money -= 100;
+                cash.setString(std::to_string(money));
                 break;
               }
             case 2:
@@ -72,6 +81,8 @@ void Game::addTower(sf::Vector2f position, int type)
                 Tower* newTower = new FreezeTower(position);
                 this->towerList.push_back(newTower);
                 map->addTower(position);
+                money -= 200;
+                cash.setString(std::to_string(money));
                 break;
               }
             case 3:
@@ -79,6 +90,8 @@ void Game::addTower(sf::Vector2f position, int type)
                 Tower* newTower = new PrecisionTower(position);
                 this->towerList.push_back(newTower);
                 map->addTower(position);
+                money -= 300;
+                cash.setString(std::to_string(money));
                 break;
               }
             case 4:
@@ -86,6 +99,8 @@ void Game::addTower(sf::Vector2f position, int type)
                 Tower* newTower = new BlastTower(position);
                 this->towerList.push_back(newTower);
                 map->addTower(position);
+                money -= 500;
+                cash.setString(std::to_string(money));
                 break;
               }
         }
@@ -189,12 +204,12 @@ int Game::getHealth()
 {
     return this->health;
 }
-
+*/
 int Game::getMoney()
 {
     return this->money;
 }
-*/
+
 
 
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
@@ -204,6 +219,7 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     for(auto tower : towerList)
         rt.draw(*tower);
     rt.draw(score);
+    rt.draw(cash);
 }
 
 void Game::setIsBuildPhase(bool setPhase)

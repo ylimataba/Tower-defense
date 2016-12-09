@@ -23,7 +23,7 @@ public:
     void set_rounds(std::vector<std::string> rounds);
     //bool health_ok();
     //int getHealth();
-    //int getMoney();
+    int getMoney();
     void setIsBuildPhase(bool setPhase);
     bool getIsBuildPhase();
     void setIsGamePaused(bool pauseState);
@@ -34,7 +34,7 @@ public:
 
 private:
     std::string current_round;
-    //int money;
+    int money;
     int health;
     sf::Clock gameTime;
     const sf::Time delayTime;
@@ -50,6 +50,7 @@ private:
     int speed = 1;
     int points = 0;
     sf::Text score;
+    sf::Text cash;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;
