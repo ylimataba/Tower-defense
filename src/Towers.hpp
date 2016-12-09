@@ -31,12 +31,12 @@ float calc_distance(sf::Vector2f tower, sf::Vector2f target);
 
 class Tower : public sf::Drawable {
 public:
-    Tower(int h, float r, int d, sf::Vector2f pos) :
+    Tower(int h, float r, int d) :
         hp(h),
         range(r),
-        dmg(d),
-        position(pos)
+        dmg(d)
     {
+        position = sf::Vector2f(0,0);
         rangeObject.setRadius(range);
         rangeObject.setOrigin(range, range);
         rangeObject.setPosition(getCenter());
@@ -46,6 +46,7 @@ public:
     sf::Vector2f getPos() const {return position;};
     //int getHp() {return hp};
     //float getRange() {return range};
+    void setPosition(sf::Vector2f pos){ position = pos; object.setPosition(pos); rangeObject.setPosition(getCenter());};
     void toggleRange(){if(showRange) showRange = false; else showRange = true;};
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
     virtual int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
@@ -63,7 +64,7 @@ protected:
     sf::Vector2f getCenter() const{
         return position + sf::Vector2f(16.f, 16.f);
     };
-    bool showRange = false;
+    bool showRange = true;
     sf::CircleShape rangeObject;
     //std::unique_ptr<Enemy> *target = nullptr;		removed 1.12.2016 19:27
     int e_id = -1;
@@ -71,9 +72,8 @@ protected:
 
 class BasicTower : public Tower {
 public:
-    BasicTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) {
+    BasicTower() : Tower(100, 50.0, 1) {
         object.setSize(sf::Vector2f(32.f, 32.f));
-        object.setPosition(pos);
         object.setFillColor(sf::Color::Black);
         cooldown = 1.0f;
         cost = 50;
@@ -86,9 +86,8 @@ public:
 class FreezeTower : public Tower
 {
 public:
-    FreezeTower(sf::Vector2f pos) : Tower(100, 50.0, 1, pos) {
+    FreezeTower() : Tower(100, 50.0, 1) {
         object.setSize(sf::Vector2f(32.f, 32.f));
-        object.setPosition(pos);
         object.setFillColor(sf::Color::Blue);
         cooldown = 1.0f;
         cost = 50;
@@ -100,9 +99,8 @@ public:
 class PrecisionTower : public Tower
 {
 public:
-    PrecisionTower(sf::Vector2f pos) : Tower(100, 120.0, 2, pos) {
+    PrecisionTower() : Tower(100, 120.0, 2) {
         object.setSize(sf::Vector2f(32.f, 32.f));
-        object.setPosition(pos);
         object.setFillColor(sf::Color::White);
         cooldown = 1.5;
         cost = 200;
@@ -114,9 +112,8 @@ public:
 class BlastTower : public Tower
 {
 public:
-    BlastTower(sf::Vector2f pos) : Tower(100, 70.0, 2, pos) {
+    BlastTower() : Tower(100, 70.0, 2) {
         object.setSize(sf::Vector2f(32.f, 32.f));
-        object.setPosition(pos);
         object.setFillColor(sf::Color::Red);
         cooldown = 3.f;
         cost = 200;
@@ -134,9 +131,8 @@ private:
 class MultiFreezeTower : public Tower
 {
 public:
-    MultiFreezeTower(sf::Vector2f pos) : Tower(100, 90.0, 0, pos) {
+    MultiFreezeTower() : Tower(100, 90.0, 0) {
         object.setSize(sf::Vector2f(32.f, 32.f));
-        object.setPosition(pos);
         object.setFillColor(sf::Color::Cyan);
         cooldown = 1.f;
         cost = 200;

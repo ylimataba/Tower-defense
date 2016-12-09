@@ -14,7 +14,7 @@ class Game : public sf::Drawable
 public:
     Game(map::Map* map);
     ~Game();
-    void addTower(sf::Vector2f position, int type);
+    void addTower(Tower* tower);
     bool isTower(sf::Vector2f position);
     Tower* getTower(sf::Vector2f position);
     void removeTower(std::vector<Tower*>::iterator it);

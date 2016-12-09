@@ -65,66 +65,17 @@ void Game::create_enemies(float timeBetweenSpawn)
         }
 }
 
-void Game::addTower(sf::Vector2f position, int type)
+void Game::addTower(Tower* tower)
 {
-    if(isBuildPhase && money > 0){
-        switch(type)
-        {
-            case 1:
-              {
-                if (money >= 50)
-                {
-                    Tower* newTower = new BasicTower(position);
-                    this->towerList.push_back(newTower);
-                    map->addTower(position);
-                    money -= 50;
-                    cash.setString(std::to_string(money));
-                    break;
-                }
-                break;
-              }
-            case 2:
-              {
-                if (money >= 50)
-                {
-                    Tower* newTower = new FreezeTower(position);
-                    this->towerList.push_back(newTower);
-                    map->addTower(position);
-                    money -= 50;
-                    cash.setString(std::to_string(money));
-                    break;
-                }
-                break;
-              }
-            case 3:
-              {
-                if (money >= 200)
-                {
-                    Tower* newTower = new PrecisionTower(position);
-                    this->towerList.push_back(newTower);
-                    map->addTower(position);
-                    money -= 200;
-                    cash.setString(std::to_string(money));
-                    break;
-                }
-                break;
-              }
-            case 4:
-              {
-                if (money >= 200)
-                {
-                    Tower* newTower = new BlastTower(position);
-                    this->towerList.push_back(newTower);
-                    map->addTower(position);
-                    money -= 200;
-                    cash.setString(std::to_string(money));
-                    break;
-                }
-                break;
-              }
-        }
+    if(isBuildPhase && money >= tower->get_cost()){
+        money -= tower->get_cost();
+        tower->toggleRange();
+        towerList.push_back(tower);
+        cash.setString(std::to_string(money));
     }
+    else delete tower;
 }
+
 bool Game::isTower(sf::Vector2f position){
     auto tower = std::find_if(towerList.begin(), towerList.end(),
             [position](Tower* item)
@@ -159,8 +110,11 @@ void Game::move_enemies()
                     health--;
                     enemy.reset();
                 }
-                else if(!enemy->is_alive())
+                else if(!enemy->is_alive()){
+                    money += enemy->get_value();
+                    cash.setString(std::to_string(money));
                     enemy.reset();
+                }
             }
         enemyList.erase(remove(enemyList.begin(), enemyList.end(), nullptr), enemyList.end());
     }
@@ -171,12 +125,9 @@ void Game::shoot_enemies()
     if(!isGamePaused)
         for(auto tower : this->towerList)
         {
-            int tmp = tower->shoot(enemyList, towerPause, speed);
-            points += tmp;
-            money += tmp * 2;
+            points = tower->shoot(enemyList, towerPause, speed);
         }
     score.setString(std::to_string(points));
-    cash.setString(std::to_string(money));
 }
 
 bool Game::round_completed()

@@ -4,6 +4,7 @@
 #include "menuObjects.hpp"
 #include "map.hpp"
 #include "game.hpp"
+#include "Towers.hpp"
 #include <SFML/Window.hpp>
 #include <cstddef>
 
@@ -78,6 +79,8 @@ private:
 	sf::RectangleShape m_towerPlacer;
 	sf::CircleShape m_towerPlacerRangeArea;
 	float m_towerPlacerRange;
+
+        Tower* tower;
 };
 
 #endif // TOWER_DEFENCE_SRC_WINDOW_HPP

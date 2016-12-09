@@ -9,36 +9,36 @@
 
 sf::Font getFont()
 {
-	sf::Font font;
-	font.loadFromFile("../Calibri.ttf");
-	return font;
+    sf::Font font;
+    font.loadFromFile("../Calibri.ttf");
+    return font;
 }
 
 sf::Font gameFont(getFont());
 
 Window::Window(std::string title, map::Map *map, Game *game)
 	: sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
-      m_mousePosition(0, 0),
-	  m_map(map),
-	  m_game(game),
-	  m_isTowerBeingBuilt(false),
-	  m_towerBeingBuilt(gui::NONE),
-	  m_towerPlacerRange(100),
-      m_isMapBeingSelected(false),
-      m_currentMapNumber(1)
+          m_mousePosition(0, 0),
+          m_map(map),
+          m_game(game),
+          m_isTowerBeingBuilt(false),
+          m_towerBeingBuilt(gui::NONE),
+          m_towerPlacerRange(100),
+          m_isMapBeingSelected(false),
+          m_currentMapNumber(1)
 {
-	//setVerticalSyncEnabled(true);
+    //setVerticalSyncEnabled(true);
 
-	createMenus();
-	createButtons();
-	createBars();
-	createTexts();
+    createMenus();
+    createButtons();
+    createBars();
+    createTexts();
     createTowerPlacer();
 }
 
 Window::~Window()
 {
-	// delete all items: menus, buttons, bars
+    // delete all items: menus, buttons, bars
 
     this->close();
 }
@@ -56,54 +56,56 @@ sf::Vector2f Window::getMousePosition()
 
 sf::Vector2f Window::getCurrentMapTile()
 {
-	getMousePosition();
+    getMousePosition();
 
-	float tileX = int(m_mousePosition.x / MAP_TILE_SIZE) * MAP_TILE_SIZE;
-	float tileY = int(m_mousePosition.y / MAP_TILE_SIZE) * MAP_TILE_SIZE;
+    float tileX = int(m_mousePosition.x / MAP_TILE_SIZE) * MAP_TILE_SIZE;
+    float tileY = int(m_mousePosition.y / MAP_TILE_SIZE) * MAP_TILE_SIZE;
 
-	return sf::Vector2f(tileX, tileY);
+    return sf::Vector2f(tileX, tileY);
 }
 
 void Window::drawAll()
 {
-	clear();
+    clear();
 
-	// TODO Create a container for all drawable objects
+    // TODO Create a container for all drawable objects
 
-	draw(*m_map);
+    draw(*m_map);
 
-	draw(m_sideMenu);
-	draw(m_bottomMenu);
+    draw(m_sideMenu);
+    draw(m_bottomMenu);
 
-	draw(m_saveButton);
-	draw(m_saveButtonText);
-	draw(m_playButton);
-	draw(m_playButtonText);
-	draw(m_speedButton);
-	draw(m_speedButtonText);
-	draw(m_mapButton);
-	draw(m_mapButtonText);
+    draw(m_saveButton);
+    draw(m_saveButtonText);
+    draw(m_playButton);
+    draw(m_playButtonText);
+    draw(m_speedButton);
+    draw(m_speedButtonText);
+    draw(m_mapButton);
+    draw(m_mapButtonText);
 
-	draw(m_tower1Button);
-	draw(m_tower2Button);
-	draw(m_tower3Button);
+    draw(m_tower1Button);
+    draw(m_tower2Button);
+    draw(m_tower3Button);
     draw(m_tower4Button);
 
-	draw(m_textBar);
-	draw(m_textBarText);
-	draw(m_lifeBar);
+    draw(m_textBar);
+    draw(m_textBarText);
+    draw(m_lifeBar);
 
-	draw(m_towerPlacerRangeArea);
-	draw(m_towerPlacer);
-	
-	draw(*m_game);
+    //draw(m_towerPlacerRangeArea);
+    //draw(m_towerPlacer);
+    if (tower != nullptr && m_isTowerBeingBuilt && isInGameArea() && !isCollision())
+        draw(*tower);
+    
+    draw(*m_game);
 
-	draw(m_mapMenu);
+    draw(m_mapMenu);
 }
 
 void Window::createMenus()
 {
-	m_sideMenu = gui::Menu(SIDE_MENU_SIZE, SIDE_MENU_POSITION, MENU_COLOR);
+    m_sideMenu = gui::Menu(SIDE_MENU_SIZE, SIDE_MENU_POSITION, MENU_COLOR);
     m_bottomMenu = gui::Menu(BOTTOM_MENU_SIZE, BOTTOM_MENU_POSITION, MENU_COLOR);
     m_mapMenu = gui::Menu(MAP_MENU_SIZE, MAP_MENU_POSITION, TRANSPARENT);
 
@@ -128,12 +130,12 @@ void Window::createButtons()
 
 void Window::createTexts()
 {
-	m_saveButtonText = gui::Text("SAVE", gameFont, &m_saveButton);
-	m_playButtonText = gui::Text("PLAY", gameFont, &m_playButton);
-	m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
-	m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
+    m_saveButtonText = gui::Text("SAVE", gameFont, &m_saveButton);
+    m_playButtonText = gui::Text("PLAY", gameFont, &m_playButton);
+    m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
+    m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
 
-	m_textBarText = gui::Text("This is the information bar for the game", gameFont, &m_textBar);
+    m_textBarText = gui::Text("This is the information bar for the game", gameFont, &m_textBar);
 }
 
 void Window::createBars()
@@ -144,287 +146,262 @@ void Window::createBars()
 
 void Window::createTowerPlacer()
 {
-	const sf::Vector2f sizeOfNewTower(MAP_TILE_SIZE, MAP_TILE_SIZE);
-	m_towerPlacer = sf::RectangleShape(sizeOfNewTower);
-	m_towerPlacer.setFillColor(sf::Color(200, 0, 0, 0));
+    const sf::Vector2f sizeOfNewTower(MAP_TILE_SIZE, MAP_TILE_SIZE);
+    m_towerPlacer = sf::RectangleShape(sizeOfNewTower);
+    m_towerPlacer.setFillColor(sf::Color(200, 0, 0, 0));
 
-	m_towerPlacerRangeArea = sf::CircleShape(m_towerPlacerRange);
-	m_towerPlacerRangeArea.setFillColor(sf::Color(255, 255, 255, 0));
+    m_towerPlacerRangeArea = sf::CircleShape(m_towerPlacerRange);
+    m_towerPlacerRangeArea.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
 void Window::updateTowerPlacer()
 {
-	std::uint8_t alpha = 0;
-
-	if (m_isTowerBeingBuilt && isInGameArea() && !isCollision())
-	{
-		alpha = 100;
-	
-		sf::Vector2f currentTile = getCurrentMapTile();
-
-		float offset = getTowerPlacerRange() - (MAP_TILE_SIZE / 2);
-
-		float x = currentTile.x - offset;
-		float y = currentTile.y - offset;
-
-		m_towerPlacer.setPosition(currentTile);
-		m_towerPlacerRangeArea.setPosition(x, y);
-	}
-	
-	m_towerPlacer.setFillColor(sf::Color(200, 0, 0, alpha));
-	m_towerPlacerRangeArea.setFillColor(sf::Color(255, 255, 255, alpha / 2));
-}
-
-void Window::setTowerPlacerRange(float newRange)
-{
-	m_towerPlacerRange = newRange;
-	m_towerPlacerRangeArea.setRadius(newRange);
-}
-
-float Window::getTowerPlacerRange()
-{
-	return m_towerPlacerRange;
+    if(tower != nullptr)
+        tower->setPosition(getCurrentMapTile());
 }
 
 bool Window::isCollision()
 {
-	sf::Vector2f currentTilePosition = getCurrentMapTile();
+    sf::Vector2f currentTilePosition = getCurrentMapTile();
 
-	std::vector<sf::Vector2f> collisionPoints;
-	collisionPoints.push_back(currentTilePosition);
-	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y + MAP_TILE_SIZE - 1));
-	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y));
-	collisionPoints.push_back(sf::Vector2f(currentTilePosition.x, currentTilePosition.y + MAP_TILE_SIZE - 1));
+    std::vector<sf::Vector2f> collisionPoints;
+    collisionPoints.push_back(currentTilePosition);
+    collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y + MAP_TILE_SIZE - 1));
+    collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y));
+    collisionPoints.push_back(sf::Vector2f(currentTilePosition.x, currentTilePosition.y + MAP_TILE_SIZE - 1));
 
-	return m_map->isCollision(collisionPoints);
+    return m_map->isCollision(collisionPoints);
 }
 
 bool Window::isInGameArea()
 {
-	getMousePosition();
+    getMousePosition();
 
-	if ((m_mousePosition.x > 0) && (m_mousePosition.x < MAP_WIDTH) &&
-		(m_mousePosition.y > 0) && (m_mousePosition.y < MAP_HEIGHT))
-	{
-		return true;
-	}
+    if ((m_mousePosition.x > 0) && (m_mousePosition.x < MAP_WIDTH) &&
+        (m_mousePosition.y > 0) && (m_mousePosition.y < MAP_HEIGHT))
+    {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 void Window::checkEvents()
 {
-	// Process events
-	sf::Event event;
+    // Process events
+    sf::Event event;
 
-	while (pollEvent(event))
-	{
-	    // Close window: exit
-	    if (event.type == sf::Event::Closed)	    	
-	        close();
+    while (pollEvent(event))
+    {
+        // Close window: exit
+        if (event.type == sf::Event::Closed)	    	
+            close();
 
-	    if (event.type == sf::Event::KeyPressed)
-	    {
-	        switch (event.key.code)
-	        {
-	            case sf::Keyboard::Escape:
-	            	if (m_isTowerBeingBuilt)
-	            	{
-		                m_towerBeingBuilt = gui::NONE;
-		                m_isTowerBeingBuilt = false;	
-	            	}
-
-	                break;
-                case sf::Keyboard::Right:
-                        if (m_isMapBeingSelected)
-                        {
-                            int nextMapNumber = m_selectedMapNumber + 1;
-                            
-                            if (nextMapNumber > m_map->getNumberOfMaps())
-                            {
-                                nextMapNumber = 1;
-                            }
-
-                            m_selectedMapNumber = nextMapNumber;
-                            m_mapMenu.loadTexture(nextMapNumber);
-                            m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
-                        }
-                        break;
-                case sf::Keyboard::Left:
-                        if (m_isMapBeingSelected)
-                        {
-                            int nextMapNumber = m_selectedMapNumber - 1;
-
-                            if (nextMapNumber < 1)
-                            {
-                                nextMapNumber = m_map->getNumberOfMaps();
-                            }
-
-                            m_selectedMapNumber = nextMapNumber;
-                            m_mapMenu.loadTexture(nextMapNumber);
-                            m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
-                        }
+        if (event.type == sf::Event::KeyPressed)
+        {
+            switch (event.key.code)
+            {
+                case sf::Keyboard::Escape:
+                    if (m_isTowerBeingBuilt)
+                    {
+                            m_towerBeingBuilt = gui::NONE;
+                            m_isTowerBeingBuilt = false;	
+                    }
 
                     break;
-	            default:
-	                break;
-	        }
-	    }
-
-	    // Mouse
-	    if (event.type == sf::Event::MouseButtonPressed)
-	    {
-	 		if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
-	 		{
- 				sf::Vector2f tile = getCurrentMapTile();
-	 			std::string text = "@" + std::to_string(int(tile.x)) + "," + std::to_string(int(tile.y));
-
-	 			switch (m_towerBeingBuilt)//1=Basic, 2=Freeze, 3=Precision, 4=Blast
-	 			{
-	 				case gui::TOWER1:
-	 					text = "Tower 1 placed on map " + text; 
-                        m_game->addTower(tile, 1);
-	 					break;
-	 				case gui::TOWER2:
-	 					text = "Tower 2 placed on map " + text;
-	 					m_game->addTower(tile, 2);
-	 					break;
-	 				case gui::TOWER3:
-	 					text = "Tower 3 placed on map " + text;
-	 					m_game->addTower(tile, 3);
-	 					break;
-                    case gui::TOWER4:
-                        text = "Tower 4 placed on map " + text;
-                        m_game->addTower(tile, 4);
-                        break;
-                    case gui::NONE:
-	 				default:
-	 					text = "";
-	 					break;
-	 			}
-
-	 			m_textBarText.setText(text);
-	 			m_towerBeingBuilt = gui::NONE;
-	 			m_isTowerBeingBuilt = false;
-	 		}
-                        else if(m_game->isTower(getCurrentMapTile())){
-                            auto tower = m_game->getTower(getCurrentMapTile());
-                            tower->toggleRange();
+                case sf::Keyboard::Right:
+                    if (m_isMapBeingSelected)
+                    {
+                        int nextMapNumber = m_selectedMapNumber + 1;
+                        
+                        if (nextMapNumber > m_map->getNumberOfMaps())
+                        {
+                            nextMapNumber = 1;
                         }
 
-	        buttonPress();
-	    }
-	    else if (event.type == sf::Event::MouseButtonReleased)
-	    {
-	        buttonRelease();
-	    }
-	    
-	}
+                        m_selectedMapNumber = nextMapNumber;
+                        m_mapMenu.loadTexture(nextMapNumber);
+                        m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
+                    }
+                    break;
+                case sf::Keyboard::Left:
+                    if (m_isMapBeingSelected)
+                    {
+                        int nextMapNumber = m_selectedMapNumber - 1;
+
+                        if (nextMapNumber < 1)
+                        {
+                            nextMapNumber = m_map->getNumberOfMaps();
+                        }
+
+                        m_selectedMapNumber = nextMapNumber;
+                        m_mapMenu.loadTexture(nextMapNumber);
+                        m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Mouse
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
+            {
+                sf::Vector2f tile = getCurrentMapTile();
+                std::string text = "@" + std::to_string(int(tile.x)) + "," + std::to_string(int(tile.y));
+
+                switch (m_towerBeingBuilt)//1=Basic, 2=Freeze, 3=Precision, 4=Blast
+                {
+                    case gui::TOWER1:
+                        text = "Tower 1 placed on map " + text; 
+                        m_game->addTower(tower);
+                        tower = nullptr;
+                        break;
+                    case gui::TOWER2:
+                        text = "Tower 2 placed on map " + text;
+                        m_game->addTower(tower);
+                        tower = nullptr;
+                        break;
+                    case gui::TOWER3:
+                        text = "Tower 3 placed on map " + text;
+                        m_game->addTower(tower);
+                        tower = nullptr;
+                        break;
+                    case gui::TOWER4:
+                        text = "Tower 4 placed on map " + text;
+                        m_game->addTower(tower);
+                        tower = nullptr;
+                        break;
+                    case gui::NONE:
+                    default:
+                        text = "";
+                        break;
+                }
+
+                m_textBarText.setText(text);
+                m_towerBeingBuilt = gui::NONE;
+                m_isTowerBeingBuilt = false;
+            }
+            else if(m_game->isTower(getCurrentMapTile())){
+                auto tower = m_game->getTower(getCurrentMapTile());
+                tower->toggleRange();
+            }
+
+            buttonPress();
+        }
+        else if (event.type == sf::Event::MouseButtonReleased)
+        {
+            buttonRelease();
+        }
+        
+    }
 }
 
 void Window::buttonPress()
 {
-	getMousePosition();
+    getMousePosition();
 
-	if (m_saveButton.contains(m_mousePosition))
-	{
-		m_saveButton.buttonPress();
-	}
-	else if (m_playButton.contains(m_mousePosition))
-	{
-		if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
-		{
-			m_textBarText.setText("Game started");
-			m_playButtonText.setText("PAUSE");
-			m_game->setIsBuildPhase(false);
-		}
-		else if (!(m_game->getIsGamePaused()))
-		{
-			m_textBarText.setText("Game paused");
-			m_playButtonText.setText("RESUME");
-			m_game->setIsGamePaused(true);
-		}
-		else
-		{
-			m_textBarText.setText("Game resumed");
-			m_playButtonText.setText("PAUSE");
-			m_game->setIsGamePaused(false);
-		}
+    if (m_saveButton.contains(m_mousePosition))
+    {
+        m_saveButton.buttonPress();
+    }
+    else if (m_playButton.contains(m_mousePosition))
+    {
+        if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
+        {
+            m_textBarText.setText("Game started");
+            m_playButtonText.setText("PAUSE");
+            m_game->setIsBuildPhase(false);
+        }
+        else if (!(m_game->getIsGamePaused()))
+        {
+            m_textBarText.setText("Game paused");
+            m_playButtonText.setText("RESUME");
+            m_game->setIsGamePaused(true);
+        }
+        else
+        {
+            m_textBarText.setText("Game resumed");
+            m_playButtonText.setText("PAUSE");
+            m_game->setIsGamePaused(false);
+        }
 
-		m_playButton.buttonPress();
-	}
-	else if (m_speedButton.contains(m_mousePosition))
-	{
-		std::string speedButtonText = "SPEED";
-		int currentGameSpeed = m_game->getSpeed();
-		int newGameSpeed = 1;
+        m_playButton.buttonPress();
+    }
+    else if (m_speedButton.contains(m_mousePosition))
+    {
+        std::string speedButtonText = "SPEED";
+        int currentGameSpeed = m_game->getSpeed();
+        int newGameSpeed = 1;
 
-		if (currentGameSpeed < 4)
-		{
-			newGameSpeed =  currentGameSpeed * 2;
-			speedButtonText = std::to_string(newGameSpeed) + "x";
-		}
+        if (currentGameSpeed < 4)
+        {
+            newGameSpeed =  currentGameSpeed * 2;
+            speedButtonText = std::to_string(newGameSpeed) + "x";
+        }
 
-		m_textBarText.setText("Game speed x" + std::to_string(newGameSpeed));
-		m_game->setSpeed(newGameSpeed);
-		m_speedButtonText.setText(speedButtonText);
-		m_speedButton.buttonPress();
-	}
-	else if (m_mapButton.contains(m_mousePosition))
-	{
-		if (m_game->getIsGamePaused())
-		{
-			m_textBarText.setText("Map selection");
-			m_game->setIsGamePaused(false);
-			m_mapMenu.color(TRANSPARENT);
-			m_mapMenu.setOutlineColor(TRANSPARENT);
+        m_textBarText.setText("Game speed x" + std::to_string(newGameSpeed));
+        m_game->setSpeed(newGameSpeed);
+        m_speedButtonText.setText(speedButtonText);
+        m_speedButton.buttonPress();
+    }
+    else if (m_mapButton.contains(m_mousePosition))
+    {
+        if (m_game->getIsGamePaused())
+        {
+            m_textBarText.setText("Map selection");
+            m_game->setIsGamePaused(false);
+            m_mapMenu.color(TRANSPARENT);
+            m_mapMenu.setOutlineColor(TRANSPARENT);
             m_isMapBeingSelected = false;
-		}
-		else
-		{
-			m_game->setIsGamePaused(true);
-			m_mapMenu.color(MAP_MENU_COLOR);
-			m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
-			m_isMapBeingSelected = true;
-		}
-		m_mapButton.buttonPress();
-	}
-	else if (m_tower1Button.contains(m_mousePosition))
-	{
-		if (m_game->getIsBuildPhase())
-		{
-			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(50);
-			m_towerBeingBuilt = gui::TOWER1;
-			m_tower1Button.buttonPress();
-		}
-	}
-	else if (m_tower2Button.contains(m_mousePosition))
-	{
-		if (m_game->getIsBuildPhase())
-		{
-			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(50);
-			m_towerBeingBuilt = gui::TOWER2;
-			m_tower2Button.buttonPress();
-		}
-	}
-	else if (m_tower3Button.contains(m_mousePosition))
-	{
-		if (m_game->getIsBuildPhase())
-		{
-			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(120);
-			m_towerBeingBuilt = gui::TOWER3;
-			m_tower3Button.buttonPress();			
-		}
-	}
+        }
+        else
+        {
+            m_game->setIsGamePaused(true);
+            m_mapMenu.color(MAP_MENU_COLOR);
+            m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
+            m_isMapBeingSelected = true;
+        }
+        m_mapButton.buttonPress();
+    }
+    else if (m_tower1Button.contains(m_mousePosition))
+    {
+        if (m_game->getIsBuildPhase())
+        {
+            m_isTowerBeingBuilt = true;
+            tower = new BasicTower();
+            m_towerBeingBuilt = gui::TOWER1;
+            m_tower1Button.buttonPress();
+        }
+    }
+    else if (m_tower2Button.contains(m_mousePosition))
+    {
+        if (m_game->getIsBuildPhase())
+        {
+            m_isTowerBeingBuilt = true;
+            tower = new FreezeTower();
+            m_towerBeingBuilt = gui::TOWER2;
+            m_tower2Button.buttonPress();
+        }
+    }
+    else if (m_tower3Button.contains(m_mousePosition))
+    {
+        if (m_game->getIsBuildPhase())
+        {
+            m_isTowerBeingBuilt = true;
+            tower = new PrecisionTower();
+            m_towerBeingBuilt = gui::TOWER3;
+            m_tower3Button.buttonPress();			
+        }
+    }
     else if (m_tower4Button.contains(m_mousePosition))
     {
         if (m_game->getIsBuildPhase())
         {
             m_isTowerBeingBuilt = true;
-            setTowerPlacerRange(70);
+            tower = new BlastTower();
             m_towerBeingBuilt = gui::TOWER4;
             m_tower4Button.buttonPress();
         }
@@ -433,13 +410,13 @@ void Window::buttonPress()
 
 void Window::buttonRelease()
 {
-	m_saveButton.buttonUnPress();
-	m_playButton.buttonUnPress();
-	m_speedButton.buttonUnPress();
-	m_mapButton.buttonUnPress();
+    m_saveButton.buttonUnPress();
+    m_playButton.buttonUnPress();
+    m_speedButton.buttonUnPress();
+    m_mapButton.buttonUnPress();
 
-	m_tower1Button.buttonUnPress();
-	m_tower2Button.buttonUnPress();
-	m_tower3Button.buttonUnPress();
+    m_tower1Button.buttonUnPress();
+    m_tower2Button.buttonUnPress();
+    m_tower3Button.buttonUnPress();
     m_tower4Button.buttonUnPress();
 }
