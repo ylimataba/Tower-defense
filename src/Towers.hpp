@@ -125,6 +125,21 @@ private:
     float s_rad;
 };
 
+class MultiFreezeTower : public Tower
+{
+public:
+    MultiFreezeTower(sf::Vector2f pos) : Tower(100, 90.0, 0, pos) {
+        object.setSize(sf::Vector2f(32.f, 32.f));
+        object.setPosition(pos);
+        object.setFillColor(sf::Color::Cyan);
+        cooldown = 1.f;
+    };
+    std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
+    int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
+private:
+    std::unique_ptr<Enemy> *target2 = nullptr;
+    std::unique_ptr<Enemy> *target3 = nullptr;
+};
 /*
 class VolleyTower, might just scrap this
 {

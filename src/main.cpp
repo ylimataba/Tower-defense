@@ -3,6 +3,7 @@
 #include "window.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <fstream>
 
 int main()
 {
@@ -12,10 +13,23 @@ int main()
 
     // DELETE THIS FROM MAIN WHEN WAWES ARE READ FROM A FILE
     //example vector to be passed to create_enemies function
+    /*
     std::string enemies = "AAAAtBBBBtttCCCC";
     std::vector<std::string> rounds;
     rounds.push_back(enemies);
     rounds.push_back(enemies);
+    */
+    std::ifstream r_file;
+    r_file.open("../maps/rounds.txt");//tiedoston voi toki laittaa muuallekin kuin "maps" -kansioon, kunhan polkua muutetaan
+    std::string round;
+    std::vector<std::string> rounds;
+
+    while(!((r_file.eof()) or (r_file.fail()))) {
+        std::getline(r_file, round);
+        rounds.push_back(round);
+    }
+    r_file.close();
+    
     game.set_rounds(rounds);
 
     Window window("Tower Defence", &map, &game);

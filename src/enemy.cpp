@@ -128,3 +128,16 @@ float Enemy::get_slow_duration()
 {
     return slow_duration;
 }
+
+/*
+int get_index()
+{
+    return index;
+}//for tower memory, to be implemented
+
+void set_index(int i)
+{
+    index = i;
+    return;
+}//alternative to setting with constructor, delete if not needed when indexing is ready
+*/

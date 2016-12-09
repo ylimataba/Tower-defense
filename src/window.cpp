@@ -394,7 +394,7 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(120);
+			setTowerPlacerRange(50);
 			m_towerBeingBuilt = gui::TOWER1;
 			m_tower1Button.buttonPress();
 		}
@@ -414,7 +414,7 @@ void Window::buttonPress()
 		if (m_game->getIsBuildPhase())
 		{
 			m_isTowerBeingBuilt = true;
-			setTowerPlacerRange(70);
+			setTowerPlacerRange(120);
 			m_towerBeingBuilt = gui::TOWER3;
 			m_tower3Button.buttonPress();			
 		}
