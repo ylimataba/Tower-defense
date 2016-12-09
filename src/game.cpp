@@ -69,38 +69,54 @@ void Game::addTower(sf::Vector2f position, int type)
         {
             case 1:
               {
-                Tower* newTower = new BasicTower(position);
-                this->towerList.push_back(newTower);
-                map->addTower(position);
-                money -= 100;
-                cash.setString(std::to_string(money));
+                if (money >= 100)
+                {
+                    Tower* newTower = new BasicTower(position);
+                    this->towerList.push_back(newTower);
+                    map->addTower(position);
+                    money -= 100;
+                    cash.setString(std::to_string(money));
+                    break;
+                }
                 break;
               }
             case 2:
               {
-                Tower* newTower = new FreezeTower(position);
-                this->towerList.push_back(newTower);
-                map->addTower(position);
-                money -= 200;
-                cash.setString(std::to_string(money));
+                if (money >= 200)
+                {
+                    Tower* newTower = new FreezeTower(position);
+                    this->towerList.push_back(newTower);
+                    map->addTower(position);
+                    money -= 200;
+                    cash.setString(std::to_string(money));
+                    break;
+                }
                 break;
               }
             case 3:
               {
-                Tower* newTower = new PrecisionTower(position);
-                this->towerList.push_back(newTower);
-                map->addTower(position);
-                money -= 300;
-                cash.setString(std::to_string(money));
+                if (money >= 300)
+                {
+                    Tower* newTower = new PrecisionTower(position);
+                    this->towerList.push_back(newTower);
+                    map->addTower(position);
+                    money -= 300;
+                    cash.setString(std::to_string(money));
+                    break;
+                }
                 break;
               }
             case 4:
               {
-                Tower* newTower = new BlastTower(position);
-                this->towerList.push_back(newTower);
-                map->addTower(position);
-                money -= 500;
-                cash.setString(std::to_string(money));
+                if (money >= 500)
+                {
+                    Tower* newTower = new BlastTower(position);
+                    this->towerList.push_back(newTower);
+                    map->addTower(position);
+                    money -= 500;
+                    cash.setString(std::to_string(money));
+                    break;
+                }
                 break;
               }
         }
@@ -154,7 +170,7 @@ void Game::shoot_enemies()
         {
             int tmp = tower->shoot(enemyList, towerPause, speed);
             points += tmp;
-            money += tmp * 10;
+            money += tmp * 2;
         }
     score.setString(std::to_string(points));
     cash.setString(std::to_string(money));
