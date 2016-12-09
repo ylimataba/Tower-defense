@@ -72,6 +72,7 @@ void Game::addTower(Tower* tower)
         tower->toggleRange();
         towerList.push_back(tower);
         cash.setString(std::to_string(money));
+        map->addTower(tower->getPos());
     }
     else delete tower;
 }
@@ -125,7 +126,7 @@ void Game::shoot_enemies()
     if(!isGamePaused)
         for(auto tower : this->towerList)
         {
-            points = tower->shoot(enemyList, towerPause, speed);
+            points += tower->shoot(enemyList, towerPause, speed);
         }
     score.setString(std::to_string(points));
 }

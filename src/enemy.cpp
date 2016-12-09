@@ -70,6 +70,7 @@ int Enemy::damage(int amount)
     else if (hp > 0)
         points = this->hp;
     this->hp -= amount;
+    resize();
     return points;
 }
 
@@ -141,3 +142,15 @@ void Enemy::set_index(int i)
     return;
 }//alternative to setting with constructor, delete if not needed when indexing is ready
 
+void Enemy::resize(){
+    switch(hp){
+        case 1:
+            object.setRadius(7.f);
+            object.setOrigin(7,7);
+            break;
+        case 2:
+            object.setRadius(10.f);
+            object.setOrigin(10,10);
+            break;
+    }
+}

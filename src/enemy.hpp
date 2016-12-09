@@ -43,6 +43,7 @@ class Enemy : public sf::Drawable
         std::vector<sf::Vector2f> route;
         float slow_factor = 1;
         float slow_duration = 0.f;
+        void resize();
         virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
         float travel = 0;
         int index; //for tower memory, to be implemented
@@ -73,7 +74,7 @@ private:
 
 class NormalEnemy : public Enemy {
 public:
-    NormalEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 2, 1, route, id) {
+    NormalEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 2, 2, route, id) {
         // set up circle
         object.setRadius(10.f);
         object.setOutlineThickness(3);
@@ -92,7 +93,7 @@ private:
 
 class HardEnemy : public Enemy {
 public:
-    HardEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.6f, 3, 1, route, id) {
+    HardEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.6f, 3, 3, route, id) {
         // set up circle
         object.setRadius(12.f);
         object.setOutlineThickness(3);
