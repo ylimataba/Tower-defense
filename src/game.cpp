@@ -151,8 +151,13 @@ void Game::shoot_enemies()
 {
     if(!isGamePaused)
         for(auto tower : this->towerList)
-            points += tower->shoot(enemyList, towerPause, speed);
+        {
+            int tmp = tower->shoot(enemyList, towerPause, speed);
+            points += tmp;
+            money += tmp * 10;
+        }
     score.setString(std::to_string(points));
+    cash.setString(std::to_string(money));
 }
 
 bool Game::round_completed()
