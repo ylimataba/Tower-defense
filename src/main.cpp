@@ -19,6 +19,7 @@ int main()
     rounds.push_back(enemies);
     rounds.push_back(enemies);
     */
+/*
     std::ifstream r_file;
     r_file.open("../maps/rounds.txt");//tiedoston voi toki laittaa muuallekin kuin "maps" -kansioon, kunhan polkua muutetaan
     std::string round;
@@ -31,7 +32,8 @@ int main()
     r_file.close();
     
     game.set_rounds(rounds);
-
+*/
+	game.loadRoundsFromFile();
     Window window("Tower Defence", &map, &game);
 
     while (window.isOpen())

@@ -5,6 +5,7 @@
 #include "enemy.hpp"
 #include "Towers.hpp"
 #include "map.hpp"
+#include <fstream>
 
 extern sf::Font getFont();
 
@@ -31,8 +32,10 @@ public:
     sf::Time getDelayTime();
     void setSpeed(int speedFactor);
     int getSpeed() const;
+	void loadRoundsFromFile();
 
 private:
+	int round_number;
     std::string current_round;
     int money;
     int health;
@@ -51,6 +54,7 @@ private:
     int points = 0;
     sf::Text score;
     sf::Text cash;
+	sf::Text round;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;

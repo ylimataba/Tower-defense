@@ -10,7 +10,7 @@ Game::Game(map::Map* map)
 {
     health = 100;
     money = 200;
-
+	round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
     score.setString(std::to_string(points));
@@ -24,6 +24,14 @@ Game::Game(map::Map* map)
     cash.setCharacterSize(30);
     cash.setStyle(sf::Text::Bold);
     cash.setColor(sf::Color::Yellow);
+
+    round.setFont(font);
+    round.setPosition(820,10);
+    round.setString("Round " + std::to_string(round_number));		//std::to_string(round));
+    round.setCharacterSize(30);
+    round.setStyle(sf::Text::Bold);
+    round.setColor(sf::Color::White);
+
 }
 
 Game::~Game(){
@@ -148,6 +156,7 @@ bool Game::next_round()
         setIsBuildPhase(true);
         first_wave = true;
         enemy_id = 0;
+		round_number++;
         return true;
     }
     return false;
@@ -155,6 +164,8 @@ bool Game::next_round()
 
 void Game::play()
 {
+	
+	round.setString("Round " + std::to_string(round_number));
     create_enemies(.5f);
     move_enemies(); 
     shoot_enemies();
@@ -166,6 +177,7 @@ void Game::set_rounds(std::vector<std::string> rounds)
 {
     this->rounds = rounds;
     current_round = rounds[0];
+	round_number = 1;
 }
 
 /*
@@ -197,6 +209,7 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(*tower);
     rt.draw(score);
     rt.draw(cash);
+	rt.draw(round);
 }
 
 void Game::setIsBuildPhase(bool setPhase)
@@ -236,3 +249,19 @@ void Game::setSpeed(int speedFactor){
 int Game::getSpeed() const{
     return speed;
 }
+
+void Game::loadRoundsFromFile(){
+    std::ifstream r_file;
+    r_file.open("../maps/rounds.txt");//tiedoston voi toki laittaa muuallekin kuin "maps" -kansioon, kunhan polkua muutetaan
+    std::string round;
+    //std::vector<std::string> rounds;
+
+    while(!((r_file.eof()) or (r_file.fail()))) {
+        std::getline(r_file, round);
+        rounds.push_back(round);
+    }
+    r_file.close();
+	set_rounds(rounds);
+}
+    
+   
