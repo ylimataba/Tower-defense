@@ -76,6 +76,7 @@ private:
 	gui::Towers m_towerBeingBuilt;
 
         Tower* tower;
+        gui::TowerMenu m_towerMenu;
 };
 
 #endif // TOWER_DEFENCE_SRC_WINDOW_HPP

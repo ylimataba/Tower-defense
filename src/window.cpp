@@ -32,6 +32,8 @@ Window::Window(std::string title, map::Map *map, Game *game)
     createButtons();
     createBars();
     createTexts();
+
+    m_towerMenu = gui::TowerMenu(gameFont);
 }
 
 Window::~Window()
@@ -99,6 +101,8 @@ void Window::drawAll()
         draw(*tower);
     
     draw(*m_game);
+
+    draw(m_towerMenu);
 
     draw(m_mapMenu);
 }
@@ -263,6 +267,7 @@ void Window::checkEvents()
             else if(m_game->isTower(getCurrentMapTile())){
                 auto t = m_game->getTower(getCurrentMapTile());
                 t->toggleRange();
+                m_towerMenu.toggle(t);
             }
 
             buttonPress();

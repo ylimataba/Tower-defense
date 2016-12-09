@@ -254,4 +254,50 @@ void Text::refreshPosition()
 	setOrigin(textOriginX, 0);	
 }
 
+
+TowerMenu::TowerMenu(sf::Font& font){
+    upgradeText.setFont(font);
+    upgradeText.setStyle(sf::Text::Bold);
+    upgradeText.setCharacterSize(0.75*BASE_BUTTON_HEIGHT);
+    upgradeText.setString("UPGRADE");
+    
+    sellText.setFont(font);
+    sellText.setStyle(sf::Text::Bold);
+    sellText.setCharacterSize(0.75*BASE_BUTTON_HEIGHT);
+    sellText.setString("SELL");
+
+    upgradeButton.setSize(sf::Vector2f(BASE_BUTTON_WIDTH, BASE_BUTTON_HEIGHT));
+    upgradeButton.setFillColor(BASE_BUTTON_COLOR);
+    
+    sellButton.setSize(sf::Vector2f(BASE_BUTTON_WIDTH,BASE_BUTTON_HEIGHT));
+    sellButton.setFillColor(BASE_BUTTON_COLOR);
+}
+
+void TowerMenu::toggle(Tower* tower){
+    if(show)
+        show = false;
+    else
+        show = true;
+    upgradeButton.setPosition(tower->getPos() + sf::Vector2f(64,-64));
+    upgradeText.setPosition(tower->getPos() + sf::Vector2f(BASE_BUTTON_WIDTH/2 + 64,-64));
+    upgradeText.setOrigin(upgradeText.getLocalBounds().width/2, 0);	
+    
+    sellButton.setPosition(tower->getPos() + sf::Vector2f(64,-16));
+    sellText.setPosition(tower->getPos() + sf::Vector2f(BASE_BUTTON_WIDTH/2 + 64,-16));
+    sellText.setOrigin(sellText.getLocalBounds().width/2, 0);	
+}
+
+void TowerMenu::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+    if(show){
+        rt.draw(upgradeButton);
+        rt.draw(upgradeText);
+        rt.draw(sellButton);
+        rt.draw(sellText);
+    }
+}
+
+
+
+
+
 } // namespace gui

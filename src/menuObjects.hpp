@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstddef>
 #include <string>
+#include "Towers.hpp"
 
 // Window and Menus
 static const int SIDE_MENU_SCALER_IN_PERCENTS = 15;
@@ -222,6 +223,24 @@ private:
 	std::string m_currentText;
 	sf::Vector2f m_position;
 };
+
+class TowerMenu : public sf::Drawable {
+    public:
+        TowerMenu(){};
+        TowerMenu(sf::Font& font);
+        ~TowerMenu(){};
+        void toggle(Tower* tower);
+
+    private:
+        sf::RectangleShape upgradeButton;
+        sf::RectangleShape sellButton;
+        sf::Text upgradeText;
+        sf::Text sellText;
+        bool show = false;
+        void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+};
+
+
 
 }; // namespace gui
 
