@@ -1,5 +1,6 @@
 #include "Towers.hpp"
 #include <cmath>
+#include <math.h>
 //include shit here ^
 
 //theory finished 22.11.2016
@@ -10,6 +11,29 @@
 float calc_distance(const sf::Vector2f tower, const sf::Vector2f target) {
     return sqrt(((tower.x - target.x)*(tower.x - target.x)) 
             + (((tower.y - target.y))*((tower.y - target.y))));
+}
+
+float calc_rotation(const sf::Vector2f tower, const sf::Vector2f target){
+    if((tower.y - target.y) > 0 && (tower.x - target.x) > 0)    //vasen yla
+    {
+        float a = acos((tower.x - target.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
+        return a;
+    }
+    if((tower.y - target.y) < 0 && (tower.x - target.x) > 0)    //vasen ala
+    {
+        float a = acos((tower.x - target.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
+        return -a;
+    }
+    if((tower.y - target.y) < 0 && (tower.x - target.x) < 0)    //oikea ala
+    {
+        float a = acos((target.x - tower.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
+        return (180 + a);
+    }
+    if((tower.y - target.y) > 0 && (tower.x - target.x) < 0)    //oikea yla
+    {
+        float a = acos((target.x - tower.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
+        return (180 - a);
+    }
 }
 
 void Tower::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
@@ -58,10 +82,17 @@ int BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& paus
 {
     int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime mod 1.12.2016 19:27
-
+    
+    if(target != nullptr)
+    {
+        object.setOrigin(sf::Vector2f(16.0f,16.0f));
+        object.setPosition(position + sf::Vector2f(16.0f,16.0f));
+        object.setRotation(calc_rotation(getCenter(), (*target)->get_position()));
+    }
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
             points = (*target)->damage(dmg);
+            
             shootTime.restart();
             pauseTime = 0;
         }
