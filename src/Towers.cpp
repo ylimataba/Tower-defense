@@ -351,7 +351,7 @@ int MultiFreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float&
             }
             shootTime.restart();
             pauseTime = 0;
-            return points;
         }
     }
+    return points;
 }
