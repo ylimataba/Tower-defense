@@ -276,6 +276,11 @@ void TowerMenu::action(sf::Vector2f mousePosition){
     if(game->getIsBuildPhase() && tower != nullptr){
         if(upgradeButton.contains(mousePosition)){
             std::cout << "upgrade" << std::endl;
+            /* TODO
+             * insert here a function call for tower upgrade
+             * and remove the print after you're done
+             */
+            untoggle();
         }
         else if(sellButton.contains(mousePosition)){
             game->sellTower(tower->getPos());
@@ -283,6 +288,7 @@ void TowerMenu::action(sf::Vector2f mousePosition){
         }
         else if(rangeButton.contains(mousePosition)){
             tower->toggleRange();
+            untoggle();
         }
     }
     else if(tower != nullptr)
