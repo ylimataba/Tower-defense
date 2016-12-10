@@ -10,7 +10,7 @@ Game::Game(map::Map* map)
 {
     gameOver = false;
     health = 100;
-    money = 200;
+    money = 300;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);

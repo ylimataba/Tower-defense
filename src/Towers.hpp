@@ -60,12 +60,8 @@ protected:
     int cost;
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
     
-
     sf::Sprite object;
     sf::Texture texture;
-    //sprite.setTextureRect(sf::IntRect(10, 10, 50, 30));
-    //sprite.setColor(sf::Color(255, 255, 255, 200));
-    //sprite.setPosition(100, 25);
     
     sf::Clock shootTime;
     sf::Vector2f getCenter() const{
@@ -109,8 +105,9 @@ class PrecisionTower : public Tower
 {
 public:
     PrecisionTower() : Tower(100, 120.0, 2) {
-        //object.setSize(sf::Vector2f(32.f, 32.f));
-        //object.setFillColor(sf::Color::White);
+        texture.loadFromFile("../maps/precision.png");
+        object.setTexture(texture);
+        object.setPosition(position);
         cooldown = 1.5;
         cost = 200;
     }
@@ -122,8 +119,9 @@ class BlastTower : public Tower
 {
 public:
     BlastTower() : Tower(100, 70.0, 2) {
-        //object.setSize(sf::Vector2f(32.f, 32.f));
-        //object.setFillColor(sf::Color::Red);
+        texture.loadFromFile("../maps/basic.png");
+        object.setTexture(texture);
+        object.setPosition(position);
         cooldown = 3.f;
         cost = 200;
         
@@ -141,8 +139,9 @@ class MultiFreezeTower : public Tower
 {
 public:
     MultiFreezeTower() : Tower(100, 90.0, 0) {
-        //object.setSize(sf::Vector2f(32.f, 32.f));
-        //object.setFillColor(sf::Color::Cyan);
+        texture.loadFromFile("../maps/basic.png");
+        object.setTexture(texture);
+        object.setPosition(position);
         cooldown = 1.f;
         cost = 200;
     };
