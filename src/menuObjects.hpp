@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstddef>
 #include <string>
-#include "Towers.hpp"
+#include "Game.hpp"
 
 // Window and Menus
 static const int SIDE_MENU_SCALER_IN_PERCENTS = 15;
@@ -227,16 +227,25 @@ private:
 class TowerMenu : public sf::Drawable {
     public:
         TowerMenu(){};
-        TowerMenu(sf::Font& font);
+        TowerMenu(sf::Font* font, Game* game);
         ~TowerMenu(){};
-        void toggle(Tower* tower);
+	bool contains(sf::Vector2f mousePosition, sf::Vector2f tile);
+        void action(sf::Vector2f mousePosition);
 
     private:
-        sf::RectangleShape upgradeButton;
-        sf::RectangleShape sellButton;
-        sf::Text upgradeText;
-        sf::Text sellText;
-        bool show = false;
+        NormalButton upgradeButton;
+        NormalButton sellButton;
+        NormalButton rangeButton;
+        Text upgradeText;
+        Text sellText;
+        Text rangeText;
+        sf::Font* font;
+        Game* game;
+        Tower* tower;
+        bool show = false; 
+        void toggle();
+        void untoggle();
+        void setPosition(sf::Vector2f position);
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
 };
 

@@ -254,45 +254,82 @@ void Text::refreshPosition()
 	setOrigin(textOriginX, 0);	
 }
 
+/*--------- TOWERMENU ---------*/
+TowerMenu::TowerMenu(sf::Font* font, Game* game) : game(game), font(font){}
 
-TowerMenu::TowerMenu(sf::Font& font){
-    upgradeText.setFont(font);
-    upgradeText.setStyle(sf::Text::Bold);
-    upgradeText.setCharacterSize(0.75*BASE_BUTTON_HEIGHT);
-    upgradeText.setString("UPGRADE");
-    
-    sellText.setFont(font);
-    sellText.setStyle(sf::Text::Bold);
-    sellText.setCharacterSize(0.75*BASE_BUTTON_HEIGHT);
-    sellText.setString("SELL");
-
-    upgradeButton.setSize(sf::Vector2f(BASE_BUTTON_WIDTH, BASE_BUTTON_HEIGHT));
-    upgradeButton.setFillColor(BASE_BUTTON_COLOR);
-    
-    sellButton.setSize(sf::Vector2f(BASE_BUTTON_WIDTH,BASE_BUTTON_HEIGHT));
-    sellButton.setFillColor(BASE_BUTTON_COLOR);
+bool TowerMenu::contains(sf::Vector2f mousePosition, sf::Vector2f tile){
+    if ((upgradeButton.contains(mousePosition) || sellButton.contains(mousePosition) || rangeButton.contains(mousePosition)) && game->getIsBuildPhase() && show)
+        return true;
+    else if (game->isTower(tile)){
+        tower = game->getTower(tile);
+        if (game->getIsBuildPhase())
+            toggle();
+        return true;
+    }
+    else{
+        untoggle();
+        return false;
+    }
 }
 
-void TowerMenu::toggle(Tower* tower){
-    if(show)
-        show = false;
-    else
-        show = true;
-    upgradeButton.setPosition(tower->getPos() + sf::Vector2f(64,-64));
-    upgradeText.setPosition(tower->getPos() + sf::Vector2f(BASE_BUTTON_WIDTH/2 + 64,-64));
-    upgradeText.setOrigin(upgradeText.getLocalBounds().width/2, 0);	
-    
-    sellButton.setPosition(tower->getPos() + sf::Vector2f(64,-16));
-    sellText.setPosition(tower->getPos() + sf::Vector2f(BASE_BUTTON_WIDTH/2 + 64,-16));
-    sellText.setOrigin(sellText.getLocalBounds().width/2, 0);	
+void TowerMenu::action(sf::Vector2f mousePosition){
+    if(game->getIsBuildPhase() && tower != nullptr){
+        if(upgradeButton.contains(mousePosition)){
+            std::cout << "upgrade" << std::endl;
+        }
+        else if(sellButton.contains(mousePosition)){
+            game->sellTower(tower->getPos());
+            untoggle();
+        }
+        else if(rangeButton.contains(mousePosition)){
+            tower->toggleRange();
+        }
+    }
+    else if(tower != nullptr)
+        tower->toggleRange();
+}
+
+void TowerMenu::toggle(){
+    show = true;
+    setPosition(tower->getPos());
+}
+
+void TowerMenu::untoggle(){
+    this->tower = nullptr;
+    show = false;
+    upgradeButton = NormalButton();
+    upgradeText = Text();
+    sellButton = NormalButton();
+    sellText = Text();
+}
+
+void TowerMenu::setPosition(sf::Vector2f position){
+    sf::Vector2f delta(34,0);
+    sf::Vector2f upgradePosition = position + delta;
+    sf::Vector2f deltaSell(0, 32);
+    sf::Vector2f deltaRange(0, 64);
+    float xlimit = 960 - BASE_BUTTON_WIDTH;
+    float ylimit = 640 - 64 - BASE_BUTTON_HEIGHT;
+    if(upgradePosition.y > ylimit)
+        upgradePosition.y = ylimit;
+    if(upgradePosition.x > xlimit)
+        upgradePosition.x -= delta.x + BASE_BUTTON_WIDTH ;
+    upgradeButton = NormalButton(BASE_BUTTON_SIZE, upgradePosition, BASE_BUTTON_COLOR);
+    sellButton = NormalButton(BASE_BUTTON_SIZE, upgradePosition + deltaSell, BASE_BUTTON_COLOR);
+    rangeButton = NormalButton(BASE_BUTTON_SIZE, upgradePosition + deltaRange, BASE_BUTTON_COLOR);
+    upgradeText = Text("UPGRADE", *font, &upgradeButton);
+    sellText = Text("SELL", *font, &sellButton);
+    rangeText = Text("RANGE", *font, &rangeButton);
 }
 
 void TowerMenu::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
-    if(show){
+    if(show && game->getIsBuildPhase()){
         rt.draw(upgradeButton);
         rt.draw(upgradeText);
         rt.draw(sellButton);
         rt.draw(sellText);
+        rt.draw(rangeButton);
+        rt.draw(rangeText);
     }
 }
 

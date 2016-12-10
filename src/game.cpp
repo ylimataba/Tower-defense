@@ -8,10 +8,10 @@ Game::Game(map::Map* map)
       isGamePaused(false),
       map(map)
 {
-	gameOver = false;
+    gameOver = false;
     health = 100;
     money = 200;
-	round_number = 1;
+    round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
     score.setString(std::to_string(points));
@@ -115,12 +115,17 @@ Tower* Game::getTower(sf::Vector2f position){
     return *tower;
 }
 
-
-
-void Game::removeTower(std::vector<Tower*>::iterator it)
+void Game::removeTower(sf::Vector2f position)
 {
-    //map->removeTower(/*topLeftCornerOfTower*/);
-    this->towerList.erase(it);
+    map->removeTower(position);
+    for_each(towerList.begin(), towerList.end(),
+            [position](Tower*& tower)
+            { if(tower->getPos() == position){
+                delete tower;
+                tower = nullptr;
+                }
+            });
+    towerList.erase(remove(towerList.begin(), towerList.end(), nullptr), towerList.end());
 }
 
 
@@ -173,7 +178,7 @@ bool Game::next_round()
         setIsBuildPhase(true);
         first_wave = true;
         enemy_id = 0;
-		round_number++;
+        round_number++;
         return true;
     }
     return false;
@@ -182,13 +187,13 @@ bool Game::next_round()
 void Game::play()
 {
 	
-	round.setString("Round " + std::to_string(round_number));
+    round.setString("Round " + std::to_string(round_number));
     create_enemies(.5f);
     move_enemies(); 
     shoot_enemies();
     if(round_completed())
         next_round();
-	health_ok();
+    health_ok();
 	
 }
 
@@ -203,15 +208,14 @@ void Game::set_rounds(std::vector<std::string> rounds)
 bool Game::health_ok()
 {
     if(this->health > 0){
-		gameOver = false;
+        gameOver = false;
         return true;
-	}
+    }
 
     else{
-		gameOver = true;
+        gameOver = true;
         return false;
-	}
-
+    }
 }
 
 
@@ -237,10 +241,10 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
         rt.draw(*tower);
     rt.draw(score);
     rt.draw(cash);
-	rt.draw(round);
-	rt.draw(health_indicator);
-	if(gameOver)
-		rt.draw(game_over);
+    rt.draw(round);
+    rt.draw(health_indicator);
+    if(gameOver)
+        rt.draw(game_over);
 }
 
 void Game::setIsBuildPhase(bool setPhase)
@@ -292,7 +296,13 @@ void Game::loadRoundsFromFile(){
         rounds.push_back(round);
     }
     r_file.close();
-	set_rounds(rounds);
+    set_rounds(rounds);
 }
     
-   
+void Game::sellTower(sf::Vector2f position){
+    float factor = 0.75;
+    Tower* tower = getTower(position);
+    money += tower->get_cost() * factor;
+    cash.setString(std::to_string(money));
+    removeTower(position);
+}

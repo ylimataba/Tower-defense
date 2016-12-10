@@ -33,7 +33,7 @@ Window::Window(std::string title, map::Map *map, Game *game)
     createBars();
     createTexts();
 
-    m_towerMenu = gui::TowerMenu(gameFont);
+    m_towerMenu = gui::TowerMenu(&gameFont, m_game);
 }
 
 Window::~Window()
@@ -95,15 +95,13 @@ void Window::drawAll()
     draw(m_textBarText);
     draw(m_lifeBar);
 
-    //draw(m_towerPlacerRangeArea);
-    //draw(m_towerPlacer);
     if (tower != nullptr && m_isTowerBeingBuilt && isInGameArea() && !isCollision())
         draw(*tower);
     
     draw(*m_game);
 
     draw(m_towerMenu);
-
+    
     draw(m_mapMenu);
 }
 
@@ -264,13 +262,8 @@ void Window::checkEvents()
                 m_towerBeingBuilt = gui::NONE;
                 m_isTowerBeingBuilt = false;
             }
-            else if(m_game->isTower(getCurrentMapTile())){
-                auto t = m_game->getTower(getCurrentMapTile());
-                t->toggleRange();
-                m_towerMenu.toggle(t);
-            }
 
-            buttonPress();
+            else buttonPress();
         }
         else if (event.type == sf::Event::MouseButtonReleased)
         {
@@ -371,7 +364,7 @@ void Window::buttonPress()
             if(m_game->getMoney() >= tower->get_cost()){
                 m_isTowerBeingBuilt = true;
                 m_towerBeingBuilt = gui::TOWER;
-                m_tower1Button.buttonPress();
+                m_tower2Button.buttonPress();
             }
             else{
                 delete tower;
@@ -387,7 +380,7 @@ void Window::buttonPress()
             if(m_game->getMoney() >= tower->get_cost()){
                 m_isTowerBeingBuilt = true;
                 m_towerBeingBuilt = gui::TOWER;
-                m_tower1Button.buttonPress();
+                m_tower3Button.buttonPress();
             }
             else{
                 delete tower;
@@ -403,7 +396,7 @@ void Window::buttonPress()
             if(m_game->getMoney() >= tower->get_cost()){
                 m_isTowerBeingBuilt = true;
                 m_towerBeingBuilt = gui::TOWER;
-                m_tower1Button.buttonPress();
+                m_tower4Button.buttonPress();
             }
             else{
                 delete tower;
@@ -411,6 +404,8 @@ void Window::buttonPress()
             }
         }
     }
+    if (m_towerMenu.contains(m_mousePosition, getCurrentMapTile()))
+        m_towerMenu.action(m_mousePosition);
 }
 
 void Window::buttonRelease()

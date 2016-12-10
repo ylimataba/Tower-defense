@@ -18,7 +18,7 @@ public:
     void addTower(Tower* tower);
     bool isTower(sf::Vector2f position);
     Tower* getTower(sf::Vector2f position);
-    void removeTower(std::vector<Tower*>::iterator it);
+    void removeTower(sf::Vector2f position);
     bool round_completed();
     void play();
     void set_rounds(std::vector<std::string> rounds);
@@ -32,12 +32,13 @@ public:
     sf::Time getDelayTime();
     void setSpeed(int speedFactor);
     int getSpeed() const;
-	void loadRoundsFromFile();
+    void loadRoundsFromFile();
+    void sellTower(sf::Vector2f position);
 	
 
 private:
-	bool gameOver;
-	int round_number;
+    bool gameOver;
+    int round_number;
     std::string current_round;
     int money;
     int health;
@@ -56,9 +57,9 @@ private:
     int points = 0;
     sf::Text score;
     sf::Text cash;
-	sf::Text round;
-	sf::Text health_indicator;
-	sf::Text game_over;
+    sf::Text round;
+    sf::Text health_indicator;
+    sf::Text game_over;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;
