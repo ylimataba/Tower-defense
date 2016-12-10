@@ -95,7 +95,7 @@ void Window::drawAll()
     draw(m_textBarText);
     draw(m_lifeBar);
 
-    if (tower != nullptr && m_isTowerBeingBuilt && isInGameArea() && !isCollision())
+    if (tower != nullptr && m_isTowerBeingBuilt && !isCollision())
         draw(*tower);
     
     draw(*m_game);
@@ -149,8 +149,18 @@ void Window::createBars()
 
 void Window::updateTowerPlacer()
 {
-    if(tower != nullptr)
-        tower->setPosition(getCurrentMapTile());
+    if(tower != nullptr){
+        sf::Vector2f position = getCurrentMapTile();
+        if(position.y > 608)
+            position.y = 608;
+        if(position.x > 928)
+            position.x = 928;
+        if(position.y < 0)
+            position.y = 0;
+        if(position.x < 0)
+            position.x = 0;
+        tower->setPosition(position);
+    }
 }
 
 bool Window::isCollision()
@@ -197,8 +207,13 @@ void Window::checkEvents()
                 case sf::Keyboard::Escape:
                     if (m_isTowerBeingBuilt)
                     {
-                            m_towerBeingBuilt = gui::NONE;
-                            m_isTowerBeingBuilt = false;	
+                        m_towerBeingBuilt = gui::NONE;
+                        m_isTowerBeingBuilt = false;	
+                        m_textBarText.setText("");
+                        if (tower != nullptr){
+                            delete tower;
+                            tower = nullptr;
+                        }
                     }
 
                     break;
@@ -240,7 +255,15 @@ void Window::checkEvents()
         // Mouse
         if (event.type == sf::Event::MouseButtonPressed)
         {
-            if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Right)){
+                m_isTowerBeingBuilt = false;
+                if (tower != nullptr){
+                    delete tower;
+                    tower = nullptr;
+                    m_textBarText.setText("");
+                }
+            }
+            else if (m_isTowerBeingBuilt && !isCollision() && isInGameArea())
             {
                 sf::Vector2f tile = getCurrentMapTile();
                 std::string text = "@" + std::to_string(int(tile.x)) + "," + std::to_string(int(tile.y));
@@ -277,139 +300,146 @@ void Window::buttonPress()
 {
     getMousePosition();
 
-    if (m_saveButton.contains(m_mousePosition))
-    {
-        m_saveButton.buttonPress();
-    }
-    else if (m_playButton.contains(m_mousePosition))
-    {
-        if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
+    if(!m_isTowerBeingBuilt){
+        if (m_saveButton.contains(m_mousePosition))
         {
-            m_textBarText.setText("Game started");
-            m_playButtonText.setText("PAUSE");
-            m_game->setIsBuildPhase(false);
+            m_saveButton.buttonPress();
         }
-        else if (!(m_game->getIsGamePaused()))
+        else if (m_playButton.contains(m_mousePosition))
         {
-            m_textBarText.setText("Game paused");
-            m_playButtonText.setText("RESUME");
-            m_game->setIsGamePaused(true);
+            if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
+            {
+                m_textBarText.setText("Game started");
+                m_playButtonText.setText("PAUSE");
+                m_game->setIsBuildPhase(false);
+            }
+            else if (!(m_game->getIsGamePaused()))
+            {
+                m_textBarText.setText("Game paused");
+                m_playButtonText.setText("RESUME");
+                m_game->setIsGamePaused(true);
+            }
+            else
+            {
+                m_textBarText.setText("Game resumed");
+                m_playButtonText.setText("PAUSE");
+                m_game->setIsGamePaused(false);
+            }
+
+            m_playButton.buttonPress();
         }
-        else
+        else if (m_speedButton.contains(m_mousePosition))
         {
-            m_textBarText.setText("Game resumed");
-            m_playButtonText.setText("PAUSE");
-            m_game->setIsGamePaused(false);
+            std::string speedButtonText = "SPEED";
+            int currentGameSpeed = m_game->getSpeed();
+            int newGameSpeed = 1;
+
+            if (currentGameSpeed < 4)
+            {
+                newGameSpeed =  currentGameSpeed * 2;
+                speedButtonText = std::to_string(newGameSpeed) + "x";
+            }
+
+            m_textBarText.setText("Game speed x" + std::to_string(newGameSpeed));
+            m_game->setSpeed(newGameSpeed);
+            m_speedButtonText.setText(speedButtonText);
+            m_speedButton.buttonPress();
+        }
+        else if (m_mapButton.contains(m_mousePosition))
+        {
+            if (m_game->getIsGamePaused())
+            {
+                m_textBarText.setText("Map selection");
+                m_game->setIsGamePaused(false);
+                m_mapMenu.color(TRANSPARENT);
+                m_mapMenu.setOutlineColor(TRANSPARENT);
+                m_isMapBeingSelected = false;
+            }
+            else
+            {
+                m_game->setIsGamePaused(true);
+                m_mapMenu.color(MAP_MENU_COLOR);
+                m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
+                m_isMapBeingSelected = true;
+            }
+            m_mapButton.buttonPress();
         }
 
-        m_playButton.buttonPress();
-    }
-    else if (m_speedButton.contains(m_mousePosition))
-    {
-        std::string speedButtonText = "SPEED";
-        int currentGameSpeed = m_game->getSpeed();
-        int newGameSpeed = 1;
-
-        if (currentGameSpeed < 4)
+        else if (m_tower1Button.contains(m_mousePosition))
         {
-            newGameSpeed =  currentGameSpeed * 2;
-            speedButtonText = std::to_string(newGameSpeed) + "x";
-        }
-
-        m_textBarText.setText("Game speed x" + std::to_string(newGameSpeed));
-        m_game->setSpeed(newGameSpeed);
-        m_speedButtonText.setText(speedButtonText);
-        m_speedButton.buttonPress();
-    }
-    else if (m_mapButton.contains(m_mousePosition))
-    {
-        if (m_game->getIsGamePaused())
-        {
-            m_textBarText.setText("Map selection");
-            m_game->setIsGamePaused(false);
-            m_mapMenu.color(TRANSPARENT);
-            m_mapMenu.setOutlineColor(TRANSPARENT);
-            m_isMapBeingSelected = false;
-        }
-        else
-        {
-            m_game->setIsGamePaused(true);
-            m_mapMenu.color(MAP_MENU_COLOR);
-            m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
-            m_isMapBeingSelected = true;
-        }
-        m_mapButton.buttonPress();
-    }
-    else if (m_tower1Button.contains(m_mousePosition))
-    {
-        if (m_game->getIsBuildPhase())
-        {
-            tower = new BasicTower();
-            if(m_game->getMoney() >= tower->get_cost()){
-                m_isTowerBeingBuilt = true;
-                m_towerBeingBuilt = gui::TOWER;
-                m_tower1Button.buttonPress();
-            }
-            else{
-                delete tower;
-                tower = nullptr;
-                m_isTowerBeingBuilt = false;
+            if (m_game->getIsBuildPhase())
+            {
+                tower = new BasicTower();
+                if(m_game->getMoney() >= tower->get_cost()){
+                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_isTowerBeingBuilt = true;
+                    m_towerBeingBuilt = gui::TOWER;
+                    m_tower1Button.buttonPress();
+                }
+                else{
+                    delete tower;
+                    tower = nullptr;
+                    m_isTowerBeingBuilt = false;
+                }
             }
         }
-    }
-    else if (m_tower2Button.contains(m_mousePosition))
-    {
-        if (m_game->getIsBuildPhase())
+        else if (m_tower2Button.contains(m_mousePosition))
         {
-            tower = new FreezeTower();
-            if(m_game->getMoney() >= tower->get_cost()){
-                m_isTowerBeingBuilt = true;
-                m_towerBeingBuilt = gui::TOWER;
-                m_tower2Button.buttonPress();
-            }
-            else{
-                delete tower;
-                tower = nullptr;
-                m_isTowerBeingBuilt = false;
+            if (m_game->getIsBuildPhase())
+            {
+                tower = new FreezeTower();
+                if(m_game->getMoney() >= tower->get_cost()){
+                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_isTowerBeingBuilt = true;
+                    m_towerBeingBuilt = gui::TOWER;
+                    m_tower2Button.buttonPress();
+                }
+                else{
+                    delete tower;
+                    tower = nullptr;
+                    m_isTowerBeingBuilt = false;
+                }
             }
         }
-    }
-    else if (m_tower3Button.contains(m_mousePosition))
-    {
-        if (m_game->getIsBuildPhase())
+        else if (m_tower3Button.contains(m_mousePosition))
         {
-            tower = new PrecisionTower();
-            if(m_game->getMoney() >= tower->get_cost()){
-                m_isTowerBeingBuilt = true;
-                m_towerBeingBuilt = gui::TOWER;
-                m_tower3Button.buttonPress();
-            }
-            else{
-                delete tower;
-                tower = nullptr;
-                m_isTowerBeingBuilt = false;
+            if (m_game->getIsBuildPhase())
+            {
+                tower = new PrecisionTower();
+                if(m_game->getMoney() >= tower->get_cost()){
+                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_isTowerBeingBuilt = true;
+                    m_towerBeingBuilt = gui::TOWER;
+                    m_tower3Button.buttonPress();
+                }
+                else{
+                    delete tower;
+                    tower = nullptr;
+                    m_isTowerBeingBuilt = false;
+                }
             }
         }
-    }
-    else if (m_tower4Button.contains(m_mousePosition))
-    {
-        if (m_game->getIsBuildPhase())
+        else if (m_tower4Button.contains(m_mousePosition))
         {
-            tower = new BlastTower();
-            if(m_game->getMoney() >= tower->get_cost()){
-                m_isTowerBeingBuilt = true;
-                m_towerBeingBuilt = gui::TOWER;
-                m_tower4Button.buttonPress();
-            }
-            else{
-                delete tower;
-                tower = nullptr;
-                m_isTowerBeingBuilt = false;
+            if (m_game->getIsBuildPhase())
+            {
+                tower = new BlastTower();
+                if(m_game->getMoney() >= tower->get_cost()){
+                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_isTowerBeingBuilt = true;
+                    m_towerBeingBuilt = gui::TOWER;
+                    m_tower4Button.buttonPress();
+                }
+                else{
+                    delete tower;
+                    tower = nullptr;
+                    m_isTowerBeingBuilt = false;
+                }
             }
         }
+        else if (m_towerMenu.contains(m_mousePosition, getCurrentMapTile()))
+            m_towerMenu.action(m_mousePosition);
     }
-    if (m_towerMenu.contains(m_mousePosition, getCurrentMapTile()))
-        m_towerMenu.action(m_mousePosition);
 }
 
 void Window::buttonRelease()
