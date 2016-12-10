@@ -353,6 +353,7 @@ void Window::buttonPress()
             else{
                 delete tower;
                 tower = nullptr;
+                m_isTowerBeingBuilt = false;
             }
         }
     }
@@ -369,6 +370,7 @@ void Window::buttonPress()
             else{
                 delete tower;
                 tower = nullptr;
+                m_isTowerBeingBuilt = false;
             }
         }
     }
@@ -385,6 +387,7 @@ void Window::buttonPress()
             else{
                 delete tower;
                 tower = nullptr;
+                m_isTowerBeingBuilt = false;
             }
         }
     }
@@ -401,6 +404,7 @@ void Window::buttonPress()
             else{
                 delete tower;
                 tower = nullptr;
+                m_isTowerBeingBuilt = false;
             }
         }
     }
