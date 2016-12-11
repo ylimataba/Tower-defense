@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstddef>
 #include <string>
-#include "Game.hpp"
+#include "game.hpp"
 
 // Window and Menus
 static const int SIDE_MENU_SCALER_IN_PERCENTS = 15;

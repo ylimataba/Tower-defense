@@ -75,7 +75,7 @@ private:
 	bool m_isTowerBeingBuilt;
 	gui::Towers m_towerBeingBuilt;
 	gui::TowerMenu m_towerMenu;
-	Tower *m_tower;
+	Tower *m_tower = nullptr;
 };
 
 #endif // TOWER_DEFENCE_SRC_WINDOW_HPP
