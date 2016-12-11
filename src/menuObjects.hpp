@@ -145,11 +145,9 @@ public:
 
 	void color(const sf::Color color);
 	void position(const sf::Vector2f);
-
 	sf::Vector2f getPosition();
-
 	bool contains(sf::Vector2f mousePosition);
-
+	void loadTexture(std::string textureName);
 	void buttonPress();
 	void buttonUnPress();
 
@@ -157,11 +155,11 @@ private:
 	sf::Vector2f m_size;
 	sf::Vector2f m_position;
 	sf::Color m_color;
-
 	button::Buttons m_button;
 	std::string m_text;
 	sf::Font m_font;
 	button::State m_state;
+	sf::Texture m_texture;
 };
 
 class Bar : public sf::RectangleShape

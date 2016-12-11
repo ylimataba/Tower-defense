@@ -122,6 +122,11 @@ void Window::createButtons()
     m_tower2Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_2_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower3Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_3_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower4Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_4_BUTTON_POSITION, TOWER_BUTTON_COLOR);
+
+    m_tower1Button.loadTexture("basic");
+    m_tower2Button.loadTexture("Freeze");
+    m_tower3Button.loadTexture("precision");
+    m_tower4Button.loadTexture("basic");
 }
 
 void Window::createTexts()

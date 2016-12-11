@@ -112,6 +112,13 @@ bool TowerButton::contains(sf::Vector2f mousePosition)
 	return false;
 }
 
+void TowerButton::loadTexture(std::string textureName)
+{
+	m_texture.loadFromFile("../maps/" + textureName + ".png");
+	sf::Texture* texture = &m_texture;
+	this->setTexture(texture);
+}
+
 void TowerButton::buttonPress()
 {
 	color(PRESSED_TOWER_BUTTON_COLOR);
