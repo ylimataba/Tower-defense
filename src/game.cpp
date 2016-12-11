@@ -218,20 +218,20 @@ bool Game::health_ok()
     }
 }
 
-
-
-/*
 int Game::getHealth()
 {
     return this->health;
 }
-*/
+
 int Game::getMoney()
 {
     return this->money;
 }
 
-
+int Game::getRoundNumber()
+{
+    return this->round_number;
+}
 
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     for(auto &enemy : enemyList)
@@ -305,4 +305,33 @@ void Game::sellTower(sf::Vector2f position){
     money += tower->get_cost() * factor;
     cash.setString(std::to_string(money));
     removeTower(position);
+}
+
+std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
+{
+    std::pair<std::string, std::string> newPair;
+
+    newPair = {"map", map->getMapName()};
+    objectsToSave.push_back(newPair);
+
+    newPair = {"health", std::to_string(getHealth())};
+    objectsToSave.push_back(newPair);
+
+    newPair = {"round", std::to_string(getRoundNumber())};
+    objectsToSave.push_back(newPair);
+
+    newPair = {"money", std::to_string(getMoney())};
+    objectsToSave.push_back(newPair);
+
+    for (auto tower : towerList)
+    {
+        std::string second = std::to_string(tower.get_type()) + ";" +
+                             std::to_string(tower.getPos().x) + ";" + 
+                             std::to_string(tower.getPos().y);
+
+        newPair = {"tower", second};
+        objectsToSave.push_back(newPair);
+    }
+
+    return objectsToSave;
 }

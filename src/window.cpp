@@ -1,5 +1,6 @@
 #include "window.hpp"
 #include "menuObjects.hpp"
+#include "save.hpp"
 #include <SFML/Window.hpp>
 #include <cstddef>
 #include <string>
@@ -327,6 +328,11 @@ void Window::buttonPress()
     {
         if (m_saveButton.contains(m_mousePosition))
         {
+            save::Save *newSave = new save::Save(m_game->getObjectsToSave());
+            newSave->saveGame();
+            delete newSave;
+
+            m_textBarText.setText("Game saved");
             m_saveButton.buttonPress();
         }
         else if (m_playButton.contains(m_mousePosition))

@@ -23,8 +23,9 @@ public:
     void play();
     void set_rounds(std::vector<std::string> rounds);
     bool health_ok();
-    //int getHealth();
+    int getHealth();
     int getMoney();
+    int getRoundNumber();
     void setIsBuildPhase(bool setPhase);
     bool getIsBuildPhase();
     void setIsGamePaused(bool pauseState);
@@ -34,7 +35,7 @@ public:
     int getSpeed() const;
     void loadRoundsFromFile();
     void sellTower(sf::Vector2f position);
-	
+	std::vector<std::pair<std::string, std::string>>& getObjectsToSave();
 
 private:
     bool gameOver;
@@ -73,6 +74,8 @@ private:
     bool first_wave = true;//prevents delay at the start of the round (unless string starts with 't')
     float waveDelayTime = 1.0;//seconds, stackable (ex. "AAAtttttB")
     int enemy_id = 0;
+
+    std::vector<std::pair<std::string, std::string>> objectsToSave;
 };
 
 #endif // GAME_H

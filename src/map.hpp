@@ -17,11 +17,14 @@ class Map : public sf::Drawable {
         void addTower(sf::Vector2f position);
         void removeTower(sf::Vector2f position);
         int getNumberOfMaps();
+        std::string getMapName();
+        void setMapName(std::string newMap);
     private: 
         tmx::MapLoader* map;
         std::vector<sf::Vector2f> enemyRoute;
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
         const int numberOfMaps;
+        std::string mapName;
 
 };
 } // namespace map
