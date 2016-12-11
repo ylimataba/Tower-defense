@@ -34,6 +34,7 @@ public:
     int getSpeed() const;
     void loadRoundsFromFile();
     void sellTower(sf::Vector2f position);
+    void upgradeTower(sf::Vector2f position);
 	
 
 private:

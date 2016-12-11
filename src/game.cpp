@@ -306,3 +306,39 @@ void Game::sellTower(sf::Vector2f position){
     cash.setString(std::to_string(money));
     removeTower(position);
 }
+
+/*
+void Game::upgradeTower(sf::Vector2f position) {
+    //Tower* tower = getTower(position);
+    int t_type = tower->get_type();
+    if(t_type < 20) {//tier 1
+        if(t_type == 11) {//basic, upgrade only to blast for now, need to add more buttons later
+            for(auto &it : towerList) {
+                
+            }
+            //delete tower;
+            //tower = new BlastTower();
+        }
+        else if(t_type == 12) {//(simple) freeze, upgrade to multifreeze
+            delete tower;
+            tower = new MultiFreezeTower();
+        }
+    }
+
+    else if(t_type < 30) {//tier 2
+        if(t_type == 21) {//blast, upgrade to super-(what else?:P)-blast once finished
+            
+        }
+        else if(t_type == 22) {//multifreeze, upgrade to freeze pulse once finished
+            
+        }
+        else if(t_type == 23) {//precision, upgrade to death ray/whatever
+            
+        }
+    }
+
+    else {
+        std::cout << "upgrade not available to #" << tower->get_type() << std::endl;
+    }
+}
+*/

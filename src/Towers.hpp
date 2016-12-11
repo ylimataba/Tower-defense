@@ -51,7 +51,9 @@ public:
     virtual std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies) = 0;
     virtual int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
     int get_cost() {return cost;}
+    int get_type() {return type;}
 protected:
+    int type;
     sf::Vector2f position;
     int hp;
     float range;
@@ -81,6 +83,7 @@ public:
         object.setPosition(position);
         cooldown = 1.0f;
         cost = 50;
+        type = 11;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor);
@@ -96,6 +99,7 @@ public:
         object.setPosition(position);
         cooldown = 1.0f;
         cost = 50;
+        type = 12;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
@@ -110,6 +114,7 @@ public:
         object.setPosition(position);
         cooldown = 1.5;
         cost = 200;
+        type = 23;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
@@ -124,6 +129,7 @@ public:
         object.setPosition(position);
         cooldown = 3.f;
         cost = 200;
+        type = 21;
         
         s_dmg = 1;
         s_rad = 25.0;
@@ -144,6 +150,7 @@ public:
         object.setPosition(position);
         cooldown = 1.f;
         cost = 200;
+        type = 22;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
@@ -159,5 +166,5 @@ class VolleyTower, might just scrap this
 }
 */
 
-float calc_distance(sf::Vector2f tower, sf::Vector2f target);
+//float calc_distance(sf::Vector2f tower, sf::Vector2f target);
 #endif
