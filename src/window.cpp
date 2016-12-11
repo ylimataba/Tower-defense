@@ -55,6 +55,26 @@ sf::Vector2f Window::getCurrentMapTile()
     float tileX = int(m_mousePosition.x / MAP_TILE_SIZE) * MAP_TILE_SIZE;
     float tileY = int(m_mousePosition.y / MAP_TILE_SIZE) * MAP_TILE_SIZE;
 
+    if(tileY > (MAP_HEIGHT - MAP_TILE_SIZE))
+    {
+        tileY = (MAP_HEIGHT - MAP_TILE_SIZE);
+    }
+
+    if(tileX > (MAP_WIDTH - MAP_TILE_SIZE))
+    {
+        tileX = (MAP_WIDTH - MAP_TILE_SIZE);
+    }
+
+    if(tileY < 0)
+    {
+        tileY = 0;
+    }
+
+    if(tileX < 0)
+    {
+        tileX = 0;
+    }
+
     return sf::Vector2f(tileX, tileY);
 }
 
@@ -151,26 +171,6 @@ void Window::updateTowerPlacer()
     if(m_tower != nullptr)
     {
         sf::Vector2f position = getCurrentMapTile();
-
-        if(position.y > (MAP_HEIGHT - MAP_TILE_SIZE))
-        {
-            position.y = (MAP_HEIGHT - MAP_TILE_SIZE);
-        }
-
-        if(position.x > (MAP_WIDTH - MAP_TILE_SIZE))
-        {
-            position.x = (MAP_WIDTH - MAP_TILE_SIZE);
-        }
-
-        if(position.y < 0)
-        {
-            position.y = 0;
-        }
-
-        if(position.x < 0)
-        {
-            position.x = 0;
-        }
 
         m_tower->setPosition(position);
     }
