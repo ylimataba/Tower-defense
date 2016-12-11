@@ -307,6 +307,7 @@ void Game::sellTower(sf::Vector2f position){
     removeTower(position);
 }
 
+<<<<<<< HEAD
 std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
 {
     std::pair<std::string, std::string> newPair;
@@ -325,9 +326,9 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
 
     for (auto tower : towerList)
     {
-        std::string second = std::to_string(tower->get_type()) + ";" +
-                             std::to_string(tower->getPos().x) + ";" + 
-                             std::to_string(tower->getPos().y);
+        std::string second = std::to_string(tower.get_type()) + ";" +
+                             std::to_string(tower.getPos().x) + ";" + 
+                             std::to_string(tower.getPos().y);
 
         newPair = {"tower", second};
         objectsToSave.push_back(newPair);
@@ -335,7 +336,7 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
 
     return objectsToSave;
 }
-
+=======
 /*
 void Game::upgradeTower(sf::Vector2f position) {
     //Tower* tower = getTower(position);
@@ -371,3 +372,4 @@ void Game::upgradeTower(sf::Vector2f position) {
     }
 }
 */
+>>>>>>> cfe0ca8c33e03e5d011987e017ba8e1867f50831
