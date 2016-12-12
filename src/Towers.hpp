@@ -78,7 +78,7 @@ protected:
 class BasicTower : public Tower {
 public:
     BasicTower() : Tower(100, 50.0, 1) {
-        texture.loadFromFile("../maps/basic.png");
+        texture.loadFromFile("../maps/Basic.png");
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.0f;
@@ -109,7 +109,7 @@ class PrecisionTower : public Tower
 {
 public:
     PrecisionTower() : Tower(100, 120.0, 2) {
-        texture.loadFromFile("../maps/precision.png");
+        texture.loadFromFile("../maps/Precision.png");
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.5;
@@ -124,7 +124,7 @@ class BlastTower : public Tower
 {
 public:
     BlastTower() : Tower(100, 70.0, 2) {
-        texture.loadFromFile("../maps/basic.png");
+        texture.loadFromFile("../maps/Blast.png");
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 3.f;
