@@ -13,14 +13,31 @@ public:
 
 	~Save();
 
-	void loadPreviousGame();
 	void saveGame();
 
 private:
-	bool m_previousSaveExists;
-
-	std::vector<std::pair<std::string, std::string>> m_objectsToSave;
+	Save(const Save&);
+	Save& operator=(const Save&);
 	
+	std::vector<std::pair<std::string, std::string>> m_objectsToSave;	
+};
+
+
+class Load
+{
+public:
+	Load();
+
+	~Load();
+
+	void getObjects();
+
+private:
+	Load(const Load&);
+	Load& operator=(const Load&);
+
+	std::vector<std::pair<std::string, std::string>> m_objectsToLoad;
+
 };
 
 }; // namespace save
