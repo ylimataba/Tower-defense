@@ -147,7 +147,7 @@ void Game::move_enemies()
                 enemy->move(deltaTime, speed);
                 if(enemy->is_finished()){
                     health -= enemy->get_hp();
-					health_indicator.setString(std::to_string(health));
+                    health_indicator.setString(std::to_string(health));
                     enemy.reset();
                 }
                 else if(!enemy->is_alive()){
@@ -195,18 +195,17 @@ bool Game::next_round()
 
 void Game::play()
 {
-	
-    round.setString("Round " + std::to_string(round_number));
-    create_enemies(.2f);
-    move_enemies(); 
-    shoot_enemies();
-    if(round_completed())
-    {
-        addMoney(round_bonus);
-        next_round();
-    }
-    health_ok();
-	
+    if(health_ok()){
+        round.setString("Round " + std::to_string(round_number));
+        create_enemies(.2f);
+        move_enemies(); 
+        shoot_enemies();
+        if(round_completed())
+        {
+            addMoney(round_bonus);
+            next_round();
+        }
+    }	
 }
 
 void Game::set_rounds(std::vector<std::string> rounds)
@@ -225,6 +224,8 @@ bool Game::health_ok()
     }
 
     else{
+        health = 0;
+        health_indicator.setString(std::to_string(health));
         gameOver = true;
         return false;
     }
