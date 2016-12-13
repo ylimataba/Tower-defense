@@ -333,6 +333,8 @@ void Window::buttonPress()
     {
         if (m_saveButton.contains(m_mousePosition))
         {
+            m_game->setIsGamePaused(true);
+            
             save::Save *newSave = new save::Save(m_game->getObjectsToSave());
             newSave->saveGame();
             delete newSave;
@@ -342,6 +344,8 @@ void Window::buttonPress()
         }
         else if (m_loadButton.contains(m_mousePosition))
         {
+            m_game->setIsGamePaused(true);
+
             save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
             delete newLoad;
             m_game->loadObjects();

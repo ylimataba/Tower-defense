@@ -367,15 +367,19 @@ void Game::loadObjects()
 
         if (str == "money")
         {
-            money = std::stoi(object.second);
+            this->money = std::stoi(object.second);
         }
         else if (str == "healt")
         {
-            health = std::stoi(object.second);
+            this->health = std::stoi(object.second);
         }
         else if (str == "map")
         {
             //map->loadNewMap(object.second);
+        }
+        else if (str == "round")
+        {
+            //this->round = std::stoi(object.second);
         }
         else if (str == "tower")
         {
@@ -383,7 +387,7 @@ void Game::loadObjects()
             {
                 case 11:
                     std::cout << "Basic\n";
-                    //xpos = parseObjectMembers(object, 2)...
+                    //xpos = std::stof(parseObjectMembers(object, 2));
                     break;
                 default:
                     break;
@@ -394,6 +398,8 @@ void Game::loadObjects()
 
         }
     }
+
+    this->setIsGamePaused(true);
 }
 
 std::string Game::parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex)
