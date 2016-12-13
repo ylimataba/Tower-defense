@@ -92,6 +92,7 @@ void Window::drawAll()
     draw(m_playButton);
     draw(m_speedButton);
     draw(m_mapButton);
+    draw(m_loadButton);
 
     draw(m_tower1Button);
     draw(m_tower2Button);
@@ -101,10 +102,12 @@ void Window::drawAll()
     draw(m_textBar);
     draw(m_lifeBar);
     
+    draw(m_loadButtonText);
     draw(m_saveButtonText);
     draw(m_playButtonText);
     draw(m_speedButtonText);
     draw(m_mapButtonText);
+
     draw(m_textBarText);
 
     if (m_tower != nullptr && m_isTowerBeingBuilt && !isCollision())
@@ -138,6 +141,7 @@ void Window::createButtons()
     m_playButton = gui::NormalButton(BASE_BUTTON_SIZE, PLAY_BUTTON_POSITION, BASE_BUTTON_COLOR);
     m_speedButton = gui::NormalButton(BASE_BUTTON_SIZE, SPEED_BUTTON_POSITION, BASE_BUTTON_COLOR);
     m_mapButton = gui::NormalButton(BASE_BUTTON_SIZE, MAP_BUTTON_POSITION, BASE_BUTTON_COLOR);
+    m_loadButton = gui::NormalButton(BASE_BUTTON_SIZE, LOAD_BUTTON_POSITION, BASE_BUTTON_COLOR);
 
     m_tower1Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_1_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower2Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_2_BUTTON_POSITION, TOWER_BUTTON_COLOR);
@@ -156,6 +160,7 @@ void Window::createTexts()
     m_playButtonText = gui::Text("PLAY", gameFont, &m_playButton);
     m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
     m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
+    m_loadButtonText = gui::Text("LOAD", gameFont, &m_loadButton);
 
     m_textBarText = gui::Text("New game", gameFont, &m_textBar);
 }
@@ -308,9 +313,9 @@ void Window::checkEvents()
                 m_isTowerBeingBuilt = false;
             }
             else 
-                {
+            {
                     buttonPress();
-                }
+            }
         }
         else if (event.type == sf::Event::MouseButtonReleased)
         {
@@ -327,18 +332,22 @@ void Window::buttonPress()
     if(!m_isTowerBeingBuilt)
     {
         if (m_saveButton.contains(m_mousePosition))
-        {/*
+        {
             save::Save *newSave = new save::Save(m_game->getObjectsToSave());
             newSave->saveGame();
             delete newSave;
+
             m_textBarText.setText("Game saved");
-        */
+            m_saveButton.buttonPress();
+        }
+        else if (m_loadButton.contains(m_mousePosition))
+        {
             save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
             delete newLoad;
             m_game->loadObjects();
-            m_textBarText.setText("Game loaded");
 
-            m_saveButton.buttonPress();
+            m_textBarText.setText("Game loaded");
+            m_loadButton.buttonPress();
         }
         else if (m_playButton.contains(m_mousePosition))
         {
@@ -496,6 +505,7 @@ void Window::buttonRelease()
     m_playButton.buttonUnPress();
     m_speedButton.buttonUnPress();
     m_mapButton.buttonUnPress();
+    m_loadButton.buttonUnPress();
 
     m_tower1Button.buttonUnPress();
     m_tower2Button.buttonUnPress();

@@ -51,11 +51,13 @@ private:
 	gui::NormalButton m_playButton;
 	gui::NormalButton m_speedButton;
 	gui::NormalButton m_mapButton;
+	gui::NormalButton m_loadButton;
 
 	gui::Text m_saveButtonText;
 	gui::Text m_playButtonText;
 	gui::Text m_speedButtonText;
 	gui::Text m_mapButtonText;
+	gui::Text m_loadButtonText;
 
 	gui::TowerButton m_tower1Button;
 	gui::TowerButton m_tower2Button;
