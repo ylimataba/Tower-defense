@@ -10,7 +10,7 @@ Game::Game(map::Map* map)
 {
     gameOver = false;
     health = 100;
-    money = 300;
+    money = 700;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
@@ -74,6 +74,14 @@ void Game::create_enemies(float timeBetweenSpawn)
                     break;
                 case 'C':
                     enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute(), enemy_id)) );
+                    enemy_id++;
+                    break;
+                case 'D':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new ExtremeEnemy(map->getEnemyRoute(), enemy_id)) );
+                    enemy_id++;
+                    break;
+                case 'E':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new SuperEnemy(map->getEnemyRoute(), enemy_id)) );
                     enemy_id++;
                     break;
                 case 't':
@@ -188,11 +196,14 @@ void Game::play()
 {
 	
     round.setString("Round " + std::to_string(round_number));
-    create_enemies(.5f);
+    create_enemies(.2f);
     move_enemies(); 
     shoot_enemies();
     if(round_completed())
+    {
+        addMoney(200);
         next_round();
+    }
     health_ok();
 	
 }
@@ -226,6 +237,12 @@ int Game::getHealth()
 int Game::getMoney()
 {
     return this->money;
+}
+
+void Game::addMoney(int amount)
+{
+    this->money += amount;
+    cash.setString(std::to_string(money));
 }
 
 int Game::getRoundNumber()

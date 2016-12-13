@@ -25,6 +25,7 @@ public:
     bool health_ok();
     int getHealth();
     int getMoney();
+    void addMoney(int amount);
     int getRoundNumber();
     void setIsBuildPhase(bool setPhase);
     bool getIsBuildPhase();

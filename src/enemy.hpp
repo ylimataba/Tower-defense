@@ -55,7 +55,7 @@ class Enemy : public sf::Drawable
 
 class EasyEnemy : public Enemy {
 public:
-    EasyEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.3f, 1, 1, route, id) {
+    EasyEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.2f, 1, 1, route, id) {
         // set up circle
         object.setRadius(7.f);
         object.setOutlineThickness(3);
@@ -74,7 +74,7 @@ private:
 
 class NormalEnemy : public Enemy {
 public:
-    NormalEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 2, 2, route, id) {
+    NormalEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.4f, 2, 2, route, id) {
         // set up circle
         object.setRadius(10.f);
         object.setOutlineThickness(3);
@@ -93,7 +93,7 @@ private:
 
 class HardEnemy : public Enemy {
 public:
-    HardEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.6f, 3, 3, route, id) {
+    HardEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 3, 3, route, id) {
         // set up circle
         object.setRadius(12.f);
         object.setOutlineThickness(3);
@@ -103,6 +103,41 @@ public:
         object.setPosition(route[0]);
     };
     
+private:
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
+};
+
+class ExtremeEnemy : public Enemy {
+public:
+    ExtremeEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 6, 6, route, id) {
+        // set up circle
+        object.setRadius(13.f);
+        object.setOutlineThickness(3);
+        object.setOutlineColor(sf::Color::Black);
+        object.setFillColor(sf::Color::Green);
+        object.setOrigin(12.f, 12.f);
+        object.setPosition(route[0]);
+    };
+    
+private:
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+        rt.draw(object);
+    };
+};
+
+class SuperEnemy : public Enemy {
+public:
+    SuperEnemy(std::vector<sf::Vector2f> route, int id) : Enemy(0.5f, 10, 10, route, id) {
+        // set up circle
+        object.setRadius(14.f);
+        object.setOutlineThickness(3);
+        object.setOutlineColor(sf::Color::Black);
+        object.setFillColor(sf::Color::White);
+        object.setOrigin(12.f, 12.f);
+        object.setPosition(route[0]);
+    };
     
 private:
     void draw(sf::RenderTarget& rt, sf::RenderStates states) const{

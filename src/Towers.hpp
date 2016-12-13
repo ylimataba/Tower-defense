@@ -82,7 +82,7 @@ public:
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.0f;
-        cost = 50;
+        cost = 200;
         type = 11;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -98,7 +98,7 @@ public:
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.0f;
-        cost = 50;
+        cost = 300;
         type = 12;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -112,8 +112,8 @@ public:
         texture.loadFromFile("../maps/Precision.png");
         object.setTexture(texture);
         object.setPosition(position);
-        cooldown = 1.5;
-        cost = 200;
+        cooldown = 0.4f;
+        cost = 1000;
         type = 23;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -127,8 +127,8 @@ public:
         texture.loadFromFile("../maps/Blast.png");
         object.setTexture(texture);
         object.setPosition(position);
-        cooldown = 3.f;
-        cost = 200;
+        cooldown = 1.0f;
+        cost = 700;
         type = 21;
         
         s_dmg = 1;
