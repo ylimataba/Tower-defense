@@ -40,6 +40,8 @@ public:
 	std::vector<std::pair<std::string, std::string>>& getObjectsToSave();
     std::vector<std::pair<std::string, std::string>>& getObjectsToLoad();
     void loadObjects();
+    std::string parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex);
+
 
 private:
     bool gameOver;

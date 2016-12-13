@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <iostream>
 
 sf::Font font(getFont());
 
@@ -378,7 +379,15 @@ void Game::loadObjects()
         }
         else if (str == "tower")
         {
-
+            switch (std::stoi(parseObjectMembers(object, 1)))
+            {
+                case 11:
+                    std::cout << "Basic\n";
+                    //xpos = parseObjectMembers(object, 2)...
+                    break;
+                default:
+                    break;
+            }
         }
         else
         {
@@ -387,6 +396,34 @@ void Game::loadObjects()
     }
 }
 
+std::string Game::parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex)
+{
+    std::string member;
+    std::string line = object.second;
+    int counter = 0;
+
+    for (auto i = 0; i < line.length(); i++)
+    {
+        if (line.substr(i, 1) == ";")
+        {
+            counter++;
+
+            if (counter == memberIndex)
+            {
+                return member;
+            }
+
+            member = "";
+        }
+        else
+        {
+            member += line.substr(i, 1);
+        }
+
+    }
+
+    return "";
+}
 
 /*
 void Game::upgradeTower(sf::Vector2f position) {
