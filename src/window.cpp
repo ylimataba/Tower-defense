@@ -276,6 +276,26 @@ void Window::checkEvents()
                     }
                     break;
 
+                case sf::Keyboard::Return:
+                    if (m_isMapBeingSelected)
+                    {
+                        if (m_selectedMapNumber <= m_currentMapNumber)
+                        {
+                            m_textBarText.setText("Changin map");
+
+                            m_mapMenu.color(TRANSPARENT);
+                            m_mapMenu.setOutlineColor(TRANSPARENT);
+                            m_isMapBeingSelected = false;
+
+                            // TODO Load new map and game (with round specific cash etc)
+
+                            break;
+                        }
+
+                        m_textBarText.setText("Map selected is not unlocked");
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -423,7 +443,7 @@ void Window::buttonPress()
 
                 std::string mapName = m_map->getMapName();
                 m_selectedMapNumber = std::stoi(mapName.substr(mapName.length() - 5, 1));
-                
+
                 m_textBarText.setText("Map selection");
                 m_mapMenu.color(MAP_MENU_COLOR);
                 m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
