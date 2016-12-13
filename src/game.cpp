@@ -382,7 +382,7 @@ void Game::loadObjects()
         }
         else
         {
-            std::cout << "Error while loading object: " << object.first << std::endl;
+
         }
     }
 }

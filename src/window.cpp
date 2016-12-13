@@ -331,14 +331,13 @@ void Window::buttonPress()
             save::Save *newSave = new save::Save(m_game->getObjectsToSave());
             newSave->saveGame();
             delete newSave;
+            m_textBarText.setText("Game saved");
         */
-            m_textBarText.setText("Loading game");
             save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
             delete newLoad;
             m_game->loadObjects();
             m_textBarText.setText("Game loaded");
 
-            m_textBarText.setText("Game saved");
             m_saveButton.buttonPress();
         }
         else if (m_playButton.contains(m_mousePosition))
