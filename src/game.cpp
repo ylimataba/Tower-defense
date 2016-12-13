@@ -375,7 +375,7 @@ void Game::loadObjects()
         }
         else if (str == "map")
         {
-            //map->loadNewMap(object.second);
+            //map->Load(object.second);
         }
         else if (str == "round")
         {
@@ -398,8 +398,6 @@ void Game::loadObjects()
 
         }
     }
-
-    this->setIsGamePaused(true);
 }
 
 std::string Game::parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex)

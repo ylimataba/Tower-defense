@@ -33,7 +33,8 @@ void Save::saveGame()
 
 
 Load::Load(std::vector<std::pair<std::string, std::string>> &objectsToLoad) :
-	m_objectsToLoad(objectsToLoad)
+	m_objectsToLoad(objectsToLoad),
+	m_savedGameExists(false)
 {
 	emptyPreviousObjects();
 	getObjects();
@@ -55,6 +56,14 @@ void Load::emptyPreviousObjects()
 void Load::getObjects()
 {
 	std::ifstream infile("../savedGame.txt");
+
+	if (!infile.is_open())
+	{
+		m_savedGameExists = false;
+		return;
+	}
+
+	m_savedGameExists = true;
 
 	std::pair<std::string, std::string> newPair;
 	std::string line;
@@ -84,6 +93,11 @@ void Load::getObjects()
 		    m_objectsToLoad.push_back(newPair);
 		}
 	}
+}
+
+bool Load::gameSaveExists()
+{
+	return m_savedGameExists;
 }
 
 } // namepace save

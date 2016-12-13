@@ -33,10 +33,13 @@ public:
 
 	void emptyPreviousObjects();
 	void getObjects();
+	bool gameSaveExists();
 
 private:
 	Load(const Load&);
 	Load& operator=(const Load&);
+
+	bool m_savedGameExists;
 
 	std::vector<std::pair<std::string, std::string>> &m_objectsToLoad;
 
