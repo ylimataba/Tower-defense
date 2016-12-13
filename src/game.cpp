@@ -10,7 +10,7 @@ Game::Game(map::Map* map)
 {
     gameOver = false;
     health = 100;
-    money = 300;
+    money = 650;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
@@ -42,7 +42,7 @@ Game::Game(map::Map* map)
     health_indicator.setColor(sf::Color::Red);
 
     game_over.setFont(font);
-    game_over.setPosition(300,200);
+    game_over.setPosition(200,200);
     game_over.setString("GAME OVER!");
     game_over.setCharacterSize(100);
     game_over.setStyle(sf::Text::Bold);
@@ -74,6 +74,14 @@ void Game::create_enemies(float timeBetweenSpawn)
                     break;
                 case 'C':
                     enemyList.push_back( std::unique_ptr<Enemy> (new HardEnemy(map->getEnemyRoute(), enemy_id)) );
+                    enemy_id++;
+                    break;
+                case 'D':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new ExtremeEnemy(map->getEnemyRoute(), enemy_id)) );
+                    enemy_id++;
+                    break;
+                case 'E':
+                    enemyList.push_back( std::unique_ptr<Enemy> (new SuperEnemy(map->getEnemyRoute(), enemy_id)) );
                     enemy_id++;
                     break;
                 case 't':
@@ -188,11 +196,14 @@ void Game::play()
 {
 	
     round.setString("Round " + std::to_string(round_number));
-    create_enemies(.5f);
+    create_enemies(.2f);
     move_enemies(); 
     shoot_enemies();
     if(round_completed())
+    {
+        addMoney(round_bonus);
         next_round();
+    }
     health_ok();
 	
 }
@@ -226,6 +237,12 @@ int Game::getHealth()
 int Game::getMoney()
 {
     return this->money;
+}
+
+void Game::addMoney(int amount)
+{
+    this->money += amount;
+    cash.setString(std::to_string(money));
 }
 
 int Game::getRoundNumber()
@@ -335,6 +352,41 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
 
     return objectsToSave;
 }
+
+std::vector<std::pair<std::string, std::string>>& Game::getObjectsToLoad()
+{
+    return objectsToLoad;
+}
+
+void Game::loadObjects()
+{
+    for (auto object : objectsToLoad)
+    {
+        std::string str = object.first;
+
+        if (str == "money")
+        {
+            money = std::stoi(object.second);
+        }
+        else if (str == "healt")
+        {
+            health = std::stoi(object.second);
+        }
+        else if (str == "map")
+        {
+            //map->loadNewMap(object.second);
+        }
+        else if (str == "tower")
+        {
+
+        }
+        else
+        {
+            std::cout << "Error while loading object: " << object.first << std::endl;
+        }
+    }
+}
+
 
 /*
 void Game::upgradeTower(sf::Vector2f position) {

@@ -25,6 +25,7 @@ public:
     bool health_ok();
     int getHealth();
     int getMoney();
+    void addMoney(int amount);
     int getRoundNumber();
     void setIsBuildPhase(bool setPhase);
     bool getIsBuildPhase();
@@ -37,10 +38,13 @@ public:
     void sellTower(sf::Vector2f position);
     void upgradeTower(sf::Vector2f position);
 	std::vector<std::pair<std::string, std::string>>& getObjectsToSave();
+    std::vector<std::pair<std::string, std::string>>& getObjectsToLoad();
+    void loadObjects();
 
 private:
     bool gameOver;
     int round_number;
+    int round_bonus = 100;
     std::string current_round;
     int money;
     int health;
@@ -77,6 +81,7 @@ private:
     int enemy_id = 0;
 
     std::vector<std::pair<std::string, std::string>> objectsToSave;
+    std::vector<std::pair<std::string, std::string>> objectsToLoad;
 };
 
 #endif // GAME_H

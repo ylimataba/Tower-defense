@@ -19,22 +19,21 @@ float calc_rotation(const sf::Vector2f tower, const sf::Vector2f target){
         float a = acos((tower.x - target.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
         return a;
     }
-    if((tower.y - target.y) <= 0 && (tower.x - target.x) >= 0)    //vasen ala
+    else if((tower.y - target.y) <= 0 && (tower.x - target.x) >= 0)    //vasen ala
     {
         float a = acos((tower.x - target.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
         return -a;
     }
-    if((tower.y - target.y) <= 0 && (tower.x - target.x) <= 0)    //oikea ala
+    else if((tower.y - target.y) <= 0 && (tower.x - target.x) <= 0)    //oikea ala
     {
         float a = acos((target.x - tower.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
         return (180 + a);
     }
-    if((tower.y - target.y) >= 0 && (tower.x - target.x) <= 0)    //oikea yla
+    else            //if((tower.y - target.y) >= 0 && (tower.x - target.x) <= 0)    oikea yla
     {
         float a = acos((target.x - tower.x)/(calc_distance(tower, target))) * 180.0 / 3.14159f;
         return (180 - a);
     }
-    return 0;
 }
 
 void Tower::draw(sf::RenderTarget& rt, sf::RenderStates states) const{

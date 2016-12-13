@@ -78,11 +78,11 @@ protected:
 class BasicTower : public Tower {
 public:
     BasicTower() : Tower(100, 50.0, 1) {
-        texture.loadFromFile("../maps/basic.png");
+        texture.loadFromFile("../maps/Basic.png");
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.0f;
-        cost = 50;
+        cost = 200;
         type = 11;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -98,7 +98,7 @@ public:
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.0f;
-        cost = 50;
+        cost = 300;
         type = 12;
     };
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -109,11 +109,11 @@ class PrecisionTower : public Tower
 {
 public:
     PrecisionTower() : Tower(100, 120.0, 2) {
-        texture.loadFromFile("../maps/precision.png");
+        texture.loadFromFile("../maps/Precision.png");
         object.setTexture(texture);
         object.setPosition(position);
-        cooldown = 1.5;
-        cost = 200;
+        cooldown = 0.4f;
+        cost = 1000;
         type = 23;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
@@ -124,15 +124,15 @@ class BlastTower : public Tower
 {
 public:
     BlastTower() : Tower(100, 70.0, 2) {
-        texture.loadFromFile("../maps/basic.png");
+        texture.loadFromFile("../maps/Blast.png");
         object.setTexture(texture);
         object.setPosition(position);
-        cooldown = 3.f;
-        cost = 200;
+        cooldown = 1.0f;
+        cost = 700;
         type = 21;
         
-        s_dmg = 1;
-        s_rad = 25.0;
+        s_dmg = 2;
+        s_rad = 55.0;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);

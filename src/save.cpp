@@ -5,11 +5,12 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <utility>
 
 namespace save {
 
-Save::Save(std::vector<std::pair<std::string, std::string>> &objectsToSave)
-	: m_objectsToSave(objectsToSave)
+Save::Save(std::vector<std::pair<std::string, std::string>> &objectsToSave) :
+	m_objectsToSave(objectsToSave)
 {
 }
 
@@ -22,8 +23,6 @@ void Save::saveGame()
 {
 	std::ofstream outfile("../savedGame.txt");
 
-	outfile << "Tower Defense - Saved Game\n";
-
 	for (auto it : m_objectsToSave)
 	{
 		outfile << it.first << ";" << it.second << std::endl;
@@ -33,8 +32,10 @@ void Save::saveGame()
 }
 
 
-Load::Load()
+Load::Load(std::vector<std::pair<std::string, std::string>> &objectsToLoad) :
+	m_objectsToLoad(objectsToLoad)
 {
+	emptyPreviousObjects();
 	getObjects();
 }
 
@@ -43,11 +44,18 @@ Load::~Load()
 
 }
 
-void getObjects()
+void Load::emptyPreviousObjects()
 {
-	std::ifstream infile("savedGame.txt");
+	while (!m_objectsToLoad.empty())
+	{
+		m_objectsToLoad.pop_back();
+	}
+}
 
-	std::vector<std::pair<std::string, std::string>> objectsVector;
+void Load::getObjects()
+{
+	std::ifstream infile("../savedGame.txt");
+
 	std::pair<std::string, std::string> newPair;
 	std::string line;
 
@@ -57,14 +65,14 @@ void getObjects()
 	    
 	    std::string objectName;
 
-	    for (int i = 0; i << line.length(); i++)
+	    for (auto i = 0; i < line.length(); i++)
 	    {
-	    	if (line.substr(i, 1) != ";")
+	    	if (line.substr(i, 1) == ";")
 	    	{
-	    		objectName = objectName + line.substr(i, 1);
+	    		break;
 	    	}
 
-	    	break;
+    		objectName = objectName + line.substr(i, 1);	    	
 	    }
 
 	    if (objectName != "")
@@ -73,12 +81,9 @@ void getObjects()
 
 	    	newPair = {objectName, objectInfo};
 
-		    objectsVector.push_back(newPair);
+		    m_objectsToLoad.push_back(newPair);
 		}
 	}
-
-	m_objectsToLoad = objectsVector;
 }
 
-
-}; // namepace save
+} // namepace save

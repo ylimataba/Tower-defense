@@ -144,10 +144,10 @@ void Window::createButtons()
     m_tower3Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_3_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower4Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_4_BUTTON_POSITION, TOWER_BUTTON_COLOR);
 
-    m_tower1Button.loadTexture("basic");
+    m_tower1Button.loadTexture("Basic");
     m_tower2Button.loadTexture("Freeze");
-    m_tower3Button.loadTexture("precision");
-    m_tower4Button.loadTexture("basic");
+    m_tower3Button.loadTexture("Precision");
+    m_tower4Button.loadTexture("Blast");
 }
 
 void Window::createTexts()
@@ -157,7 +157,7 @@ void Window::createTexts()
     m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
     m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
 
-    m_textBarText = gui::Text("This is the information bar for the game", gameFont, &m_textBar);
+    m_textBarText = gui::Text("New game", gameFont, &m_textBar);
 }
 
 void Window::createBars()
@@ -327,10 +327,16 @@ void Window::buttonPress()
     if(!m_isTowerBeingBuilt)
     {
         if (m_saveButton.contains(m_mousePosition))
-        {
+        {/*
             save::Save *newSave = new save::Save(m_game->getObjectsToSave());
             newSave->saveGame();
             delete newSave;
+        */
+            m_textBarText.setText("Loading game");
+            save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
+            delete newLoad;
+            m_game->loadObjects();
+            m_textBarText.setText("Game loaded");
 
             m_textBarText.setText("Game saved");
             m_saveButton.buttonPress();

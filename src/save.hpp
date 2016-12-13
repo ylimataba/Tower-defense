@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <utility>
 
 namespace save {
 
@@ -26,17 +27,18 @@ private:
 class Load
 {
 public:
-	Load();
+	Load(std::vector<std::pair<std::string, std::string>> &objectsToLoad);
 
 	~Load();
 
+	void emptyPreviousObjects();
 	void getObjects();
 
 private:
 	Load(const Load&);
 	Load& operator=(const Load&);
 
-	std::vector<std::pair<std::string, std::string>> m_objectsToLoad;
+	std::vector<std::pair<std::string, std::string>> &m_objectsToLoad;
 
 };
 
