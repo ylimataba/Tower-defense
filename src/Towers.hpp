@@ -131,8 +131,8 @@ public:
         cost = 700;
         type = 21;
         
-        s_dmg = 1;
-        s_rad = 25.0;
+        s_dmg = 2;
+        s_rad = 55.0;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);

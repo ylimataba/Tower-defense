@@ -10,7 +10,7 @@ Game::Game(map::Map* map)
 {
     gameOver = false;
     health = 100;
-    money = 700;
+    money = 650;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
@@ -42,7 +42,7 @@ Game::Game(map::Map* map)
     health_indicator.setColor(sf::Color::Red);
 
     game_over.setFont(font);
-    game_over.setPosition(300,200);
+    game_over.setPosition(200,200);
     game_over.setString("GAME OVER!");
     game_over.setCharacterSize(100);
     game_over.setStyle(sf::Text::Bold);
@@ -201,7 +201,7 @@ void Game::play()
     shoot_enemies();
     if(round_completed())
     {
-        addMoney(200);
+        addMoney(round_bonus);
         next_round();
     }
     health_ok();

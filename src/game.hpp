@@ -42,6 +42,7 @@ public:
 private:
     bool gameOver;
     int round_number;
+    int round_bonus = 100;
     std::string current_round;
     int money;
     int health;
