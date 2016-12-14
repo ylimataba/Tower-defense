@@ -83,6 +83,11 @@ void Window::drawAll()
 {
     clear();
 
+    if(m_game->getIsBuildPhase())
+    {   // Set text back to play between rounds
+        m_playButtonText.setText("PLAY");
+    }
+
     draw(*m_map);
 
     draw(m_sideMenu);
@@ -394,7 +399,6 @@ void Window::buttonPress()
                 m_textBarText.setText("Game started");
                 m_playButtonText.setText("PAUSE");
                 m_game->setIsBuildPhase(false);
-                m_game->setIsGamePaused(false);
             }
             else if (!(m_game->getIsGamePaused()))
             {
