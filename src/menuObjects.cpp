@@ -282,12 +282,7 @@ bool TowerMenu::contains(sf::Vector2f mousePosition, sf::Vector2f tile){
 void TowerMenu::action(sf::Vector2f mousePosition){
     if(game->getIsBuildPhase() && tower != nullptr){
         if(upgradeButton.contains(mousePosition)){
-            std::cout << "upgrade" << tower->get_type() << std::endl;
             game->upgradeTower(tower);
-            /* TODO
-             * insert here a function call for tower upgrade
-             * and remove the print after you're done
-             */
             untoggle();
         }
         else if(sellButton.contains(mousePosition)){

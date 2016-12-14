@@ -42,6 +42,7 @@ public:
     void loadObjects();
     std::string parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex);
     bool getIsGameOver();
+    int getScore();
 
 
 private:

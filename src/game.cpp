@@ -204,7 +204,7 @@ bool Game::next_round()
 
 void Game::play()
 {
-    if(!gameOver){
+    if(!gameOver && health_ok()){
         round.setString("Round " + std::to_string(round_number));
         create_enemies(.2f);
         move_enemies(); 
@@ -283,7 +283,6 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
             rt.draw(game_over);
 
     }
-
 }
 
 void Game::setIsBuildPhase(bool setPhase)
@@ -468,7 +467,9 @@ void Game::upgradeTower(Tower* tower) {
                 cash.setString(std::to_string(money));
                 std::cout << "upgraded FreezeTower to MultiFreezeTower for " << cost << std::endl;
                 newtower->setPosition(pos);
+                newtower->toggleRange();
                 towerList.push_back(newtower);
+                map->addTower(pos);
             }
             else {
                 delete newtower;
@@ -485,7 +486,9 @@ void Game::upgradeTower(Tower* tower) {
                 cash.setString(std::to_string(money));
                 std::cout << "upgraded FreezeTower to MultiFreezeTower for " << cost << std::endl;
                 newtower->setPosition(pos);
+                newtower->toggleRange();
                 towerList.push_back(newtower);
+                map->addTower(pos);
             }
             else {
                 delete newtower;
@@ -516,4 +519,8 @@ void Game::upgradeTower(Tower* tower) {
 bool Game::getIsGameOver()
 {
     return gameOver;
+}
+
+int Game::getScore(){
+    return points;
 }

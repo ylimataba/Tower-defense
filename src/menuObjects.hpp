@@ -46,6 +46,8 @@ static const sf::Vector2f SPEED_BUTTON_POSITION(BASE_BUTTON_X_POSITION,
                                               BASE_BUTTON_Y_POSITION - 3 * (BASE_BUTTON_HEIGHT + BASE_BUTTON_SPACE));
 static const sf::Vector2f MAP_BUTTON_POSITION(BASE_BUTTON_X_POSITION, 
                                               BASE_BUTTON_Y_POSITION - 4 * (BASE_BUTTON_HEIGHT + BASE_BUTTON_SPACE));
+static const sf::Vector2f SCORES_BUTTON_POSITION(BASE_BUTTON_X_POSITION, 
+                                              BASE_BUTTON_Y_POSITION - 5 * (BASE_BUTTON_HEIGHT + BASE_BUTTON_SPACE));
 
 static const int TOWER_BUTTON_HEIGHT = BASE_BUTTON_WIDTH * 0.65;
 static const int TOWER_BUTTON_WIDTH = TOWER_BUTTON_HEIGHT;

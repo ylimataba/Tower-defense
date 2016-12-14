@@ -31,6 +31,8 @@ Window::Window(std::string title, map::Map *map, Game *game) :
     createButtons();
     createBars();
     createTexts();
+
+    m_scores = HighScore(&gameFont, game);
 }
 
 Window::~Window()
@@ -102,6 +104,7 @@ void Window::drawAll()
     draw(m_speedButton);
     draw(m_mapButton);
     draw(m_loadButton);
+    draw(m_scoresButton);
 
     draw(m_tower1Button);
     draw(m_tower2Button);
@@ -118,6 +121,7 @@ void Window::drawAll()
     draw(m_playButtonText);
     draw(m_speedButtonText);
     draw(m_mapButtonText);
+    draw(m_scoresButtonText);
 
     draw(m_textBarText);
 
@@ -131,6 +135,8 @@ void Window::drawAll()
     draw(m_towerMenu);
     
     draw(m_mapMenu);
+
+    draw(m_scores);
 }
 
 void Window::createMenus()
@@ -153,6 +159,7 @@ void Window::createButtons()
     m_speedButton = gui::NormalButton(BASE_BUTTON_SIZE, SPEED_BUTTON_POSITION, BASE_BUTTON_COLOR);
     m_mapButton = gui::NormalButton(BASE_BUTTON_SIZE, MAP_BUTTON_POSITION, BASE_BUTTON_COLOR);
     m_loadButton = gui::NormalButton(BASE_BUTTON_SIZE, LOAD_BUTTON_POSITION, BASE_BUTTON_COLOR);
+    m_scoresButton = gui::NormalButton(BASE_BUTTON_SIZE, SCORES_BUTTON_POSITION, BASE_BUTTON_COLOR);
 
     m_tower1Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_1_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower2Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_2_BUTTON_POSITION, TOWER_BUTTON_COLOR);
@@ -172,6 +179,7 @@ void Window::createTexts()
     m_speedButtonText = gui::Text("SPEED", gameFont, &m_speedButton);
     m_mapButtonText = gui::Text("MAPS", gameFont, &m_mapButton);
     m_loadButtonText = gui::Text("LOAD", gameFont, &m_loadButton);
+    m_scoresButtonText = gui::Text("SCORES", gameFont, &m_scoresButton);
 
     m_textBarText = gui::Text("New game", gameFont, &m_textBar);
 }
@@ -228,6 +236,10 @@ void Window::checkEvents()
         if (event.type == sf::Event::Closed)	
         {    	
             close();
+        }
+
+        if (m_game->getIsGameOver()){
+            m_scores.getUsername(event);
         }
 
         if (event.type == sf::Event::KeyPressed)
@@ -409,6 +421,7 @@ void Window::buttonPress()
                 m_textBarText.setText("Game started");
                 m_playButtonText.setText("PAUSE");
                 m_game->setIsBuildPhase(false);
+                m_scores.hideScores();
             }
             else if (!(m_game->getIsGamePaused()))
             {
@@ -421,6 +434,7 @@ void Window::buttonPress()
                 m_textBarText.setText("Game resumed");
                 m_playButtonText.setText("PAUSE");
                 m_game->setIsGamePaused(false);
+                m_scores.hideScores();
             }
 
             m_playButton.buttonPress();
@@ -464,6 +478,14 @@ void Window::buttonPress()
                 m_isMapBeingSelected = true;
             }
             m_mapButton.buttonPress();
+        }
+        else if(m_scoresButton.contains(m_mousePosition) && (m_game->getIsBuildPhase() || m_game->getIsGameOver()))
+        {
+            if(m_scores.isShowing())
+                m_scores.hideScores();
+            else
+                m_scores.showScores();
+            m_scoresButton.buttonPress();
         }
         else if (m_tower1Button.contains(m_mousePosition) && !m_game->getIsGameOver())
         {
@@ -563,6 +585,7 @@ void Window::buttonRelease()
     m_speedButton.buttonUnPress();
     m_mapButton.buttonUnPress();
     m_loadButton.buttonUnPress();
+    m_scoresButton.buttonUnPress();
 
     m_tower1Button.buttonUnPress();
     m_tower2Button.buttonUnPress();

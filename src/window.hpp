@@ -7,6 +7,7 @@
 #include "Towers.hpp"
 #include <SFML/Window.hpp>
 #include <cstddef>
+#include "highscore.hpp"
 
 class Window : public sf::RenderWindow
 {
@@ -52,12 +53,14 @@ private:
 	gui::NormalButton m_speedButton;
 	gui::NormalButton m_mapButton;
 	gui::NormalButton m_loadButton;
+        gui::NormalButton m_scoresButton;
 
 	gui::Text m_saveButtonText;
 	gui::Text m_playButtonText;
 	gui::Text m_speedButtonText;
 	gui::Text m_mapButtonText;
 	gui::Text m_loadButtonText;
+        gui::Text m_scoresButtonText;
 
 	gui::TowerButton m_tower1Button;
 	gui::TowerButton m_tower2Button;
@@ -78,6 +81,9 @@ private:
 	gui::Towers m_towerBeingBuilt;
 	gui::TowerMenu m_towerMenu;
 	Tower *m_tower = nullptr;
+
+        HighScore m_scores;
+
 };
 
 #endif // TOWER_DEFENCE_SRC_WINDOW_HPP
