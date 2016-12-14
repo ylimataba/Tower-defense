@@ -46,6 +46,7 @@ public:
 
 private:
     bool gameOver;
+    bool playerWon;
     int round_number;
     int round_bonus = 100;
     std::string current_round;
@@ -69,6 +70,7 @@ private:
     sf::Text round;
     sf::Text health_indicator;
     sf::Text game_over;
+    sf::Text player_won;
     bool isBuildPhase;
     bool isGamePaused;
     std::vector<std::string> rounds;

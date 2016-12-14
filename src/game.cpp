@@ -10,6 +10,7 @@ Game::Game(map::Map* map)
       map(map)
 {
     gameOver = false;
+    playerWon = false;
     health = 100;
     money = 6500;
     round_number = 1;
@@ -48,6 +49,13 @@ Game::Game(map::Map* map)
     game_over.setCharacterSize(100);
     game_over.setStyle(sf::Text::Bold);
     game_over.setColor(sf::Color::Red);
+
+    player_won.setFont(font);
+    player_won.setPosition(200,200);
+    player_won.setString("YOU WON!");
+    player_won.setCharacterSize(100);
+    player_won.setStyle(sf::Text::Bold);
+    player_won.setColor(sf::Color::Blue);
 
 }
 
@@ -180,7 +188,7 @@ bool Game::round_completed()
 
 bool Game::next_round()
 {
-    if(rounds.size() > 1){
+    if(rounds.size() > 2){
         rounds.erase(rounds.begin());
         current_round = rounds[0];
         enemies = 0;
@@ -190,12 +198,13 @@ bool Game::next_round()
         round_number++;
         return true;
     }
+
     return false;
 }
 
 void Game::play()
 {
-    if(health_ok()){
+    if(!gameOver){
         round.setString("Round " + std::to_string(round_number));
         create_enemies(.2f);
         move_enemies(); 
@@ -203,7 +212,12 @@ void Game::play()
         if(round_completed())
         {
             addMoney(round_bonus);
-            next_round();
+            if(!next_round()){
+                if(health_ok())
+                    playerWon = true;
+                gameOver = true;
+            }
+
         }
     }	
 }
@@ -262,8 +276,14 @@ void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     rt.draw(cash);
     rt.draw(round);
     rt.draw(health_indicator);
-    if(gameOver)
-        rt.draw(game_over);
+    if(gameOver){
+        if(playerWon)
+            rt.draw(player_won);
+        else
+            rt.draw(game_over);
+
+    }
+
 }
 
 void Game::setIsBuildPhase(bool setPhase)
