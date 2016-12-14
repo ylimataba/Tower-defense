@@ -442,7 +442,7 @@ void Game::upgradeTower(Tower* tower) {
         if(t_type == 11) {//basic, upgrade only to blast for now, need to add more buttons later
             Tower* newtower = new BlastTower();
             int cost = newtower->get_cost();
-            if(cost <= money) {
+            if((cost / 2) <= money) {
                 removeTower(pos);
                 money -= cost / 2;
                 cash.setString(std::to_string(money));
@@ -459,7 +459,7 @@ void Game::upgradeTower(Tower* tower) {
         else if(t_type == 12) {//(simple) freeze, upgrade to multifreeze
             Tower* newtower = new MultiFreezeTower();
             int cost = newtower->get_cost();
-            if(cost <= money) {
+            if((cost / 2) <= money) {
                 removeTower(pos);
                 money -= cost / 2;
                 cash.setString(std::to_string(money));

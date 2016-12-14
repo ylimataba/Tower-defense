@@ -146,7 +146,7 @@ std::unique_ptr<Enemy>* FreezeTower::seekTarget(std::vector<std::unique_ptr<Enem
 
 int FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
 {
-    int points = 0;
+    //int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime continuity from "mod 1.12.2016 19:27"
 
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
@@ -156,7 +156,7 @@ int FreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& paus
             pauseTime = 0;
         }
     }
-    return points;
+    return 0;
 }
 
 
@@ -294,6 +294,7 @@ std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr
             pos = enemy->get_position();
             d_cmp = calc_distance(getCenter(), pos);
             if(d_cmp <= range) {
+                //fill if there are nullptr..?
                 if(enemy->get_slow_duration() < s_duration) {
                     target3 = target2;
                     target2 = newtarget;
@@ -312,6 +313,29 @@ std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr
                         dist = d_cmp;
                     }
                 }
+                else {//messy, toxic and sensitive crap below, DO NOT TOUCH! (for now)
+                    if((*newtarget != enemy)) {
+                        //if null or better
+                        if(target2 != nullptr) {
+                            if(enemy->get_slow_duration() < (*target2)->get_slow_duration()) {
+                                target2 = &enemy;
+                            }
+                        }
+                        else {
+                            target2 = &enemy;
+                        }
+                    }
+                    if((*newtarget != enemy) and (*target2 != enemy)) {
+                        if((target3 != nullptr)) {
+                            if(enemy->get_slow_duration() < (*target3)->get_slow_duration()) {
+                                target3 = &enemy;
+                            }
+                        }
+                        else {
+                            target3 = &enemy;
+                        }
+                    }
+                }
             }
         }
     }
@@ -325,27 +349,24 @@ std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr
 
 int MultiFreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor)
 {
-    int points = 0;
+    //int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime continuity from "mod 1.12.2016 19:27"
     
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
-            points += (*target)->damage(dmg);
             (*target)->slow();
             target = nullptr;
         }
         if(target2 != nullptr) {
-            points += (*target2)->damage(dmg);
             (*target2)->slow();
             target2 = nullptr;
         }
         if(target3 != nullptr) {
-            points += (*target3)->damage(dmg);
             (*target3)->slow();
             target3 = nullptr;
         }
         shootTime.restart();
         pauseTime = 0;
     }
-    return points;
+    return 0;
 }
