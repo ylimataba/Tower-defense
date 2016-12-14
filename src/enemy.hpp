@@ -30,7 +30,7 @@ class Enemy : public sf::Drawable
         float get_slow_duration();
         int get_value();
         int get_hp();
-        int get_index(); //for tower memory, to be implemented
+        int get_index(); //for tower memory
         void set_index(int i); //alternative to setting with constructor, delete if not needed when indexing is ready
         
         //void basehit();
@@ -46,7 +46,7 @@ class Enemy : public sf::Drawable
         void resize();
         virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const = 0;
         float travel = 0;
-        int index; //for tower memory, to be implemented
+        int index; //for tower memory
 
         // object could be sprite but at this point circle will do fine
         sf::CircleShape object; 

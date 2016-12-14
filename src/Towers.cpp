@@ -282,6 +282,8 @@ int BlastTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pause
 std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies)
 {
     std::unique_ptr<Enemy> *newtarget = nullptr;
+    target2 = nullptr;
+    target3 = nullptr;
     float dist = range;
     sf::Vector2f pos;
     float s_duration = 30.0;
@@ -301,15 +303,7 @@ std::unique_ptr<Enemy>* MultiFreezeTower::seekTarget(std::vector<std::unique_ptr
                     dist = d_cmp;
                 }                
                 else if(enemy->get_slow_duration() == s_duration) {//might be near-impossible
-                    if(d_cmp < dist) {
-                        target3 = target2;
-                        target2 = newtarget;
-                        newtarget = &enemy;//should point to unique_ptr
-                        travel = enemy->get_travel();
-                        s_duration = enemy->get_slow_duration();
-                        dist = d_cmp;
-                    }
-                    else if((d_cmp == dist) && (enemy->get_travel() > travel)) {
+                    if(enemy->get_travel() >= travel) {
                         target3 = target2;
                         target2 = newtarget;
                         newtarget = &enemy;//should point to unique_ptr
@@ -336,21 +330,22 @@ int MultiFreezeTower::shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float&
     
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
-            points = (*target)->damage(dmg);
+            points += (*target)->damage(dmg);
             (*target)->slow();
-            if(target2 != nullptr) {
-                points += (*target2)->damage(dmg);
-                (*target2)->slow();
-                target2 = nullptr;
-            }
-            if(target3 != nullptr) {
-                points += (*target3)->damage(dmg);
-                (*target3)->slow();
-                target3 = nullptr;
-            }
-            shootTime.restart();
-            pauseTime = 0;
+            target = nullptr;
         }
+        if(target2 != nullptr) {
+            points += (*target2)->damage(dmg);
+            (*target2)->slow();
+            target2 = nullptr;
+        }
+        if(target3 != nullptr) {
+            points += (*target3)->damage(dmg);
+            (*target3)->slow();
+            target3 = nullptr;
+        }
+        shootTime.restart();
+        pauseTime = 0;
     }
     return points;
 }

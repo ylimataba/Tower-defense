@@ -36,7 +36,7 @@ public:
     int getSpeed() const;
     void loadRoundsFromFile();
     void sellTower(sf::Vector2f position);
-    void upgradeTower(sf::Vector2f position);
+    void upgradeTower(Tower* tower);
 	std::vector<std::pair<std::string, std::string>>& getObjectsToSave();
     std::vector<std::pair<std::string, std::string>>& getObjectsToLoad();
     void loadObjects();
