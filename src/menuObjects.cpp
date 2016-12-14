@@ -173,7 +173,7 @@ void Bar::setHealth(const float newHealth)
 
 	m_lengthInPercent = newHealth;
 
-	m_size.x = BASE_BAR_WIDTH / 100 * m_lengthInPercent;
+	m_size.x = BASE_BAR_WIDTH * m_lengthInPercent / 100;
 	setSize(m_size);
 }
 

@@ -17,15 +17,15 @@ sf::Font getFont()
 
 sf::Font gameFont(getFont());
 
-Window::Window(std::string title, map::Map *map, Game *game)
-	: sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
-          m_mousePosition(0, 0),
-          m_map(map),
-          m_game(game),
-          m_isTowerBeingBuilt(false),
-          m_towerBeingBuilt(gui::NONE),
-          m_isMapBeingSelected(false),
-          m_currentMapNumber(1)
+Window::Window(std::string title, map::Map *map, Game *game) :
+    sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
+    m_mousePosition(0, 0),
+    m_map(map),
+    m_game(game),
+    m_isTowerBeingBuilt(false),
+    m_towerBeingBuilt(gui::NONE),
+    m_isMapBeingSelected(false),
+    m_currentMapNumber(1)
 {
     createMenus();
     createButtons();
@@ -87,7 +87,7 @@ void Window::drawAll()
     {   // Set text back to play between rounds
         m_playButtonText.setText("PLAY");
     }
-
+    
     draw(*m_map);
 
     draw(m_sideMenu);
@@ -105,6 +105,8 @@ void Window::drawAll()
     draw(m_tower4Button);
 
     draw(m_textBar);
+
+    m_lifeBar.setHealth(m_game->getHealth());
     draw(m_lifeBar);
     
     draw(m_loadButtonText);
