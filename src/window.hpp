@@ -21,11 +21,6 @@ public:
 
 	void drawAll();
 
-	void createMenus();
-	void createButtons();
-	void createTexts();
-	void createBars();
-	
 	void updateTowerPlacer();
 	void setTowerPlacerRange(float newRange);
 	float getTowerPlacerRange();
@@ -34,13 +29,19 @@ public:
 	bool isInGameArea();
 
 	void checkEvents();
-	void buttonPress();
-	void buttonRelease();
 
 private:
 	Window(const Window&);
 	Window& operator=(const Window&);
 
+	void createMenus();
+	void createButtons();
+	void createTexts();
+	void createBars();
+
+	void buttonPress();
+	void buttonRelease();
+	
 	map::Map *m_map;
 	Game *m_game;
 

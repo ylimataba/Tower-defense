@@ -361,6 +361,9 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
     newPair = {"money", std::to_string(getMoney())};
     objectsToSave.push_back(newPair);
 
+    newPair = {"score", std::to_string(getScore())};
+    objectsToSave.push_back(newPair);    
+
     for (auto tower : towerList)
     {
         std::string second = std::to_string(tower->get_type()) + ";" +
@@ -393,13 +396,17 @@ void Game::loadObjects()
         {
             this->health = std::stoi(object.second);
         }
+        else if (str == "score")
+        {
+            this->points = std::stoi(object.second);
+        }
         else if (str == "map")
         {
             //map->Load(object.second);
         }
         else if (str == "round")
         {
-            //this->round = std::stoi(object.second);
+            this->round_number = std::stoi(object.second);
         }
         else if (str == "tower")
         {
