@@ -235,6 +235,13 @@ void Window::checkEvents()
                             m_tower = nullptr;
                         }
                     }
+                    else if (m_isMapBeingSelected)
+                    {
+                        m_mapMenu.color(TRANSPARENT);
+                        m_mapMenu.setOutlineColor(TRANSPARENT);
+                        m_isMapBeingSelected = false;
+                        m_textBarText.setText("");
+                    }
                     break;
 
                 case sf::Keyboard::Right:
@@ -255,7 +262,7 @@ void Window::checkEvents()
 
                 case sf::Keyboard::Left:
                     if (m_isMapBeingSelected)
-                    {
+                    {                        
                         int nextMapNumber = m_selectedMapNumber - 1;
 
                         if (nextMapNumber < 1)
@@ -266,6 +273,26 @@ void Window::checkEvents()
                         m_selectedMapNumber = nextMapNumber;
                         m_mapMenu.loadTexture(nextMapNumber);
                         m_textBarText.setText("Level " + std::to_string(nextMapNumber) + " selected");
+                    }
+                    break;
+
+                case sf::Keyboard::Return:
+                    if (m_isMapBeingSelected)
+                    {
+                        if (m_selectedMapNumber <= m_currentMapNumber)
+                        {
+                            m_textBarText.setText("Changin map");
+
+                            m_mapMenu.color(TRANSPARENT);
+                            m_mapMenu.setOutlineColor(TRANSPARENT);
+                            m_isMapBeingSelected = false;
+
+                            // TODO Load new map and game (with round specific cash etc)
+
+                            break;
+                        }
+
+                        m_textBarText.setText("Map selected is not unlocked");
                     }
                     break;
 
@@ -362,11 +389,12 @@ void Window::buttonPress()
         }
         else if (m_playButton.contains(m_mousePosition))
         {
-            if (m_game->getIsBuildPhase() && !(m_game->getIsGamePaused()))
+            if (m_game->getIsBuildPhase())
             {
                 m_textBarText.setText("Game started");
                 m_playButtonText.setText("PAUSE");
                 m_game->setIsBuildPhase(false);
+                m_game->setIsGamePaused(false);
             }
             else if (!(m_game->getIsGamePaused()))
             {
@@ -383,7 +411,7 @@ void Window::buttonPress()
 
             m_playButton.buttonPress();
         }
-        else if (m_speedButton.contains(m_mousePosition))
+        else if (m_speedButton.contains(m_mousePosition) && (!m_game->getIsGamePaused() && !m_game->getIsBuildPhase()))
         {
             std::string speedButtonText = "SPEED";
             int currentGameSpeed = m_game->getSpeed();
@@ -402,10 +430,8 @@ void Window::buttonPress()
         }
         else if (m_mapButton.contains(m_mousePosition))
         {
-            if (m_game->getIsGamePaused())
+            if (m_game->getIsGamePaused() && m_isMapBeingSelected)
             {
-                m_textBarText.setText("Map selection");
-                m_game->setIsGamePaused(false);
                 m_mapMenu.color(TRANSPARENT);
                 m_mapMenu.setOutlineColor(TRANSPARENT);
                 m_isMapBeingSelected = false;
@@ -413,6 +439,12 @@ void Window::buttonPress()
             else
             {
                 m_game->setIsGamePaused(true);
+                m_playButtonText.setText("RESUME");
+
+                std::string mapName = m_map->getMapName();
+                m_selectedMapNumber = std::stoi(mapName.substr(mapName.length() - 5, 1));
+
+                m_textBarText.setText("Map selection");
                 m_mapMenu.color(MAP_MENU_COLOR);
                 m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
                 m_isMapBeingSelected = true;

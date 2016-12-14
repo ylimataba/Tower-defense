@@ -145,7 +145,7 @@ class MultiFreezeTower : public Tower
 {
 public:
     MultiFreezeTower() : Tower(100, 90.0, 0) {
-        texture.loadFromFile("../maps/basic.png");
+        texture.loadFromFile("../maps/Freeze.png");
         object.setTexture(texture);
         object.setPosition(position);
         cooldown = 1.f;

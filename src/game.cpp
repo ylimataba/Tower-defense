@@ -11,7 +11,7 @@ Game::Game(map::Map* map)
 {
     gameOver = false;
     health = 100;
-    money = 650;
+    money = 65000;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
@@ -430,24 +430,31 @@ std::string Game::parseObjectMembers(std::pair<std::string, std::string> &object
     return "";
 }
 
-/*
-void Game::upgradeTower(sf::Vector2f position) {
-    //Tower* tower = getTower(position);
+
+void Game::upgradeTower(Tower* tower) {
+    if(tower == nullptr) {
+        std::cout << "NULL" << std::endl;
+        return;
+    }
+    sf::Vector2f pos = tower->getPos();
     int t_type = tower->get_type();
     if(t_type < 20) {//tier 1
         if(t_type == 11) {//basic, upgrade only to blast for now, need to add more buttons later
-            for(auto &it : towerList) {
-                
-            }
-            //delete tower;
-            //tower = new BlastTower();
+            removeTower(pos);
+            Tower* newtower = new BlastTower();
+            newtower->setPosition(pos);
+            towerList.push_back(newtower);
+            return;
         }
         else if(t_type == 12) {//(simple) freeze, upgrade to multifreeze
-            delete tower;
-            tower = new MultiFreezeTower();
+            removeTower(pos);
+            Tower* newtower = new MultiFreezeTower();
+            newtower->setPosition(pos);
+            towerList.push_back(newtower);
+            return;
         }
     }
-
+/*
     else if(t_type < 30) {//tier 2
         if(t_type == 21) {//blast, upgrade to super-(what else?:P)-blast once finished
             
@@ -459,9 +466,9 @@ void Game::upgradeTower(sf::Vector2f position) {
             
         }
     }
-
+*/
     else {
         std::cout << "upgrade not available to #" << tower->get_type() << std::endl;
     }
+    return;
 }
-*/
