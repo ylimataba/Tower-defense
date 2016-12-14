@@ -41,6 +41,7 @@ public:
     std::vector<std::pair<std::string, std::string>>& getObjectsToLoad();
     void loadObjects();
     std::string parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex);
+    bool getIsGameOver();
 
 
 private:

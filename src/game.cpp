@@ -472,3 +472,8 @@ void Game::upgradeTower(Tower* tower) {
     }
     return;
 }
+
+bool Game::getIsGameOver()
+{
+    return gameOver;
+}

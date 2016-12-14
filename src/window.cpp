@@ -83,7 +83,11 @@ void Window::drawAll()
 {
     clear();
 
-    if(m_game->getIsBuildPhase())
+    if (m_game->getIsGameOver())
+    {
+        m_playButtonText.setText("NEW GAME");
+    }
+    else if (m_game->getIsBuildPhase())
     {   // Set text back to play between rounds
         m_playButtonText.setText("PLAY");
     }
@@ -326,12 +330,12 @@ void Window::checkEvents()
             {
                 sf::Vector2f tile = getCurrentMapTile();
 
-                std::string text = "@" + std::to_string(int(tile.x)) + "," + std::to_string(int(tile.y));
+                std::string text;
 
                 switch (m_towerBeingBuilt)//1=Basic, 2=Freeze, 3=Precision, 4=Blast
                 {
                     case gui::TOWER:
-                        text = "Tower placed on map " + text; 
+                        text = "Tower placed on map "; 
                         m_game->addTower(m_tower);
                         m_tower = nullptr;
                         break;
@@ -396,7 +400,11 @@ void Window::buttonPress()
         }
         else if (m_playButton.contains(m_mousePosition))
         {
-            if (m_game->getIsBuildPhase())
+            if (m_game->getIsGameOver())
+            {
+                std::cout << "ACTION if play pressed && gameIsOver\n";
+            }
+            else if (m_game->getIsBuildPhase())
             {
                 m_textBarText.setText("Game started");
                 m_playButtonText.setText("PAUSE");
@@ -417,7 +425,7 @@ void Window::buttonPress()
 
             m_playButton.buttonPress();
         }
-        else if (m_speedButton.contains(m_mousePosition) && (!m_game->getIsGamePaused() && !m_game->getIsBuildPhase()))
+        else if (m_speedButton.contains(m_mousePosition) && (!m_game->getIsGamePaused() && !m_game->getIsBuildPhase()) && !m_game->getIsGameOver())
         {
             std::string speedButtonText = "SPEED";
             int currentGameSpeed = m_game->getSpeed();
@@ -457,7 +465,7 @@ void Window::buttonPress()
             }
             m_mapButton.buttonPress();
         }
-        else if (m_tower1Button.contains(m_mousePosition))
+        else if (m_tower1Button.contains(m_mousePosition) && !m_game->getIsGameOver())
         {
             if (m_game->getIsBuildPhase())
             {
@@ -478,7 +486,7 @@ void Window::buttonPress()
                 }
             }
         }
-        else if (m_tower2Button.contains(m_mousePosition))
+        else if (m_tower2Button.contains(m_mousePosition) && !m_game->getIsGameOver())
         {
             if (m_game->getIsBuildPhase())
             {
@@ -499,7 +507,7 @@ void Window::buttonPress()
                 }
             }
         }
-        else if (m_tower3Button.contains(m_mousePosition))
+        else if (m_tower3Button.contains(m_mousePosition) && !m_game->getIsGameOver())
         {
             if (m_game->getIsBuildPhase())
             {
@@ -520,7 +528,7 @@ void Window::buttonPress()
                 }
             }
         }
-        else if (m_tower4Button.contains(m_mousePosition))
+        else if (m_tower4Button.contains(m_mousePosition) && !m_game->getIsGameOver())
         {
             if (m_game->getIsBuildPhase())
             {
@@ -541,7 +549,7 @@ void Window::buttonPress()
                 }
             }
         }
-        else if (m_towerMenu.contains(m_mousePosition, getCurrentMapTile()))
+        else if (m_towerMenu.contains(m_mousePosition, getCurrentMapTile()) && !m_game->getIsGameOver())
         {
             m_towerMenu.action(m_mousePosition);
         }
