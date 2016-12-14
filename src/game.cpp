@@ -11,7 +11,7 @@ Game::Game(map::Map* map)
 {
     gameOver = false;
     health = 100;
-    money = 65000;
+    money = 6500;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);
@@ -440,17 +440,37 @@ void Game::upgradeTower(Tower* tower) {
     int t_type = tower->get_type();
     if(t_type < 20) {//tier 1
         if(t_type == 11) {//basic, upgrade only to blast for now, need to add more buttons later
-            removeTower(pos);
             Tower* newtower = new BlastTower();
-            newtower->setPosition(pos);
-            towerList.push_back(newtower);
+            int cost = newtower->get_cost();
+            if(cost <= money) {
+                removeTower(pos);
+                money -= cost / 2;
+                cash.setString(std::to_string(money));
+                std::cout << "upgraded FreezeTower to MultiFreezeTower for " << cost << std::endl;
+                newtower->setPosition(pos);
+                towerList.push_back(newtower);
+            }
+            else {
+                delete newtower;
+                std::cout << "not enough money" << std::endl;
+            }
             return;
         }
         else if(t_type == 12) {//(simple) freeze, upgrade to multifreeze
-            removeTower(pos);
             Tower* newtower = new MultiFreezeTower();
-            newtower->setPosition(pos);
-            towerList.push_back(newtower);
+            int cost = newtower->get_cost();
+            if(cost <= money) {
+                removeTower(pos);
+                money -= cost / 2;
+                cash.setString(std::to_string(money));
+                std::cout << "upgraded FreezeTower to MultiFreezeTower for " << cost << std::endl;
+                newtower->setPosition(pos);
+                towerList.push_back(newtower);
+            }
+            else {
+                delete newtower;
+                std::cout << "not enough money" << std::endl;
+            }
             return;
         }
     }
