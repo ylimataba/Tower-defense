@@ -368,7 +368,7 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
     {
         std::string second = std::to_string(tower->get_type()) + ";" +
                              std::to_string(tower->getPos().x) + ";" + 
-                             std::to_string(tower->getPos().y);
+                             std::to_string(tower->getPos().y) + ";";
 
         newPair = {"tower", second};
         objectsToSave.push_back(newPair);
@@ -410,34 +410,37 @@ void Game::loadObjects()
         }
         else if (str == "tower")
         {
+            sf::Vector2f pos;
+            Tower* newtower;
+
             switch (std::stoi(parseObjectMembers(object, 1)))
             {
                 case 11:
-                    std::cout << "Basic" << std::endl;
+                    //std::cout << "Basic" << std::endl;
                     pos.x = std::stof(parseObjectMembers(object, 2));
                     pos.y = std::stof(parseObjectMembers(object, 3));
                     newtower = new BasicTower;
                     break;
                 case 12:
-                    std::cout << "Freeze" << std::endl;
+                    //std::cout << "Freeze" << std::endl;
                     pos.x = std::stof(parseObjectMembers(object, 2));
                     pos.y = std::stof(parseObjectMembers(object, 3));
                     newtower = new FreezeTower;
                     break;
                 case 21:
-                    std::cout << "Blast" << std::endl;
+                    //std::cout << "Blast" << std::endl;
                     pos.x = std::stof(parseObjectMembers(object, 2));
                     pos.y = std::stof(parseObjectMembers(object, 3));
                     newtower = new BlastTower;
                     break;
                 case 22:
-                    std::cout << "MultiFreeze" << std::endl;
+                    //std::cout << "MultiFreeze" << std::endl;
                     pos.x = std::stof(parseObjectMembers(object, 2));
                     pos.y = std::stof(parseObjectMembers(object, 3));
                     newtower = new MultiFreezeTower;
                     break;
                 case 23:
-                    std::cout << "Precision" << std::endl;
+                    //std::cout << "Precision" << std::endl;
                     pos.x = std::stof(parseObjectMembers(object, 2));
                     pos.y = std::stof(parseObjectMembers(object, 3));
                     newtower = new PrecisionTower;
@@ -463,14 +466,16 @@ void Game::loadObjects()
                     break;
                 */
                 default:
-                    std::cout << "tower type doesn't exist" << std::endl;
+                    std::cout << "Tower type doesn't exist" << std::endl;
                     break;
-                newtower->setPosition(pos);
-                newtower->toggleRange();
-                towerList.push_back(newtower);
-                map->addTower(pos);
                 
             }
+
+            //std::cout << "Created saved tower\n";
+            newtower->setPosition(pos);
+            newtower->toggleRange();
+            towerList.push_back(newtower);
+            map->addTower(pos);
         }
         else
         {
