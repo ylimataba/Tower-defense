@@ -317,16 +317,22 @@ void TowerMenu::setPosition(sf::Vector2f position){
     sf::Vector2f upgradePosition = position + delta;
     sf::Vector2f deltaSell(0, 32);
     sf::Vector2f deltaRange(0, 64);
-    float xlimit = 960 - BASE_BUTTON_WIDTH;
+    sf::Vector2f fix(32, 0);
+    float xlimit = 960 - BASE_BUTTON_WIDTH - fix.x;
     float ylimit = 640 - 64 - BASE_BUTTON_HEIGHT;
     if(upgradePosition.y > ylimit)
         upgradePosition.y = ylimit;
     if(upgradePosition.x > xlimit)
-        upgradePosition.x -= delta.x + BASE_BUTTON_WIDTH ;
-    upgradeButton = NormalButton(BASE_BUTTON_SIZE, upgradePosition, BASE_BUTTON_COLOR);
-    sellButton = NormalButton(BASE_BUTTON_SIZE, upgradePosition + deltaSell, BASE_BUTTON_COLOR);
-    rangeButton = NormalButton(BASE_BUTTON_SIZE, upgradePosition + deltaRange, BASE_BUTTON_COLOR);
-    upgradeText = Text("UPGRADE", *font, &upgradeButton);
+        upgradePosition.x -= delta.x + BASE_BUTTON_WIDTH + fix.x ;
+    upgradeButton = NormalButton(BASE_BUTTON_SIZE + fix, upgradePosition, BASE_BUTTON_COLOR);
+    sellButton = NormalButton(BASE_BUTTON_SIZE + fix, upgradePosition + deltaSell, BASE_BUTTON_COLOR);
+    rangeButton = NormalButton(BASE_BUTTON_SIZE + fix, upgradePosition + deltaRange, BASE_BUTTON_COLOR);
+    int cost;
+    if(tower->get_type() == 11)
+        cost = 350;
+    else if(tower->get_type() == 12)
+        cost = 100;
+    upgradeText = Text("UPGRADE " + std::to_string(cost), *font, &upgradeButton);
     sellText = Text("SELL", *font, &sellButton);
     rangeText = Text("RANGE", *font, &rangeButton);
 }

@@ -558,7 +558,6 @@ void Game::upgradeTower(Tower* tower) {
                 removeTower(pos);
                 money -= cost / 2;
                 cash.setString(std::to_string(money));
-                std::cout << "upgraded BasicTower to BlastTower for " << cost << std::endl;
                 newtower->setPosition(pos);
                 newtower->toggleRange();
                 towerList.push_back(newtower);
@@ -577,7 +576,6 @@ void Game::upgradeTower(Tower* tower) {
                 removeTower(pos);
                 money -= cost / 2;
                 cash.setString(std::to_string(money));
-                std::cout << "upgraded FreezeTower to MultiFreezeTower for " << cost << std::endl;
                 newtower->setPosition(pos);
                 newtower->toggleRange();
                 towerList.push_back(newtower);
