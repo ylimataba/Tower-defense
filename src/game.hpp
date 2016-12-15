@@ -6,6 +6,7 @@
 #include "Towers.hpp"
 #include "map.hpp"
 #include <fstream>
+#include "save.hpp"
 
 extern sf::Font getFont();
 
@@ -13,8 +14,9 @@ class Game : public sf::Drawable
 {
 
 public:
-    Game(map::Map* map);
+    Game();
     ~Game();
+    map::Map* getMap() const;
     void addTower(Tower* tower);
     bool isTower(sf::Vector2f position);
     Tower* getTower(sf::Vector2f position);
@@ -37,7 +39,7 @@ public:
     void loadRoundsFromFile();
     void sellTower(sf::Vector2f position);
     void upgradeTower(Tower* tower);
-	std::vector<std::pair<std::string, std::string>>& getObjectsToSave();
+    std::vector<std::pair<std::string, std::string>>& getObjectsToSave();
     std::vector<std::pair<std::string, std::string>>& getObjectsToLoad();
     void loadObjects();
     std::string parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex);
@@ -51,6 +53,7 @@ public:
     bool getCloseWindow();
     void setNextMap(std::string);
     std::string getNextMap();
+    void reset();
 
 private:
     bool gameOver;

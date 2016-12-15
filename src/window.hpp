@@ -12,7 +12,7 @@
 class Window : public sf::RenderWindow
 {
 public:
-	Window(std::string title, map::Map *map, Game *game);
+	Window(std::string title, Game *game);
 
 	~Window();
 
@@ -42,7 +42,6 @@ private:
 	void buttonPress();
 	void buttonRelease();
 	
-	map::Map *m_map;
 	Game *m_game;
 
 	gui::Menu m_sideMenu;

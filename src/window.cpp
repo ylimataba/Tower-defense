@@ -17,10 +17,9 @@ sf::Font getFont()
 
 sf::Font gameFont(getFont());
 
-Window::Window(std::string title, map::Map *map, Game *game) :
+Window::Window(std::string title, Game *game) :
     sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), title, sf::Style::Titlebar | sf::Style::Close),
     m_mousePosition(0, 0),
-    m_map(map),
     m_game(game),
     m_isTowerBeingBuilt(false),
     m_towerBeingBuilt(gui::NONE),
@@ -93,9 +92,9 @@ void Window::drawAll()
     {   // Set text back to play between rounds
         m_playButtonText.setText("PLAY");
     }
-    
-    draw(*m_map);
 
+    draw(*m_game);
+    
     draw(m_sideMenu);
     draw(m_bottomMenu);
 
@@ -129,8 +128,6 @@ void Window::drawAll()
     {
         draw(*m_tower);
     }
-    
-    draw(*m_game);
 
     draw(m_towerMenu);
     
@@ -211,7 +208,7 @@ bool Window::isCollision()
     collisionPoints.push_back(sf::Vector2f(currentTilePosition.x + MAP_TILE_SIZE - 1, currentTilePosition.y));
     collisionPoints.push_back(sf::Vector2f(currentTilePosition.x, currentTilePosition.y + MAP_TILE_SIZE - 1));
 
-    return m_map->isCollision(collisionPoints);
+    return m_game->getMap()->isCollision(collisionPoints);
 }
 
 bool Window::isInGameArea()
@@ -235,7 +232,7 @@ void Window::checkEvents()
     {
         if (event.type == sf::Event::Closed)	
         {    	
-            m_game->setCloseWindow();
+            close();
         }
 
         if (m_game->getIsGameOver()){
@@ -272,7 +269,7 @@ void Window::checkEvents()
                     {
                         int nextMapNumber = m_selectedMapNumber + 1;
                         
-                        if (nextMapNumber > m_map->getNumberOfMaps())
+                        if (nextMapNumber > m_game->getMap()->getNumberOfMaps())
                         {
                             nextMapNumber = 1;
                         }
@@ -290,7 +287,7 @@ void Window::checkEvents()
 
                         if (nextMapNumber < 1)
                         {
-                            nextMapNumber = m_map->getNumberOfMaps();
+                            nextMapNumber = m_game->getMap()->getNumberOfMaps();
                         }
 
                         m_selectedMapNumber = nextMapNumber;
@@ -383,7 +380,7 @@ void Window::buttonPress()
 
     if(!m_isTowerBeingBuilt)
     {
-        if (m_saveButton.contains(m_mousePosition))
+        if (m_saveButton.contains(m_mousePosition) && (m_game->getIsBuildPhase() || m_game->getIsGameOver()))
         {
             m_game->setIsGamePaused(true);
 
@@ -394,13 +391,13 @@ void Window::buttonPress()
             m_textBarText.setText("Game saved");
             m_saveButton.buttonPress();
         }
-        else if (m_loadButton.contains(m_mousePosition))
+        else if (m_loadButton.contains(m_mousePosition) && (m_game->getIsBuildPhase() || m_game->getIsGameOver()))
         {
             std::string str = "";
 
             m_game->setIsGamePaused(true);
-            m_game->setNewGame();
-            m_game->setLoadGame();
+
+            m_game->loadObjects();
 
             m_textBarText.setText(str);            
             m_loadButton.buttonPress();
@@ -409,7 +406,8 @@ void Window::buttonPress()
         {
             if (m_game->getIsGameOver())
             {
-                std::cout << "ACTION if play pressed && gameIsOver\n";
+                m_scores.hideScores();
+                m_game->reset();
             }
             else if (m_game->getIsBuildPhase())
             {
@@ -464,7 +462,7 @@ void Window::buttonPress()
                 m_game->setIsGamePaused(true);
                 m_playButtonText.setText("RESUME");
 
-                std::string mapName = m_map->getMapName();
+                std::string mapName = m_game->getMap()->getMapName();
                 m_selectedMapNumber = std::stoi(mapName.substr(mapName.length() - 5, 1));
 
                 m_textBarText.setText("Map selection");

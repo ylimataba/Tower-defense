@@ -1,7 +1,6 @@
 #ifndef Enemy_hpp
 #define Enemy_hpp
 
-#include <tmx/MapLoader.h>
 #include <SFML/Graphics.hpp>
 #include "map.hpp"
 

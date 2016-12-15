@@ -3,15 +3,15 @@
 
 sf::Font font(getFont());
 
-Game::Game(map::Map* map)
+Game::Game()
     : delayTime(sf::milliseconds(1000 / 60)),
       isBuildPhase(true),
       isGamePaused(false),
-      map(map),
       loadPreviousGame(false),
       newGame(false),
       nextMap("map_1.tmx")
 {
+    map = new map::Map("map_1.tmx");
     gameOver = false;
     playerWon = false;
     health = 100;
@@ -67,6 +67,11 @@ Game::~Game(){
         enemy.reset(nullptr);
     for(auto &tower : towerList)
         delete tower;
+    delete map;
+}
+
+map::Map* Game::getMap() const{
+    return map;
 }
 
 void Game::create_enemies(float timeBetweenSpawn)
@@ -270,6 +275,7 @@ int Game::getRoundNumber()
 }
 
 void Game::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
+    rt.draw(*map);
     for(auto &enemy : enemyList)
         if(enemy != nullptr)
             rt.draw(*enemy);
@@ -387,109 +393,117 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToLoad()
 
 void Game::loadObjects()
 {
-    objectsToLoad = getObjectsToLoad();
+    save::Load load(getObjectsToLoad());
+    if(load.gameSaveExists()){
 
-    for (auto object : objectsToLoad)
-    {
-        std::string str = object.first;
+        reset();
 
-        if (str == "money")
+        for (auto object : objectsToLoad)
         {
-            this->money = std::stoi(object.second);
-        }
-        else if (str == "healt")
-        {
-            this->health = std::stoi(object.second);
-        }
-        else if (str == "score")
-        {
-            this->points = std::stoi(object.second);
-        }
-        else if (str == "map")
-        {
-            this->setNextMap(object.second);
-        }
-        else if (str == "round")
-        {
-            this->round_number = std::stoi(object.second);
-        }
-        else if (str == "tower")
-        {
-            sf::Vector2f pos{0,0};
-            Tower* newtower;
+            std::string str = object.first;
 
-            switch (std::stoi(parseObjectMembers(object, 1)))
+            if (str == "money")
             {
-                case 11:
-                    //std::cout << "Basic" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new BasicTower;
-                    break;
-                case 12:
-                    //std::cout << "Freeze" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new FreezeTower;
-                    break;
-                case 21:
-                    //std::cout << "Blast" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new BlastTower;
-                    break;
-                case 22:
-                    //std::cout << "MultiFreeze" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new MultiFreezeTower;
-                    break;
-                case 23:
-                    //std::cout << "Precision" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new PrecisionTower;
-                    break;
-                /* UNFINISHED STUFF BELOW
-                case 31:
-                    std::cout << "Obliterator" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new Obliterator;
-                    break;
-                case 32:
-                    std::cout << "FreezeWave" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new FreezeWaveTower;
-                    break;
-                case 33:
-                    std::cout << "DeathRay" << std::endl;
-                    pos.x = std::stof(parseObjectMembers(object, 2));
-                    pos.y = std::stof(parseObjectMembers(object, 3));
-                    newtower = new DeathRay;
-                    break;
-                */
-                default:
-                    std::cout << "Tower type doesn't exist" << std::endl;
-                    break;
-                
+                this->money = std::stoi(object.second);
             }
-
-            if (pos.x)
+            else if (str == "healt")
             {
-                //std::cout << "Created saved tower\n";
-                newtower->setPosition(pos);
-                newtower->toggleRange();
-                towerList.push_back(newtower);
-                map->addTower(pos);
+                this->health = std::stoi(object.second);
             }
-        }
-        else
-        {
+            else if (str == "score")
+            {
+                this->points = std::stoi(object.second);
+            }
+            else if (str == "map")
+            {
+                this->setNextMap(object.second);
+            }
+            else if (str == "round")
+            {
+                this->round_number = std::stoi(object.second);
+            }
+            else if (str == "tower")
+            {
+                sf::Vector2f pos{0,0};
+                Tower* newtower;
 
+                switch (std::stoi(parseObjectMembers(object, 1)))
+                {
+                    case 11:
+                        //std::cout << "Basic" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new BasicTower;
+                        break;
+                    case 12:
+                        //std::cout << "Freeze" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new FreezeTower;
+                        break;
+                    case 21:
+                        //std::cout << "Blast" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new BlastTower;
+                        break;
+                    case 22:
+                        //std::cout << "MultiFreeze" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new MultiFreezeTower;
+                        break;
+                    case 23:
+                        //std::cout << "Precision" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new PrecisionTower;
+                        break;
+                    /* UNFINISHED STUFF BELOW
+                    case 31:
+                        std::cout << "Obliterator" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new Obliterator;
+                        break;
+                    case 32:
+                        std::cout << "FreezeWave" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new FreezeWaveTower;
+                        break;
+                    case 33:
+                        std::cout << "DeathRay" << std::endl;
+                        pos.x = std::stof(parseObjectMembers(object, 2));
+                        pos.y = std::stof(parseObjectMembers(object, 3));
+                        newtower = new DeathRay;
+                        break;
+                    */
+                    default:
+                        std::cout << "Tower type doesn't exist" << std::endl;
+                        break;
+                    
+                }
+
+                if (pos.x)
+                {
+                    //std::cout << "Created saved tower\n";
+                    newtower->setPosition(pos);
+                    newtower->toggleRange();
+                    towerList.push_back(newtower);
+                    map->addTower(pos);
+                }
+            }
+            else
+            {
+
+            }
         }
     }
+    score.setString(std::to_string(points));
+    cash.setString(std::to_string(money));
+    round.setString("Round " + std::to_string(round_number));
+    health_indicator.setString(std::to_string(health));
 }
 
 std::string Game::parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex)
@@ -635,4 +649,29 @@ void Game::setNextMap(std::string str)
 std::string Game::getNextMap()
 {
     return nextMap;
+}
+
+void Game::reset(){
+    for(auto tower : towerList)
+        removeTower(tower->getPos());
+    for(auto& enemy : enemyList){
+        enemy.reset();
+    }
+    enemyList.erase(remove(enemyList.begin(), enemyList.end(), nullptr), enemyList.end());
+    gameOver = false;
+    playerWon = false;
+    health = 100;
+    money = 6500;
+    round_number = 1;
+    isBuildPhase = true;
+    isGamePaused = false;
+    newGame = false;
+    enemyPause = 0;
+    towerPause = 0;
+    points = 0;
+    loadRoundsFromFile();
+    score.setString(std::to_string(points));
+    cash.setString(std::to_string(money));
+    round.setString("Round " + std::to_string(round_number));
+    health_indicator.setString(std::to_string(health));
 }
