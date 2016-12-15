@@ -13,7 +13,7 @@ int main()
 
     game.loadRoundsFromFile();
 
-    Window window("Tower Defence", &game);
+    Window window("Towerdefense", &game);
     while (window.isOpen())
     {
         window.checkEvents();
