@@ -91,7 +91,7 @@ public:
         
         hit_texture.loadFromFile("../maps/TD_hit_yellow.png");
         hit_object.setTexture(hit_texture);
-        hit_object.setPosition(0.0,0.0);
+        hit_object.setPosition(-40.0,0.0);
         
         cooldown = 1.0f;
         cost = 200;
