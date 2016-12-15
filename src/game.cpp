@@ -238,7 +238,7 @@ void Game::set_rounds(std::vector<std::string> rounds)
 {
     this->rounds = rounds;
     current_round = rounds[0];
-	round_number = 1;
+    //round_number = 1;
 }
 
 
@@ -426,7 +426,8 @@ void Game::loadObjects()
             else if (str == "round")
             {
                 this->round_number = std::stoi(object.second);
-                rounds.erase(rounds.begin(), rounds.begin()+round_number);
+                rounds.erase(rounds.begin(), rounds.begin()+round_number-1);
+                set_rounds(rounds);
             }
             else if (str == "tower")
             {
