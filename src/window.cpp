@@ -306,10 +306,7 @@ void Window::checkEvents()
                         {
                             m_textBarText.setText("Changin map");
 
-                            if (!m_game->newGame())
-                            {
-                                m_textBarText.setText("Selected map couldn't be changed");
-                            }
+                            m_game->setNewGame();
 
                             m_mapMenu.color(TRANSPARENT);
                             m_mapMenu.setOutlineColor(TRANSPARENT);
@@ -402,7 +399,7 @@ void Window::buttonPress()
             std::string str = "";
 
             m_game->setIsGamePaused(true);
-
+            m_game->setNewGame();
             m_game->setLoadGame();
 
             m_textBarText.setText(str);            

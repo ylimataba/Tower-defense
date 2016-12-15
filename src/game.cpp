@@ -8,7 +8,9 @@ Game::Game(map::Map* map)
       isBuildPhase(true),
       isGamePaused(false),
       map(map),
-      loadPreviousGame(false)
+      loadPreviousGame(false),
+      newGame(false),
+      nextMap("map_1.tmx")
 {
     gameOver = false;
     playerWon = false;
@@ -385,6 +387,8 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToLoad()
 
 void Game::loadObjects()
 {
+    objectsToLoad = getObjectsToLoad();
+
     for (auto object : objectsToLoad)
     {
         std::string str = object.first;
@@ -403,7 +407,7 @@ void Game::loadObjects()
         }
         else if (str == "map")
         {
-            //map->Load(object.second);
+            this->setNextMap(object.second);
         }
         else if (str == "round")
         {
@@ -593,11 +597,14 @@ int Game::getScore(){
     return points;
 }
 
-bool Game::newGame()
+void Game::setNewGame()
 {
-    gameOver = true;
+    newGame = true;
+}
 
-    return true;
+bool Game::getNewGame()
+{
+    return newGame;
 }
 
 bool Game::getLoadGame()
@@ -618,4 +625,14 @@ void Game::setCloseWindow()
 bool Game::getCloseWindow()
 {
     return closeWindow;
+}
+
+void Game::setNextMap(std::string str)
+{
+    nextMap = str;
+}
+
+std::string Game::getNextMap()
+{
+    return nextMap;
 }

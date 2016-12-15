@@ -43,11 +43,14 @@ public:
     std::string parseObjectMembers(std::pair<std::string, std::string> &object, int memberIndex);
     bool getIsGameOver();
     int getScore();
-    bool newGame();
+    void setNewGame();
+    bool getNewGame();
     bool getLoadGame();
     void setLoadGame();
     void setCloseWindow();
     bool getCloseWindow();
+    void setNextMap(std::string);
+    std::string getNextMap();
 
 private:
     bool gameOver;
@@ -94,6 +97,8 @@ private:
     std::vector<std::pair<std::string, std::string>> objectsToLoad;
     bool loadPreviousGame;
     bool closeWindow;
+    bool newGame;
+    std::string nextMap;
 };
 
 #endif // GAME_H

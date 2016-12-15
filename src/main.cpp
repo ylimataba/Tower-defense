@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "map.hpp"
 #include "window.hpp"
+#include "save.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <fstream>
@@ -9,21 +10,39 @@ int main()
 {
     bool windowIsOpen = true;
     bool loadPreviousGame = false;
+    std::string nextMap = "map_1.tmx";
 
     while (windowIsOpen)
     {
         bool newGame = false;
 
-        map::Map map("map_1.tmx");
+        std::cout << "New game\n";
+
+        map::Map map(nextMap);
         
         Game game(&map);
 
     	game.loadRoundsFromFile();
+
         Window window("Tower Defence", &map, &game);
 
         if (loadPreviousGame)
         {
-            game.loadObjects();
+            std::cout << "Load previous game\n";
+
+            save::Load *newLoad = new save::Load(game.getObjectsToLoad());
+
+            if (!newLoad->gameSaveExists())
+            {
+                std::cout << "Game save not fount\n";
+            }
+            else
+            {
+                game.loadObjects();
+            }
+
+            delete newLoad;
+
         }
 
         while (!newGame)
@@ -40,12 +59,13 @@ int main()
             }
             
             window.drawAll();
-
             window.display();
 
             sf::sleep(game.getDelayTime());
 
-            if (game.getIsGameOver())
+            nextMap = game.getNextMap();
+
+            if (game.getNewGame())
             {
                 newGame = true;
             }
@@ -58,6 +78,7 @@ int main()
             if (game.getCloseWindow())
             {
                 window.close();
+                newGame = true;
                 windowIsOpen = false;
             }
         }
