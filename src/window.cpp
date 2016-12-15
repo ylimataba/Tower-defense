@@ -306,6 +306,11 @@ void Window::checkEvents()
                         {
                             m_textBarText.setText("Changin map");
 
+                            if (!m_game->newGame())
+                            {
+                                m_textBarText.setText("Selected map couldn't be changed");
+                            }
+
                             m_mapMenu.color(TRANSPARENT);
                             m_mapMenu.setOutlineColor(TRANSPARENT);
                             m_isMapBeingSelected = false;
@@ -394,20 +399,31 @@ void Window::buttonPress()
         }
         else if (m_loadButton.contains(m_mousePosition))
         {
+            std::string str = "";
+
             m_game->setIsGamePaused(true);
 
-            save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
+            if (m_game->newGame())
+                {
+                save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
 
-            m_textBarText.setText("Game loaded");
+                str = "Game loaded";
 
-            if (!(newLoad->gameSaveExists()))
+                if (!(newLoad->gameSaveExists()))
+                {
+                    str = "Game save not found";
+                }
+
+                delete newLoad;
+
+                m_game->loadObjects();
+            }
+            else
             {
-                m_textBarText.setText("Game save not found");
+                str = "Previous game load error";
             }
 
-            delete newLoad;
-            
-            m_game->loadObjects();
+            m_textBarText.setText(str);            
             m_loadButton.buttonPress();
         }
         else if (m_playButton.contains(m_mousePosition))
@@ -477,6 +493,7 @@ void Window::buttonPress()
                 m_mapMenu.setOutlineColor(BASE_BUTTON_COLOR);
                 m_isMapBeingSelected = true;
             }
+
             m_mapButton.buttonPress();
         }
         else if(m_scoresButton.contains(m_mousePosition) && (m_game->getIsBuildPhase() || m_game->getIsGameOver()))

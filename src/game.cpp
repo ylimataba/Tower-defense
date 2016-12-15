@@ -591,3 +591,8 @@ bool Game::getIsGameOver()
 int Game::getScore(){
     return points;
 }
+
+bool Game::newGame()
+{
+    return false;
+}
