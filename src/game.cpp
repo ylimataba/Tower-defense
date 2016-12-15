@@ -15,7 +15,7 @@ Game::Game()
     gameOver = false;
     playerWon = false;
     health = 100;
-    money = 6500;
+    money = 650;
     round_number = 1;
     score.setFont(font);
     score.setPosition(10,600);

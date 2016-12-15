@@ -126,7 +126,7 @@ class PrecisionTower : public Tower
 {
 public:
     PrecisionTower() : Tower(100, 120.0, 2) {
-        texture.loadFromFile("../maps/TD_precision_alternative_32.png");
+        texture.loadFromFile("../maps/Precision.png");
         object.setTexture(texture);
         object.setPosition(position);
         
