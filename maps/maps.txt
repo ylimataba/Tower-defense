@@ -1,1 +1,2 @@
 map_1.tmx
+map_2.tmx
