@@ -477,7 +477,7 @@ void Window::buttonPress()
 
                 if(m_game->getMoney() >= m_tower->get_cost())
                 {
-                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_textBarText.setText("Price: 200. Left click to set. Right click to cancel.");
                     m_isTowerBeingBuilt = true;
                     m_towerBeingBuilt = gui::TOWER;
                     m_tower1Button.buttonPress();
@@ -498,7 +498,7 @@ void Window::buttonPress()
 
                 if(m_game->getMoney() >= m_tower->get_cost())
                 {
-                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_textBarText.setText("Price: 300. Left click to set. Right click to cancel.");
                     m_isTowerBeingBuilt = true;
                     m_towerBeingBuilt = gui::TOWER;
                     m_tower2Button.buttonPress();
@@ -519,7 +519,7 @@ void Window::buttonPress()
 
                 if(m_game->getMoney() >= m_tower->get_cost())
                 {
-                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
+                    m_textBarText.setText("Price: 1000. Left click to set. Right click to cancel.");
                     m_isTowerBeingBuilt = true;
                     m_towerBeingBuilt = gui::TOWER;
                     m_tower3Button.buttonPress();
