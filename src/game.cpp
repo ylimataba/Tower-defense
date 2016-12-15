@@ -410,7 +410,7 @@ void Game::loadObjects()
         }
         else if (str == "tower")
         {
-            sf::Vector2f pos;
+            sf::Vector2f pos{0,0};
             Tower* newtower;
 
             switch (std::stoi(parseObjectMembers(object, 1)))
@@ -471,11 +471,14 @@ void Game::loadObjects()
                 
             }
 
-            //std::cout << "Created saved tower\n";
-            newtower->setPosition(pos);
-            newtower->toggleRange();
-            towerList.push_back(newtower);
-            map->addTower(pos);
+            if (pos.x)
+            {
+                //std::cout << "Created saved tower\n";
+                newtower->setPosition(pos);
+                newtower->toggleRange();
+                towerList.push_back(newtower);
+                map->addTower(pos);
+            }
         }
         else
         {
