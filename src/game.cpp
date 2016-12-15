@@ -352,19 +352,19 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
 {
     std::pair<std::string, std::string> newPair;
 
-    newPair = {"map", map->getMapName()};
+    newPair = {"map", map->getMapName() + ";"};
     objectsToSave.push_back(newPair);
 
-    newPair = {"health", std::to_string(getHealth())};
+    newPair = {"health", std::to_string(getHealth()) + ";"};
     objectsToSave.push_back(newPair);
 
-    newPair = {"round", std::to_string(getRoundNumber())};
+    newPair = {"round", std::to_string(getRoundNumber()) + ";"};
     objectsToSave.push_back(newPair);
 
-    newPair = {"money", std::to_string(getMoney())};
+    newPair = {"money", std::to_string(getMoney()) + ";"};
     objectsToSave.push_back(newPair);
 
-    newPair = {"score", std::to_string(getScore())};
+    newPair = {"score", std::to_string(getScore()) + ";"};
     objectsToSave.push_back(newPair);    
 
     for (auto tower : towerList)
