@@ -269,7 +269,7 @@ void Window::checkEvents()
                     {
                         int nextMapNumber = m_selectedMapNumber + 1;
                         
-                        if (nextMapNumber > m_game->getMap()->getNumberOfMaps())
+                        if (nextMapNumber > m_game->getNumberOfMaps())
                         {
                             nextMapNumber = 1;
                         }
@@ -287,7 +287,7 @@ void Window::checkEvents()
 
                         if (nextMapNumber < 1)
                         {
-                            nextMapNumber = m_game->getMap()->getNumberOfMaps();
+                            nextMapNumber = m_game->getNumberOfMaps();
                         }
 
                         m_selectedMapNumber = nextMapNumber;
@@ -303,13 +303,13 @@ void Window::checkEvents()
                         {
                             m_textBarText.setText("Changin map");
 
-                            m_game->setNewGame();
-
                             m_mapMenu.color(TRANSPARENT);
                             m_mapMenu.setOutlineColor(TRANSPARENT);
                             m_isMapBeingSelected = false;
 
                             // TODO Load new map and game (with round specific cash etc)
+                            m_game->reset();
+                            m_game->setNextMap("map_" + std::to_string(m_selectedMapNumber) + ".tmx");
 
                             break;
                         }

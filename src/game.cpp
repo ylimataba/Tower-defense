@@ -7,9 +7,8 @@ Game::Game()
     : delayTime(sf::milliseconds(1000 / 60)),
       isBuildPhase(true),
       isGamePaused(false),
-      loadPreviousGame(false),
-      newGame(false),
-      nextMap("map_1.tmx")
+      numberOfMaps(2)
+
 {
     map = new map::Map("map_1.tmx");
     gameOver = false;
@@ -72,6 +71,10 @@ Game::~Game(){
 
 map::Map* Game::getMap() const{
     return map;
+}
+void Game::setNextMap(std::string mapName){
+    delete map;
+    map = new map::Map(mapName);
 }
 
 void Game::create_enemies(float timeBetweenSpawn)
@@ -367,10 +370,10 @@ std::vector<std::pair<std::string, std::string>>& Game::getObjectsToSave()
     newPair = {"round", std::to_string(getRoundNumber()) + ";"};
     objectsToSave.push_back(newPair);
 
-    newPair = {"money", std::to_string(getMoney()) + ";"};
+    newPair = {"money", std::to_string(getMoney())  + ";"};
     objectsToSave.push_back(newPair);
 
-    newPair = {"score", std::to_string(getScore()) + ";"};
+    newPair = {"score", std::to_string(getScore())  + ";"};
     objectsToSave.push_back(newPair);    
 
     for (auto tower : towerList)
@@ -406,7 +409,7 @@ void Game::loadObjects()
             {
                 this->money = std::stoi(object.second);
             }
-            else if (str == "healt")
+            else if (str == "health")
             {
                 this->health = std::stoi(object.second);
             }
@@ -416,6 +419,7 @@ void Game::loadObjects()
             }
             else if (str == "map")
             {
+                object.second.pop_back();
                 this->setNextMap(object.second);
             }
             else if (str == "round")
@@ -611,49 +615,14 @@ int Game::getScore(){
     return points;
 }
 
-void Game::setNewGame()
-{
-    newGame = true;
-}
-
-bool Game::getNewGame()
-{
-    return newGame;
-}
-
-bool Game::getLoadGame()
-{
-    return loadPreviousGame;
-}
-
-void Game::setLoadGame()
-{
-    loadPreviousGame = true;
-}
-
-void Game::setCloseWindow()
-{
-    closeWindow = true;
-}
-
-bool Game::getCloseWindow()
-{
-    return closeWindow;
-}
-
-void Game::setNextMap(std::string str)
-{
-    nextMap = str;
-}
-
-std::string Game::getNextMap()
-{
-    return nextMap;
-}
-
 void Game::reset(){
-    for(auto tower : towerList)
-        removeTower(tower->getPos());
+    for(auto& tower : towerList){
+        map->removeTower(tower->getPos());
+        delete tower;
+        tower = nullptr;
+    }
+    towerList.erase(remove(towerList.begin(), towerList.end(), nullptr), towerList.end());
+
     for(auto& enemy : enemyList){
         enemy.reset();
     }
@@ -665,7 +634,6 @@ void Game::reset(){
     round_number = 1;
     isBuildPhase = true;
     isGamePaused = false;
-    newGame = false;
     enemyPause = 0;
     towerPause = 0;
     points = 0;

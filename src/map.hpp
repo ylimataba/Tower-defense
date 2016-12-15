@@ -23,7 +23,6 @@ class Map : public sf::Drawable {
         tmx::MapLoader* map;
         std::vector<sf::Vector2f> enemyRoute;
         void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
-        const int numberOfMaps;
         std::string mapName;
 
 };
