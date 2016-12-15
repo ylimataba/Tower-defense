@@ -340,7 +340,7 @@ void Game::loadRoundsFromFile(){
     std::ifstream r_file;
     r_file.open("../maps/rounds.txt");//tiedoston voi toki laittaa muuallekin kuin "maps" -kansioon, kunhan polkua muutetaan
     std::string round;
-    //std::vector<std::string> rounds;
+    rounds.erase(rounds.begin(), rounds.end());
 
     while(!((r_file.eof()) or (r_file.fail()))) {
         std::getline(r_file, round);
@@ -426,6 +426,7 @@ void Game::loadObjects()
             else if (str == "round")
             {
                 this->round_number = std::stoi(object.second);
+                rounds.erase(rounds.begin(), rounds.begin()+round_number);
             }
             else if (str == "tower")
             {
