@@ -52,6 +52,7 @@ public:
     virtual int shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& pauseTime, int speedFactor) = 0;
     int get_cost() {return cost;}
     int get_type() {return type;}
+
 protected:
     int type;
     sf::Vector2f position;
@@ -60,10 +61,16 @@ protected:
     int dmg;
     float cooldown = 0;
     int cost;
-    void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
+    virtual void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
     
     sf::Sprite object;
     sf::Texture texture;
+    
+    sf::Sprite hit_object;
+    sf::Texture hit_texture;
+    sf::Vector2f hit_pos;
+    sf::Clock hitTime;
+    float hit_duration = 0.1;
     
     sf::Clock shootTime;
     sf::Vector2f getCenter() const{
@@ -81,6 +88,11 @@ public:
         texture.loadFromFile("../maps/Basic.png");
         object.setTexture(texture);
         object.setPosition(position);
+        
+        hit_texture.loadFromFile("../maps/TD_hit_yellow.png");
+        hit_object.setTexture(hit_texture);
+        hit_object.setPosition(0.0,0.0);
+        
         cooldown = 1.0f;
         cost = 200;
         type = 11;
@@ -97,6 +109,11 @@ public:
         texture.loadFromFile("../maps/Freeze.png");
         object.setTexture(texture);
         object.setPosition(position);
+        
+        hit_texture.loadFromFile("../maps/TD_hit_icy.png");
+        hit_object.setTexture(hit_texture);
+        hit_object.setPosition(-40.0,0.0);
+        
         cooldown = 1.0f;
         cost = 300;
         type = 12;
@@ -109,9 +126,14 @@ class PrecisionTower : public Tower
 {
 public:
     PrecisionTower() : Tower(100, 120.0, 2) {
-        texture.loadFromFile("../maps/Precision.png");
+        texture.loadFromFile("../maps/TD_precision_alternative_32.png");
         object.setTexture(texture);
         object.setPosition(position);
+        
+        hit_texture.loadFromFile("../maps/TD_precision_hit_32.png");
+        hit_object.setTexture(hit_texture);
+        hit_object.setPosition(-40.0,0.0);
+        
         cooldown = 0.4f;
         cost = 1000;
         type = 23;
@@ -127,16 +149,23 @@ public:
         texture.loadFromFile("../maps/Blast.png");
         object.setTexture(texture);
         object.setPosition(position);
+        
+        hit_texture.loadFromFile("../maps/TD_blast_hit_32.png");
+        hit_object.setTexture(hit_texture);
+        hit_object.setPosition(-40.0,0.0);
+        
         cooldown = 1.0f;
         cost = 700;
         type = 21;
         
         s_dmg = 2;
         s_rad = 55.0;
+        //eff_scale = 3.4375;
     }
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
+    float eff_scale;
     int s_dmg;
     float s_rad;
 };
@@ -148,15 +177,33 @@ public:
         texture.loadFromFile("../maps/Freeze.png");
         object.setTexture(texture);
         object.setPosition(position);
+        
+        hit_texture.loadFromFile("../maps/TD_hit_icy.png");
+        
+        hit_object.setTexture(hit_texture);
+        hit_object.setPosition(-40.0,0.0);
+        
+        hit_object2.setTexture(hit_texture);
+        hit_object2.setPosition(-40.0,0.0);
+        
+        hit_object3.setTexture(hit_texture);
+        hit_object3.setPosition(-40.0,0.0);
+        
         cooldown = 1.f;
         cost = 200;
         type = 22;
     };
+    void draw(sf::RenderTarget& rt, sf::RenderStates states) const;
     std::unique_ptr<Enemy>* seekTarget(std::vector<std::unique_ptr<Enemy>> &enemies);
     int shoot(std::vector<std::unique_ptr<Enemy>> &enemies, float& pauseTime, int speedFactor);
 private:
     std::unique_ptr<Enemy> *target2 = nullptr;
     std::unique_ptr<Enemy> *target3 = nullptr;
+    
+    sf::Sprite hit_object2;
+    sf::Vector2f hit_pos2;
+    sf::Sprite hit_object3;
+    sf::Vector2f hit_pos3;
 };
 /*
 class VolleyTower, might just scrap this
