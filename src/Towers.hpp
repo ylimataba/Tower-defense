@@ -174,7 +174,7 @@ class MultiFreezeTower : public Tower
 {
 public:
     MultiFreezeTower() : Tower(100, 90.0, 0) {
-        texture.loadFromFile("../maps/Freeze.png");
+        texture.loadFromFile("../maps/Freeze_Plus.png");
         object.setTexture(texture);
         object.setPosition(position);
         
