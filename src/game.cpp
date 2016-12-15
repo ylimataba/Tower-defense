@@ -7,7 +7,8 @@ Game::Game(map::Map* map)
     : delayTime(sf::milliseconds(1000 / 60)),
       isBuildPhase(true),
       isGamePaused(false),
-      map(map)
+      map(map),
+      loadPreviousGame(false)
 {
     gameOver = false;
     playerWon = false;
@@ -594,5 +595,27 @@ int Game::getScore(){
 
 bool Game::newGame()
 {
-    return false;
+    gameOver = true;
+
+    return true;
+}
+
+bool Game::getLoadGame()
+{
+    return loadPreviousGame;
+}
+
+void Game::setLoadGame()
+{
+    loadPreviousGame = true;
+}
+
+void Game::setCloseWindow()
+{
+    closeWindow = true;
+}
+
+bool Game::getCloseWindow()
+{
+    return closeWindow;
 }

@@ -7,53 +7,60 @@
 
 int main()
 {
-    map::Map map("map_1.tmx");
-    
-    Game game(&map);
+    bool windowIsOpen = true;
+    bool loadPreviousGame = false;
 
-    // DELETE THIS FROM MAIN WHEN WAWES ARE READ FROM A FILE
-    //example vector to be passed to create_enemies function
-    /*
-    std::string enemies = "AAAAtBBBBtttCCCC";
-    std::vector<std::string> rounds;
-    rounds.push_back(enemies);
-    rounds.push_back(enemies);
-    */
-/*
-    std::ifstream r_file;
-    r_file.open("../maps/rounds.txt");//tiedoston voi toki laittaa muuallekin kuin "maps" -kansioon, kunhan polkua muutetaan
-    std::string round;
-    std::vector<std::string> rounds;
-
-    while(!((r_file.eof()) or (r_file.fail()))) {
-        std::getline(r_file, round);
-        rounds.push_back(round);
-    }
-    r_file.close();
-    
-    game.set_rounds(rounds);
-*/
-	game.loadRoundsFromFile();
-    Window window("Tower Defence", &map, &game);
-
-    while (window.isOpen())
+    while (windowIsOpen)
     {
-        window.checkEvents();
+        bool newGame = false;
 
-        if (game.getIsBuildPhase())
-        {
-            window.updateTowerPlacer();
-        }
-        else
-        {
-            game.play();
-        }
+        map::Map map("map_1.tmx");
         
-        window.drawAll();
+        Game game(&map);
 
-        window.display();
+    	game.loadRoundsFromFile();
+        Window window("Tower Defence", &map, &game);
 
-        sf::sleep(game.getDelayTime());
+        if (loadPreviousGame)
+        {
+            game.loadObjects();
+        }
+
+        while (!newGame)
+        {
+            window.checkEvents();
+
+            if (game.getIsBuildPhase())
+            {
+                window.updateTowerPlacer();
+            }
+            else
+            {
+                game.play();
+            }
+            
+            window.drawAll();
+
+            window.display();
+
+            sf::sleep(game.getDelayTime());
+
+            if (game.getIsGameOver())
+            {
+                newGame = true;
+            }
+
+            if (game.getLoadGame())
+            {
+                loadPreviousGame = true;
+            }
+
+            if (game.getCloseWindow())
+            {
+                window.close();
+                windowIsOpen = false;
+            }
+        }
     }
 
     return EXIT_SUCCESS;

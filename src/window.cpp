@@ -235,7 +235,7 @@ void Window::checkEvents()
     {
         if (event.type == sf::Event::Closed)	
         {    	
-            close();
+            m_game->setCloseWindow();
         }
 
         if (m_game->getIsGameOver()){
@@ -403,25 +403,7 @@ void Window::buttonPress()
 
             m_game->setIsGamePaused(true);
 
-            if (m_game->newGame())
-                {
-                save::Load *newLoad = new save::Load(m_game->getObjectsToLoad());
-
-                str = "Game loaded";
-
-                if (!(newLoad->gameSaveExists()))
-                {
-                    str = "Game save not found";
-                }
-
-                delete newLoad;
-
-                m_game->loadObjects();
-            }
-            else
-            {
-                str = "Previous game load error";
-            }
+            m_game->setLoadGame();
 
             m_textBarText.setText(str);            
             m_loadButton.buttonPress();

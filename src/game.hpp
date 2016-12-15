@@ -44,7 +44,10 @@ public:
     bool getIsGameOver();
     int getScore();
     bool newGame();
-
+    bool getLoadGame();
+    void setLoadGame();
+    void setCloseWindow();
+    bool getCloseWindow();
 
 private:
     bool gameOver;
@@ -89,6 +92,8 @@ private:
 
     std::vector<std::pair<std::string, std::string>> objectsToSave;
     std::vector<std::pair<std::string, std::string>> objectsToLoad;
+    bool loadPreviousGame;
+    bool closeWindow;
 };
 
 #endif // GAME_H
