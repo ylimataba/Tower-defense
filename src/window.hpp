@@ -65,7 +65,6 @@ private:
 	gui::TowerButton m_tower1Button;
 	gui::TowerButton m_tower2Button;
 	gui::TowerButton m_tower3Button;
-    gui::TowerButton m_tower4Button;
 
 	gui::Bar m_lifeBar;
 	gui::Bar m_textBar;

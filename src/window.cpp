@@ -108,7 +108,6 @@ void Window::drawAll()
     draw(m_tower1Button);
     draw(m_tower2Button);
     draw(m_tower3Button);
-    draw(m_tower4Button);
 
     draw(m_textBar);
 
@@ -161,12 +160,10 @@ void Window::createButtons()
     m_tower1Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_1_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower2Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_2_BUTTON_POSITION, TOWER_BUTTON_COLOR);
     m_tower3Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_3_BUTTON_POSITION, TOWER_BUTTON_COLOR);
-    m_tower4Button = gui::TowerButton(TOWER_BUTTON_SIZE, TOWER_4_BUTTON_POSITION, TOWER_BUTTON_COLOR);
 
     m_tower1Button.loadTexture("Basic");
     m_tower2Button.loadTexture("Freeze");
     m_tower3Button.loadTexture("Precision");
-    m_tower4Button.loadTexture("Blast");
 }
 
 void Window::createTexts()
@@ -535,27 +532,6 @@ void Window::buttonPress()
                 }
             }
         }
-        else if (m_tower4Button.contains(m_mousePosition) && !m_game->getIsGameOver())
-        {
-            if (m_game->getIsBuildPhase())
-            {
-                m_tower = new BlastTower();
-
-                if(m_game->getMoney() >= m_tower->get_cost())
-                {
-                    m_textBarText.setText("Left click to set tower on map. Right click to cancel.");
-                    m_isTowerBeingBuilt = true;
-                    m_towerBeingBuilt = gui::TOWER;
-                    m_tower4Button.buttonPress();
-                }
-                else
-                {
-                    delete m_tower;
-                    m_tower = nullptr;
-                    m_isTowerBeingBuilt = false;
-                }
-            }
-        }
         else if (m_towerMenu.contains(m_mousePosition, getCurrentMapTile()) && !m_game->getIsGameOver())
         {
             m_towerMenu.action(m_mousePosition);
@@ -575,5 +551,4 @@ void Window::buttonRelease()
     m_tower1Button.buttonUnPress();
     m_tower2Button.buttonUnPress();
     m_tower3Button.buttonUnPress();
-    m_tower4Button.buttonUnPress();
 }

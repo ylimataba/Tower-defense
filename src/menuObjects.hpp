@@ -49,7 +49,7 @@ static const sf::Vector2f MAP_BUTTON_POSITION(BASE_BUTTON_X_POSITION,
 static const sf::Vector2f SCORES_BUTTON_POSITION(BASE_BUTTON_X_POSITION, 
                                               BASE_BUTTON_Y_POSITION - 5 * (BASE_BUTTON_HEIGHT + BASE_BUTTON_SPACE));
 
-static const int TOWER_BUTTON_HEIGHT = BASE_BUTTON_WIDTH * 0.65;
+static const int TOWER_BUTTON_HEIGHT = BASE_BUTTON_WIDTH * 0.7;
 static const int TOWER_BUTTON_WIDTH = TOWER_BUTTON_HEIGHT;
 static const int TOWER_BUTTON_SPACE = TOWER_BUTTON_HEIGHT / 4;
 static const int TOWER_BUTTON_X_POSITION = BOTTOM_MENU_WIDTH + ((SIDE_MENU_WIDTH - TOWER_BUTTON_WIDTH) / 2);
@@ -61,8 +61,6 @@ static const sf::Vector2f TOWER_2_BUTTON_POSITION(TOWER_BUTTON_X_POSITION,
                                                   TOWER_BUTTON_Y_POSITION + 1 * (TOWER_BUTTON_HEIGHT + TOWER_BUTTON_SPACE));
 static const sf::Vector2f TOWER_3_BUTTON_POSITION(TOWER_BUTTON_X_POSITION,
                                                   TOWER_BUTTON_Y_POSITION + 2 * (TOWER_BUTTON_HEIGHT + TOWER_BUTTON_SPACE));
-static const sf::Vector2f TOWER_4_BUTTON_POSITION(TOWER_BUTTON_X_POSITION,
-                                                  TOWER_BUTTON_Y_POSITION + 3 * (TOWER_BUTTON_HEIGHT + TOWER_BUTTON_SPACE));
 
 // Bars
 static const int BASE_BAR_WIDTH = BOTTOM_MENU_WIDTH * 0.9;
