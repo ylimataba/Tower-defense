@@ -281,7 +281,7 @@ bool TowerMenu::contains(sf::Vector2f mousePosition, sf::Vector2f tile){
 
 void TowerMenu::action(sf::Vector2f mousePosition){
     if(game->getIsBuildPhase() && tower != nullptr){
-        if(upgradeButton.contains(mousePosition)){
+        if(upgradeButton.contains(mousePosition) && tower->get_type() <= 20){
             game->upgradeTower(tower);
             untoggle();
         }
@@ -333,8 +333,10 @@ void TowerMenu::setPosition(sf::Vector2f position){
 
 void TowerMenu::draw(sf::RenderTarget& rt, sf::RenderStates states) const{
     if(show && game->getIsBuildPhase()){
-        rt.draw(upgradeButton);
-        rt.draw(upgradeText);
+        if(tower->get_type() <= 20){
+            rt.draw(upgradeButton);
+            rt.draw(upgradeText);
+        }
         rt.draw(sellButton);
         rt.draw(sellText);
         rt.draw(rangeButton);

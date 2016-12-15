@@ -299,22 +299,17 @@ void Window::checkEvents()
                 case sf::Keyboard::Return:
                     if (m_isMapBeingSelected)
                     {
-                        if (m_selectedMapNumber <= m_currentMapNumber)
-                        {
-                            m_textBarText.setText("Changin map");
+                        m_textBarText.setText("Changin map");
 
-                            m_mapMenu.color(TRANSPARENT);
-                            m_mapMenu.setOutlineColor(TRANSPARENT);
-                            m_isMapBeingSelected = false;
+                        m_mapMenu.color(TRANSPARENT);
+                        m_mapMenu.setOutlineColor(TRANSPARENT);
+                        m_isMapBeingSelected = false;
 
-                            // TODO Load new map and game (with round specific cash etc)
-                            m_game->reset();
-                            m_game->setNextMap("map_" + std::to_string(m_selectedMapNumber) + ".tmx");
+                        // TODO Load new map and game (with round specific cash etc)
+                        m_game->reset();
+                        m_game->setNextMap("map_" + std::to_string(m_selectedMapNumber) + ".tmx");
 
-                            break;
-                        }
-
-                        m_textBarText.setText("Map selected is not unlocked");
+                        break;
                     }
                     break;
 
@@ -382,8 +377,6 @@ void Window::buttonPress()
     {
         if (m_saveButton.contains(m_mousePosition) && (m_game->getIsBuildPhase() || m_game->getIsGameOver()))
         {
-            m_game->setIsGamePaused(true);
-
             save::Save *newSave = new save::Save(m_game->getObjectsToSave());
             newSave->saveGame();
             delete newSave;
@@ -394,8 +387,6 @@ void Window::buttonPress()
         else if (m_loadButton.contains(m_mousePosition) && (m_game->getIsBuildPhase() || m_game->getIsGameOver()))
         {
             std::string str = "";
-
-            m_game->setIsGamePaused(true);
 
             m_game->loadObjects();
 
