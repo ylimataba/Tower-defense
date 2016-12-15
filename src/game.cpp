@@ -413,11 +413,63 @@ void Game::loadObjects()
             switch (std::stoi(parseObjectMembers(object, 1)))
             {
                 case 11:
-                    std::cout << "Basic\n";
-                    //xpos = std::stof(parseObjectMembers(object, 2));
+                    std::cout << "Basic" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new BasicTower;
                     break;
+                case 12:
+                    std::cout << "Freeze" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new FreezeTower;
+                    break;
+                case 21:
+                    std::cout << "Blast" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new BlastTower;
+                    break;
+                case 22:
+                    std::cout << "MultiFreeze" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new MultiFreezeTower;
+                    break;
+                case 23:
+                    std::cout << "Precision" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new PrecisionTower;
+                    break;
+                /* UNFINISHED STUFF BELOW
+                case 31:
+                    std::cout << "Obliterator" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new Obliterator;
+                    break;
+                case 32:
+                    std::cout << "FreezeWave" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new FreezeWaveTower;
+                    break;
+                case 33:
+                    std::cout << "DeathRay" << std::endl;
+                    pos.x = std::stof(parseObjectMembers(object, 2));
+                    pos.y = std::stof(parseObjectMembers(object, 3));
+                    newtower = new DeathRay;
+                    break;
+                */
                 default:
+                    std::cout << "tower type doesn't exist" << std::endl;
                     break;
+                newtower->setPosition(pos);
+                newtower->toggleRange();
+                towerList.push_back(newtower);
+                map->addTower(pos);
+                
             }
         }
         else
