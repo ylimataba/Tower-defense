@@ -50,6 +50,7 @@ public:
     int getNumberOfMaps() const{ return numberOfMaps; };
 
 private:
+    void setNumerOfMaps();
     bool gameOver;
     bool playerWon;
     int round_number;
@@ -93,7 +94,7 @@ private:
     std::vector<std::pair<std::string, std::string>> objectsToSave;
     std::vector<std::pair<std::string, std::string>> objectsToLoad;
 
-    const int numberOfMaps;
+    int numberOfMaps;
 };
 
 #endif // GAME_H

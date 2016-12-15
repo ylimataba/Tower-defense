@@ -10,6 +10,7 @@ Game::Game()
       numberOfMaps(2)
 
 {
+    setNumerOfMaps();
     map = new map::Map("map_1.tmx");
     gameOver = false;
     playerWon = false;
@@ -642,4 +643,15 @@ void Game::reset(){
     cash.setString(std::to_string(money));
     round.setString("Round " + std::to_string(round_number));
     health_indicator.setString(std::to_string(health));
+}
+
+void Game::setNumerOfMaps(){
+    int counter = 0;
+    std::string line;
+    std::ifstream maps;
+    maps.open("../maps/maps.txt");
+    if(maps.is_open())
+        while(std::getline(maps, line))
+            counter++;
+    numberOfMaps = counter;
 }
