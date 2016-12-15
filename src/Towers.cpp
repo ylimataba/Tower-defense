@@ -90,16 +90,13 @@ int BasicTower::shoot(std::vector<std::unique_ptr<Enemy> > &enemies, float& paus
     int points = 0;
     std::unique_ptr<Enemy> *target = seekTarget(enemies);	// seek target everytime mod 1.12.2016 19:27
     
-    if(target != nullptr)
-    {
-        object.setOrigin(sf::Vector2f(16.0f,16.0f));
-        object.setPosition(position + sf::Vector2f(16.0f,16.0f));
-        object.setRotation(calc_rotation(getCenter(), (*target)->get_position()));
-    }
+
     if(cooldown + pauseTime < shootTime.getElapsedTime().asSeconds() * speedFactor) {
         if(target != nullptr) {
             points = (*target)->damage(dmg);
-            
+            object.setOrigin(sf::Vector2f(16.0f,16.0f));
+            object.setPosition(position + sf::Vector2f(16.0f,16.0f));
+            object.setRotation(calc_rotation(getCenter(), (*target)->get_position()));
             hit_pos.x = ((*target)->get_position().x - 8.f);
             hit_pos.y = ((*target)->get_position().y - 8.f);
             hit_object.setPosition(hit_pos);
